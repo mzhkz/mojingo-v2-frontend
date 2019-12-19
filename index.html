@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="//api.mojingo.me" />
+    <title>loading | WordLink</title>
+    <meta name=”robots” content="noindex,nofollow"/>
+    <meta property="og:url" content="https://app.mojingo.me/"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Mojingo"/>
+    <meta property="og:description" content="「覚えた気」を確実に"/>
+    <meta property="og:site_name" content="Mojingo"/>
+    <meta property="og:image" content="https://app.mojingo.me/manifest/images/icons/icon-384x384.png"/>
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400|M+PLUS+1p" rel="preload" as="style" crossorigin>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(
+                    function (registration) {
+                        if (typeof registration.update == 'function') {
+                            registration.update();
+                        }
+                    })
+                .catch(function (error) {
+                    console.log("Error Log: " + error);
+                });
+        }
+    </script>
+</head>
+<body>
+<noscript>JavaScriptを有効にしてください。</noscript>
+<div id="app"></div>
+</body>
+</html>
