@@ -7,10 +7,13 @@
     "build:prod:analytics": "cross-env NODE_ENV=production webpack --progress --profile --config ./build/webpack/webpack.prod.analytics.js"
   },
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@babel/plugin-transform-react-jsx": "^7.7.7",
     "@babel/plugin-transform-runtime": "^7.7.6",

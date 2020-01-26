@@ -76,7 +76,6 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
-                    'vue-style-loader',
                     // CSSをバンドルするための機能
                     env.ENV_IS_PROD ? MiniCssExtractPlugin.loader : 'style-loader',
                     // 'style-loader',
@@ -103,16 +102,7 @@ module.exports = {
                             minimize: true,
                             sourceMap: !env.ENV_IS_PROD,
                         }
-                    }, {
-                        loader: 'sass-resources-loader',
-                        options: {
-                            resources: [
-                                utils.srcDir('css/sass/_variable.scss'),
-                                utils.srcDir('css/sass/_mixin.scss'),
-                                utils.srcDir('css/sass/_utility.scss'),
-                            ],
-                        }
-                    }
+                    },
                 ],
             },
             {
