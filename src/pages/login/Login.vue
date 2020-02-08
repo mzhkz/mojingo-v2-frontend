@@ -4,6 +4,7 @@
             <sui-form-field>
                 <label>ユーザネーム</label>
                 <input placeholder="Username" />
+<!--                <sui-label basic color="red" pointing>ユーザー名が無効です。</sui-label>-->
             </sui-form-field>
             <sui-form-field>
                 <label>パスワード</label>

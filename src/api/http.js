@@ -15,6 +15,18 @@ const http = {
     },
 
     setDefault() {
+        if (constant.DEBUG) {
+            store.dispatch('authenticate/UPDATE', {
+                token: 'abc123',
+                created: 0,
+                updated: 0,
+
+                level: 2,
+                name: "開発 ユーザー",
+            });
+            console.warn("開発用テストトークンを付与")
+        }
+
         Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
         Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
         Vue.WORDLINKAPI.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -33,9 +45,9 @@ const http = {
             const isValid = data.result === 200;
 
             if (isValid) {
-                store.dispatch('authenticate/reset')
+                store.dispatch('authenticate/RESET')
             } else {
-                store.update('authenticate/update', { level: data.level } );
+                store.update('authenticate/UPDATE', { level: data.level } );
             }
         } catch (e) {
 

@@ -8,7 +8,10 @@ Vue.use(Router);
 
 async function goLogin(to, from, next, need) {
     const level = store.state.authenticate.level;
-   if (need > level) {
+    console.log(`${need} ${level}`);
+   if (need <= level) {
+       next();
+   } else {
        await store.dispatch('alert/PUSH_ALERT', {
            message: 'ログインしてください。',
            icon: 'close',
@@ -16,8 +19,6 @@ async function goLogin(to, from, next, need) {
        });
        await store.dispatch('application/SET_LAYOUT', 'TopBar');
        next({name: 'login', query: {redirect: to.fullPath || '/'}});
-   } else {
-       next();
    }
 }
 

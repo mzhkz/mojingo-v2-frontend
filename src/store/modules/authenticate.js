@@ -13,7 +13,7 @@ const store = {
 
     mutations: {
         UPDATE(state, diff) {
-            state = Object.assign({}, initState, diff)
+            state = Object.assign(state, diff);
         },
 
         RESET(state) {
