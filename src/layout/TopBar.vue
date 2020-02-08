@@ -1,6 +1,8 @@
 <template>
     <div>
-        <h2>22</h2>
+        <sui-container text>
+            <router-view name="main"></router-view>
+        </sui-container>
     </div>
 </template>
 

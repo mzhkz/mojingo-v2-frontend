@@ -1,5 +1,9 @@
 <template>
-    <h2>11</h2>
+   <div>
+       <sui-container text>
+           <router-view name="main"></router-view>
+       </sui-container>
+   </div>
 </template>
 
 <script>

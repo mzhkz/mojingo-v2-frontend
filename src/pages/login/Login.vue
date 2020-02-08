@@ -1,5 +1,20 @@
 <template>
-    
+    <div>
+        <sui-form>
+            <sui-form-field>
+                <label>ユーザネーム</label>
+                <input placeholder="Username" />
+            </sui-form-field>
+            <sui-form-field>
+                <label>パスワード</label>
+                <input type="password" placeholder="Password" />
+            </sui-form-field>
+            <sui-form-field>
+                <sui-checkbox label="ログイン情報を保存する" />
+            </sui-form-field>
+            <sui-button type="submit">ログイン</sui-button>
+        </sui-form>
+    </div>
 </template>
 
 <script>
