@@ -1,6 +1,7 @@
 const path = require('path');
 
 const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -9,7 +10,7 @@ const env = require('./../../config/env');
 const utils = require('./../utils');
 
 module.exports = {
-    entry:  './src/index.jsx',
+    entry:  './src/main.js',
 
     output: {
         path: config.build.bundleDir,
@@ -19,7 +20,7 @@ module.exports = {
         // モジュールを読み込むときに検索するディレクトリの設定
         modules: [path.resolve(__dirname, "src"), "node_modules"],
         // importするときに省略できる拡張子の設定
-        extensions: ['.js', '.jsx'],
+        extensions: ['.js', '.vue'],
         alias: {
             // 例えばmain.js内で `import Vue from 'vue';` と記述したときの`from vue`が表すファイルパスを指定
             'vue$': 'vue/dist/vue.esm.js',
@@ -29,6 +30,7 @@ module.exports = {
     },
 
     plugins: [
+        new VueLoaderPlugin(),
         //jQueryグローバル設定
         new webpack.ProvidePlugin({
             $: 'jquery',
@@ -38,7 +40,7 @@ module.exports = {
             [
                 {from: '', to: '',},
             ],
-            {context: 'assets'}
+            {context: 'statics'}
         ),
     ],
 
@@ -60,11 +62,10 @@ module.exports = {
                 loader: "html-loader"
             },
             {
-                test: /\.jsx$/,
-                exclude: /node_modules/,
+                test: /\.vue$/,
                 use: {
-                    loader: 'babel-loader',
-                }
+                    loader: "vue-loader",
+                },
             },
             {
                 test: /\.js$/,
@@ -76,6 +77,7 @@ module.exports = {
             {
                 test: /\.(sa|sc|c)ss$/,
                 use: [
+                    'vue-style-loader',
                     // CSSをバンドルするための機能
                     env.ENV_IS_PROD ? MiniCssExtractPlugin.loader : 'style-loader',
                     // 'style-loader',
@@ -102,7 +104,16 @@ module.exports = {
                             minimize: true,
                             sourceMap: !env.ENV_IS_PROD,
                         }
-                    },
+                    }, {
+                        loader: 'sass-resources-loader',
+                        options: {
+                            resources: [
+                                utils.srcDir('css/sass/_variable.scss'),
+                                utils.srcDir('css/sass/_mixin.scss'),
+                                utils.srcDir('css/sass/_utility.scss'),
+                            ],
+                        }
+                    }
                 ],
             },
             {
