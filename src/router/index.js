@@ -14,7 +14,7 @@ async function goLogin(to, from, next, need) {
            icon: 'close',
            level: 'danger'
        });
-       await store.dispatch('application/SET_LAYOUT', 'TopBarLayout');
+       await store.dispatch('application/SET_LAYOUT', 'TopBar');
        next({name: 'login', query: {redirect: to.fullPath || '/'}});
    } else {
        next();
