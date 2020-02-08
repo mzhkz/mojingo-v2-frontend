@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import Plugin from './plugin'
+
 Vue.use(Vuex);
 
 import ApplicationModule from "./modules/application"
@@ -12,7 +14,8 @@ const store = new Vuex.Store({
         application: ApplicationModule,
         authenticate: AuthenticateModule,
         alert: AlertModule,
-    }
+    },
+    plugins: [Plugin]
 });
 
 export default store;

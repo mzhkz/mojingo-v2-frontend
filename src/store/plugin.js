@@ -3,7 +3,7 @@ const detectPlugin = store => {
         localStorage.setItem('_SESSION', JSON.stringify({auth: state.authenticate}));
         switch (mutation.type) {
             case 'application/SET_TITLE': { //ページ名が更新された
-                document.title = state.page.currentPageTitle;
+                document.title = state.application.currentPageTitle + " /: WordLink";
                 break;
             }
 
@@ -13,3 +13,5 @@ const detectPlugin = store => {
         }
     })
 };
+
+export default detectPlugin;

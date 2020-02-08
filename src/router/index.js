@@ -29,8 +29,9 @@ const router = new Router({
         name: route.name,
         path: route.path,
         components: route.components,
-        beforeEnter: (to, from, next) => {
-            store.dispatch('application/SET_TITLE', route.title);
+        beforeEnter: async (to, from, next) => {
+            await store.dispatch('application/SET_TITLE', route.title);
+            await store.dispatch('application/SET_LAYOUT', route.layout);
             return goLogin(to, from, next, route.level);
         },
     })),

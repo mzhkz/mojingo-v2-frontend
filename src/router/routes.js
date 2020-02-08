@@ -5,6 +5,7 @@ const routes = [
         title: 'ログインする',
         level: 0,
         path: '/login',
+        layout: 'TopBar',
         components: {
             main: () => import('@/pages/login/Login')
         }
@@ -12,8 +13,10 @@ const routes = [
     {
         name: 'dashboard',
         category: 'dashboard',
+        title: 'ダッシュボード',
         path: '/',
         level: 1,
+        layout: 'default',
         components: {
             main: () => import('@/pages/dashboard/Dashboard')
         }
@@ -22,6 +25,7 @@ const routes = [
         name: 'categories',
         category: 'categories',
         path: '/categories',
+        layout: 'default',
         level: 1,
         components: {
             main: () => import('@/pages/categories/Categories')
@@ -31,6 +35,7 @@ const routes = [
         name: 'category_detail',
         category: 'categories',
         path: '/categories/:id',
+        layout: 'default',
         level: 1,
         components: {
             main: () => import('@/pages/categories/CategoryDetail')
@@ -40,6 +45,7 @@ const routes = [
         name: 'reviews',
         category: 'reviews',
         path: '/reviews/:which',
+        layout: 'default',
         level: 1,
         components: {
             main: () => import('@/pages/reviews/Reviews')
@@ -49,6 +55,7 @@ const routes = [
         name: 'review',
         category: 'review',
         path: '/reviews/:id',
+        layout: 'default',
         level: 1,
         components: {
             main: () => import('@/pages/reviews/Review')
@@ -60,7 +67,7 @@ const routes = [
         name: 'admin',
         category: 'admin',
         path: '/admin/',
-        isPublic: false,
+        layout: 'default',
         level: 2,
         components: {
             main: () => import('@/pages/admin/Admin')
