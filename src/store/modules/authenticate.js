@@ -3,7 +3,7 @@ const initState = {
     created: 0,
     updated: 0,
 
-    active: false,
+    level: 0,
     name: "",
 };
 

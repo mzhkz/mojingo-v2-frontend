@@ -7,7 +7,7 @@ const store = {
         currentPageTitle: "",
     },
 
-    mutation: {
+    mutations: {
         setMenuBrowsing(state,is) {
             state.isMenuBrowsing = is;
         },

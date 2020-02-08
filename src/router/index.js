@@ -7,9 +7,9 @@ import * as constants from '@/constants'
 Vue.use(Router);
 
 async function goLogin(to, from, next, need) {
-    const {active, level} = store.state.authenticate;
-   if (!active || level < need) {
-       await store.dispatch('ALERT/PUSH_ALERT', {
+    const level = store.state.authenticate.level;
+   if (need > level) {
+       await store.dispatch('alert/PUSH_ALERT', {
            message: 'ログインしてください。',
            icon: 'close',
            level: 'danger'
@@ -30,10 +30,10 @@ const router = new Router({
         path: route.path,
         components: route.components,
         beforeEnter: (to, from, next) => {
-            store.dispatch('SET_TITLE', route.title);
+            store.dispatch('application/SET_TITLE', route.title);
             return goLogin(to, from, next, route.level);
         },
-    }))
+    })),
 });
 
 export default router;

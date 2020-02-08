@@ -10,7 +10,7 @@ const env = require('./../../config/env');
 const utils = require('./../utils');
 
 module.exports = {
-    entry:  './src/main.js',
+    entry:  './src/index.js',
 
     output: {
         path: config.build.bundleDir,
@@ -40,7 +40,7 @@ module.exports = {
             [
                 {from: '', to: '',},
             ],
-            {context: 'statics'}
+            {context: 'assets'}
         ),
     ],
 
@@ -104,16 +104,17 @@ module.exports = {
                             minimize: true,
                             sourceMap: !env.ENV_IS_PROD,
                         }
-                    }, {
-                        loader: 'sass-resources-loader',
-                        options: {
-                            resources: [
-                                utils.srcDir('css/sass/_variable.scss'),
-                                utils.srcDir('css/sass/_mixin.scss'),
-                                utils.srcDir('css/sass/_utility.scss'),
-                            ],
-                        }
-                    }
+                    },
+                    // {
+                    //     loader: 'sass-resources-loader',
+                    //     options: {
+                    //         resources: [
+                    //             // utils.srcDir('css/sass/_variable.scss'),
+                    //             // utils.srcDir('css/sass/_mixin.scss'),
+                    //             // utils.srcDir('css/sass/_utility.scss'),
+                    //         ],
+                    //     }
+                    // }
                 ],
             },
             {

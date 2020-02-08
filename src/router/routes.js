@@ -3,8 +3,8 @@ const routes = [
         name: 'login',
         category: 'login',
         title: 'ログインする',
-        path: '/login',
         level: 0,
+        path: '/login',
         components: {
             main: () => import('@/pages/login/Login')
         }
@@ -24,7 +24,7 @@ const routes = [
         path: '/categories',
         level: 1,
         components: {
-            main: () => import('@/pages/category/Categories')
+            main: () => import('@/pages/categories/Categories')
         }
     },
     {
@@ -33,7 +33,7 @@ const routes = [
         path: '/categories/:id',
         level: 1,
         components: {
-            main: () => import('@/pages/category/CategoryDetail')
+            main: () => import('@/pages/categories/CategoryDetail')
         }
     },
     {
