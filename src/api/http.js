@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Axios from 'axios';
 
 import store from '@/store'
+import router from '@/router'
 
 import * as constant from '@/constants/'
 
@@ -38,6 +39,37 @@ const http = {
     },
 
 
+    addInterceptors() {
+        Vue.WORDLINKAPI.interceptors.request.use((config) => {
+            if (constant.DEBUG) console.log(config);
+            store.dispatch('application/SET_FETCHING', true);
+
+            return Promise.resolve(config);
+        });
+
+        Vue.WORDLINKAPI.interceptors.response.use((response) => {
+            if (constant.DEBUG) console.log(response);
+            store.dispatch('application/SET_FETCHING', false);
+
+        }, (error => {
+            if (!this.isInvalidToken(error)) {
+
+            }
+        }));
+
+        store.watch((state) => state.auth, () => {
+            Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
+        });
+    },
+
+    isInvalidToken(response) {
+        if (response === undefined) return false;
+        const status = response.status || 402;
+        store.dispatch('authenticate/UPDATE', { active: false });
+        router.push({ name: 'login'});
+        return status === 401;
+    },
+
     async initHttpCredential() {
         try {
             const response = await Vue.WORDLINKAPI.post(`/authentication/session`, {id: store.authenticate.token});
@@ -47,7 +79,7 @@ const http = {
             if (isValid) {
                 store.dispatch('authenticate/RESET');
             } else {
-                store.update('authenticate/UPDATE', { level: data.level } );
+                store.update('authenticate/UPDATE', {level: data.level});
             }
         } catch (e) {
             store.dispatch('authenticate/RESET');

@@ -12,7 +12,7 @@ const store = {
             state.isMenuBrowsing = is;
         },
 
-        setFetching(state, is) {
+        SET_FETCHING(state, is) {
             state.isFetching = is;
         },
 
@@ -30,7 +30,7 @@ const store = {
             commit('setMenuBrowsing', data)
         },
 
-        setFetching({commit}, data) {
+        SET_FETCHING({commit}, data) {
             commit('setFetching', data)
         },
 
