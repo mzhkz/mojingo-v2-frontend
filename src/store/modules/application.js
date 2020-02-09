@@ -31,7 +31,7 @@ const store = {
         },
 
         SET_FETCHING({commit}, data) {
-            commit('setFetching', data)
+            commit('SET_FETCHING', data)
         },
 
         SET_LAYOUT({commit}, data) {

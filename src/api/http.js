@@ -54,6 +54,9 @@ const http = {
         }, (error => {
             if (!this.isInvalidToken(error)) {
 
+            } else {
+                store.dispatch('authenticate/UPDATE', { active: false });
+                router.push({ name: 'login'});
             }
         }));
 
@@ -65,8 +68,6 @@ const http = {
     isInvalidToken(response) {
         if (response === undefined) return false;
         const status = response.status || 402;
-        store.dispatch('authenticate/UPDATE', { active: false });
-        router.push({ name: 'login'});
         return status === 401;
     },
 
