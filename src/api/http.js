@@ -45,12 +45,12 @@ const http = {
             const isValid = data.result === 200;
 
             if (isValid) {
-                store.dispatch('authenticate/RESET')
+                store.dispatch('authenticate/RESET');
             } else {
                 store.update('authenticate/UPDATE', { level: data.level } );
             }
         } catch (e) {
-
+            store.dispatch('authenticate/RESET');
         }
     },
 };
