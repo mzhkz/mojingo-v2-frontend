@@ -13,7 +13,7 @@
             <sui-form-field>
                 <sui-checkbox label="ログイン情報を保存する" />
             </sui-form-field>
-            <sui-button type="submit">ログイン</sui-button>
+            <sui-button type="submit" primary>ログイン</sui-button>
         </sui-form>
     </div>
 </template>

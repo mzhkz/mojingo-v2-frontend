@@ -16,12 +16,12 @@
 
 <style scoped lang="scss">
     .app-header-wrapper {
+        background: $app-secondary-color;
+        box-shadow: 0 0px 7px 1px #d5d5d6;
 
         .app-header-contain {
             height: 60px;
             width: 100%;
-            /*border-bottom: 1px solid #e0e1e2;*/
-            border-top: 3px solid #005bb9;
 
             .title {
                 padding: 20px 4%;
