@@ -3,6 +3,7 @@
 body {
   background: $app-primary-color;
   overflow-x: hidden;
+  color: $default-letter-color;
 
   font-family: system-ui,
     /* macOS 10.11-10.12 */ -apple-system,
@@ -16,6 +17,11 @@ body {
     /* Windows emoji */ "Segoe UI Emoji",
     /* Windows emoji */ "Segoe UI Symbol",
     /* Linux emoji */ "Noto Color Emoji";
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: unset;
+  color: $default-letter-color;
 }
 
 a {

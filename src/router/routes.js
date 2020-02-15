@@ -76,6 +76,18 @@ const routes = [
         }
     },
 
+    {
+        name: 'profile',
+        category: 'profile',
+        path: '/profile/:which',
+        title: 'プロフィール',
+        layout: 'default',
+        level: 1,
+        components: {
+            main: () => import('@/pages/admin/Profile')
+        }
+    },
+
 ];
 
 export default routes;

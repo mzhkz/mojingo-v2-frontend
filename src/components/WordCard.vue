@@ -1,5 +1,6 @@
 <template>
     <div class="word-card">
+        <span class="concept-line"/>
         <div class="word-description-wrap">
             <h2>{{ name }}</h2>
             <p>{{ mean}}</p>
@@ -35,6 +36,16 @@
 
         &:nth-child( n + 1 ) {
             margin-bottom: 7px;
+        }
+
+        .concept-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+            width: 3px;
+            background: $app-primary-focus-color;
         }
 
         .word-description-wrap {
@@ -73,7 +84,7 @@
             bottom: 0;
             right: 0;
             width: 35px;
-            background: $app-primary-focus-color;
+            background: #fbfbfb;
             display: flex;
             align-items: center;
             justify-content: center;
