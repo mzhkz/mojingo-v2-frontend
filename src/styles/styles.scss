@@ -17,3 +17,8 @@ body {
     /* Windows emoji */ "Segoe UI Symbol",
     /* Linux emoji */ "Noto Color Emoji";
 }
+
+a {
+  text-decoration: none;
+  color: $default-link-color;
+}

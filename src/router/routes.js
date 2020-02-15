@@ -24,6 +24,7 @@ const routes = [
     {
         name: 'categories',
         category: 'categories',
+        title: '単語カテゴリー',
         path: '/categories',
         layout: 'default',
         level: 1,
@@ -44,6 +45,7 @@ const routes = [
     {
         name: 'reviews',
         category: 'reviews',
+        title: '小テスト',
         path: '/reviews/:which',
         layout: 'default',
         level: 1,

@@ -5,18 +5,27 @@
                 <div class="logo">
                     WORDLINK
                 </div>
-               <div @click="handleClick" >
-                   <i class="fas fa-align-justify"></i>
-               </div>
+                <div @click="handleClick">
+                    <i class="fas fa-align-justify"></i>
+                </div>
             </div>
         </div>
         <div class="app-sidebar-wrapper">
             <div class="app-sidebar-contain" :class="{ active: !browsing }">
                 <div class="logo-space"></div>
                 <ul>
-                    <li class="active">ホーム</li>
-                    <li>単語帳</li>
-                    <li>小テスト</li>
+                    <router-link :to="{ name: 'dashboard', params: { }}">
+                        <li class="active">ダッシュボード</li>
+                    </router-link>
+                    <router-link :to="{ name: 'reviews', params: { which: 'me' }}">
+                        <li >小テスト</li>
+                    </router-link>
+                    <router-link :to="{ name: 'categories', params: {}}">
+                        <li >単語カテゴリー</li>
+                    </router-link>
+                    <li v-if="$store.state.authenticate.level >= 2" class="bound">
+                        <i class="fas fa-lock"></i>　管理者
+                    </li>
                 </ul>
             </div>
         </div>
@@ -96,34 +105,34 @@
                 height: 60px;
             }
 
-           ul {
-               list-style: none;
-               padding: 10px;
-               margin: 0;
-               height: 100%;
-               background: $app-primary-color;
-               color: $default-link-color;
+            ul {
+                list-style: none;
+                padding: 10px;
+                margin: 0;
+                height: 100%;
+                background: $app-primary-color;
+                color: $default-link-color;
 
-               li {
-                   margin: 3px;
-                   padding: 17px 25px;
-                   font-size: 12px;
-                   font-weight: bold;
-                   border-radius: 4px;
+                li {
+                    margin: 3px;
+                    padding: 17px 25px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    border-radius: 4px;
 
-                   &.active {
-                       background: $app-primary-focus-color;
+                    &.active {
+                        background: $app-primary-focus-color;
 
-                       &:before {
-                           content: ">　";
-                       }
-                   }
+                        &:before {
+                            content: ">　";
+                        }
+                    }
 
-                   &:hover {
-                       background: darken($app-secondary-color, 10%);
-                   }
-               }
-           }
+                    &:hover {
+                        background: darken($app-secondary-color, 10%);
+                    }
+                }
+            }
         }
     }
 </style>
