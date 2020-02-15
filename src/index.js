@@ -3,6 +3,9 @@ import SuiVue from 'semantic-ui-vue';
 import { sync } from 'vuex-router-sync';
 
 import 'semantic-ui-css/semantic.min.css';
+import '@fortawesome/fontawesome-free/js/fontawesome';
+import '@fortawesome/fontawesome-free/js/solid';
+import '@fortawesome/fontawesome-free/js/regular';
 
 import App from './App'
 //

@@ -1,15 +1,15 @@
 const store = {
     namespaced: true,
     state: {
-        isMenuBrowsing: false,
+        isBrowsingMenu: false,
         isFetching: false,
         renderLayout: "Default",
         currentPageTitle: "",
     },
 
     mutations: {
-        setMenuBrowsing(state,is) {
-            state.isMenuBrowsing = is;
+        SET_BROWSING_MENU(state,is) {
+            state.isBrowsingMenu = is;
         },
 
         SET_FETCHING(state, is) {
@@ -26,8 +26,8 @@ const store = {
     },
 
     actions: {
-        setMenuBrowsing({commit}, data) {
-            commit('setMenuBrowsing', data)
+        SET_BROWSING_MENU({commit}, data) {
+            commit('SET_BROWSING_MENU', data)
         },
 
         SET_FETCHING({commit}, data) {
