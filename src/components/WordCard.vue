@@ -1,6 +1,6 @@
 <template>
     <div class="word-card">
-        <span class="concept-line"/>
+        <span class="concept-line" :style="{background: borderColor}"/>
         <div class="word-description-wrap">
             <h2>{{ name }}</h2>
             <p>{{ mean}}</p>
@@ -18,6 +18,7 @@
             name: String,
             mean: String,
             number: String,
+            borderColor: String,
             clickHandle: Function,
         }
     }
@@ -29,13 +30,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 85px;
+        min-height: 82px;
         background: $app-content-color;
         overflow: hidden;
         box-shadow: 0 0px 7px 1px #efefef;
 
         &:nth-child( n + 1 ) {
-            margin-bottom: 7px;
+            margin-bottom: 8px;
         }
 
         .concept-line {
