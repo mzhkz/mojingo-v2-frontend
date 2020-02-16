@@ -12,7 +12,9 @@
         </div>
         <div class="app-sidebar-wrapper">
             <div class="app-sidebar-contain" :class="{ active: !browsing }">
-                <div class="logo-space"></div>
+                <div class="logo">
+                    WORDLINK
+                </div>
                 <ul>
                     <router-link :to="{ name: 'dashboard', params: { }}">
                         <li class="active">ダッシュボード</li>
@@ -56,6 +58,14 @@
 </script>
 
 <style scoped lang="scss">
+    .logo {
+        width: 240px;
+        font-size: 20px;
+        text-align: center;
+        padding: 30px 10px;
+        font-family: "Product Sans", sans-serif;
+    }
+
     .app-topbar-contents {
         position: relative;
         height: 100%;
@@ -93,13 +103,19 @@
             z-index: 3;
             width: 240px;
             height: 100vh;
-            background: transparent;
+            background: $app-primary-content-color;
             transform: translateX(-240px);
             transition: 100ms transform;
+
+            .logo {
+                color: $app-primary-color;
+            }
 
             &.active {
                 transform: translateX(0);
             }
+
+
 
             .logo-space {
                 height: 60px;
@@ -110,8 +126,7 @@
                 padding: 10px;
                 margin: 0;
                 height: 100%;
-                background: $app-primary-color;
-                color: $default-link-color;
+                background: $app-primary-content-color;
 
                 li {
                     margin: 3px;
@@ -119,9 +134,10 @@
                     font-size: 12px;
                     font-weight: bold;
                     border-radius: 4px;
+                    color: $app-primary-color;
 
                     &.active {
-                        background: $app-primary-focus-color;
+                        background: $app-focus-primary-content-color;
 
                         &:before {
                             content: ">　";
@@ -129,7 +145,7 @@
                     }
 
                     &:hover {
-                        background: darken($app-secondary-color, 10%);
+                        background: darken($app-primary-content-color, 10%);
                     }
                 }
             }
