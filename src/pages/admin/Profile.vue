@@ -58,8 +58,9 @@
         align-items: center;
 
         .user-icon {
-            width: 90px;
-            height: 90px;
+            /*width: 90px;*/
+            /*height: 90px;*/
+            padding: 33px;
             border-radius: 50px;
 
 

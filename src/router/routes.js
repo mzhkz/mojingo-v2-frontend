@@ -56,7 +56,7 @@ const routes = [
     {
         name: 'review',
         category: 'review',
-        path: '/reviews/h/:id',
+        path: '/reviews/:which/:id',
         layout: 'default',
         level: 1,
         components: {

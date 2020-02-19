@@ -19,9 +19,9 @@
     export default {
         name: "CategoryCard",
         props: {
-            name: String,
-            description: String,
-            number: Number,
+            name: {type: String},
+            description: {type: String},
+            number: {type: Number},
         }
     }
 </script>

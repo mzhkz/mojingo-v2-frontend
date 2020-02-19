@@ -15,11 +15,11 @@
     export default {
         name: "WordCard",
         props: {
-            name: String,
-            mean: String,
-            number: String,
-            borderColor: String,
-            clickHandle: Function,
+            name: {type: String},
+            mean: {type: String},
+            number: {type: String},
+            borderColor: {type: String},
+            clickHandle: {type: Function},
         }
     }
 </script>
