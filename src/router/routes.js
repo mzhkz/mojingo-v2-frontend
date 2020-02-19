@@ -68,7 +68,8 @@ const routes = [
     {
         name: 'admin',
         category: 'admin',
-        path: '/admin/',
+        title: '管理画面',
+        path: '/administrator/',
         layout: 'default',
         level: 2,
         components: {

@@ -20,15 +20,27 @@
                         <li class="active">ダッシュボード</li>
                     </router-link>
                     <router-link :to="{ name: 'reviews', params: { which: 'me' }}">
-                        <li >小テスト</li>
+                        <li>小テスト</li>
                     </router-link>
                     <router-link :to="{ name: 'categories', params: {}}">
-                        <li >単語カテゴリー</li>
+                        <li>単語カテゴリー</li>
                     </router-link>
-                    <li v-if="$store.state.authenticate.level >= 2" class="bound">
-                        <i class="fas fa-lock"></i>　管理者
-                    </li>
+                    <router-link :to="{name: 'admin'}">
+                        <li v-if="$store.state.authenticate.level >= 2" class="bound">
+                            <i class="fas fa-lock"></i>　管理者
+                        </li>
+                    </router-link>
                 </ul>
+                <router-link :to="{name: 'profile', params: { which: 'me'}}">
+                    <div class="user-information-wrapper">
+                        <div class="user-information">
+                            <div class="user-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h4> {{ $store.state.authenticate.name}}</h4>
+                        </div>
+                    </div>
+                </router-link>
             </div>
         </div>
     </section>
@@ -115,17 +127,37 @@
                 transform: translateX(0);
             }
 
-
-
             .logo-space {
                 height: 60px;
+            }
+
+            .user-information-wrapper {
+                margin-left: 14px;
+                position: absolute;
+                bottom: 0;
+                padding: 30px;
+                color: $app-primary-color;
+
+                .user-information {
+                    display: flex;
+                    align-items: center;
+                }
+                .user-icon {
+                    font-size: 15px;
+                    text-align: center;
+                }
+                h4 {
+                    color: unset;
+                    margin: 0;
+                    padding: 15px;
+                    font-weight: 100;
+                }
             }
 
             ul {
                 list-style: none;
                 padding: 10px;
                 margin: 0;
-                height: 100%;
                 background: $app-primary-content-color;
 
                 li {

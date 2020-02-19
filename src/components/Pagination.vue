@@ -66,6 +66,7 @@
         li {
             $size: 38px;
             display: inline-block;
+            border-radius: 5px;
 
             div {
                 height: $size;
@@ -73,10 +74,10 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                cursor: pointer;
 
                 p {
-                    font-size: 14px;
-                    cursor: pointer;
+                    font-size: 13px;
                 }
             }
 

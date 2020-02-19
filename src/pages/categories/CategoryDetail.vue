@@ -14,11 +14,12 @@
         </div>
         <div class="page-contents">
             <div class="words">
+                <Search v-model="valueBasic" placeholder="単語を検索"/>
                 <Pagination :maxValue="10" v-model="current"/>
-                <h2>小テスト結果</h2>
                 <WordCard name="admire" mean="共感する；感心する" :number="1900"/>
                 <WordCard name="admire" mean="共感する；感心する" :number="1901"/>
                 <WordCard name="admire" mean="共感する；感心する" :number="1902"/>
+                <Pagination :maxValue="10" v-model="current"/>
             </div>
         </div>
     </div>
@@ -27,16 +28,19 @@
 <script>
     import WordCard from "@/components/WordCard";
     import Pagination from "@/components/Pagination";
+    import Search from "@/components/Search";
 
     export default {
         name: "CategoryDetail",
         components: {
             WordCard,
             Pagination,
+            Search,
         },
         data() {
             return({
                 current: 1,
+                valueBasic: null,
             })
         },
     }
@@ -86,6 +90,9 @@
     .page-contents {
         margin: 30px 0 0 0;
         .words {
+            .search-wrapper {
+                margin: 10px 0;
+            }
             .review-finished {
                 width: 100%;
                 padding: 20px 0;

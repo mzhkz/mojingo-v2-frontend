@@ -6,12 +6,12 @@
             </div>
             <div class="user-information">
                 <h2>
-                    Username.gg
+                   sato_rika
                     <span class="admin-budge">
                         <i class="fas fa-wrench"></i>
                     </span>
                 </h2>
-                <p>Riku Mochizuki</p>
+                <p>Rikako Satou</p>
                 <p class="joined-date"><i class="fas fa-history"></i>  14日前に参加</p>
             </div>
         </div>
