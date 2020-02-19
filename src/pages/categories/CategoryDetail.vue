@@ -16,8 +16,9 @@
             <div class="words">
                 <Search v-model="valueBasic" placeholder="単語を検索"/>
                 <Pagination :maxValue="10" v-model="current"/>
-                <WordCard name="admire" mean="共感する；感心する" :number="1900"/>
-                <WordCard name="admire" mean="共感する；感心する" :number="1901"/>
+                <WordCard name="emerge" mean="現れる；出てくる" :number="1900"/>
+                <WordCard name="engage" mean="雇う；従事する；従事させる" :number="1900"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" :number="1901"/>
                 <WordCard name="admire" mean="共感する；感心する" :number="1902"/>
                 <Pagination :maxValue="10" v-model="current"/>
             </div>
