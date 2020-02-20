@@ -6,7 +6,7 @@
         <div id="print-display">
             <router-view name="print"></router-view>
         </div>
-        <div id="display-mask"></div>
+        <div id="display-mask" :class="{ active: masking }"></div>
     </div>
 </template>
 <script>
@@ -58,6 +58,20 @@
     }
 
     #display-mask {
+        display: none;
+        position: fixed;
+        background-color: rgba(0, 0, 0, .5);
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
 
+        z-index: 4;
+
+        &.active {
+            display: block;
+        }
     }
 </style>

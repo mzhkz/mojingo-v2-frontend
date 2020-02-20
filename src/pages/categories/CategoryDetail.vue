@@ -1,5 +1,8 @@
 <template>
     <div>
+        <Modal :show="openModal" title="テストもダル">
+            <p>範囲に従って、小テストを作成します</p>
+        </Modal>
         <div class="page-header">
             <div class="category-icon">
                 <i class="fas fa-dice-d6"></i>
@@ -17,16 +20,16 @@
                 <div class="tools-bar">
                     <Search v-model="valueBasic" placeholder="単語を検索"/>
                     <div class="commands-wrapper">
-                        <button>
+                        <button @click="openModal = !openModal">
                             <i class="fas fa-pen"></i>
                         </button>
                     </div>
                 </div>
                 <Pagination :maxValue="10" v-model="current"/>
-                <WordCard name="emerge" mean="現れる；出てくる" :number="1900"/>
-                <WordCard name="engage" mean="雇う；従事する；従事させる" :number="1900"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" :number="1901"/>
-                <WordCard name="admire" mean="共感する；感心する" :number="1902"/>
+                <WordCard name="emerge" mean="現れる；出てくる" number="1900"/>
+                <WordCard name="engage" mean="雇う；従事する；従事させる" number="1900"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+                <WordCard name="admire" mean="共感する；感心する" number="1902"/>
                 <Pagination :maxValue="10" v-model="current"/>
             </div>
         </div>
@@ -37,6 +40,7 @@
     import WordCard from "@/components/WordCard";
     import Pagination from "@/components/Pagination";
     import Search from "@/components/Search";
+    import Modal from '@/components/Modal';
 
     export default {
         name: "CategoryDetail",
@@ -44,11 +48,13 @@
             WordCard,
             Pagination,
             Search,
+            Modal,
         },
         data() {
             return({
                 current: 1,
                 valueBasic: null,
+                openModal: false,
             })
         },
     }

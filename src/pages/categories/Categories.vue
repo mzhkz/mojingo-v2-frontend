@@ -11,11 +11,13 @@
 
 <script>
     import CategoryCard from '../../components/CatrgoryCard';
+    // import Modal from '../../components/Modal';
 
     export default {
         name: "Category",
         components: {
-            CategoryCard
+            CategoryCard,
+            // Modal,
         }
     }
 </script>
