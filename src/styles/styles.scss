@@ -18,3 +18,20 @@ a {
   text-decoration: none;
   color: $default-link-color;
 }
+
+.space {
+  width: 100%;
+
+  &.h10 {
+    height: 30px;
+  }
+
+  &.h30 {
+    height: 30px;
+  }
+
+  &.h50 {
+    height: 50px;
+  }
+
+}

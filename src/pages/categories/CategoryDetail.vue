@@ -1,7 +1,18 @@
 <template>
     <div>
-        <Modal :show="openModal" title="テストもダル">
-            <p>範囲に従って、小テストを作成します</p>
+        <Modal :show="openModal" title="小テストを作成">
+            <sui-form>
+                <sui-form-fields fields="two">
+                    <sui-form-field>
+                        <input placeholder="From ..." />
+                    </sui-form-field>
+                    <sui-form-field>
+                        <input placeholder="To" />
+                    </sui-form-field>
+                </sui-form-fields>
+                <div class="space h30"></div>
+                <sui-button type="submit">範囲を指定して作成</sui-button>
+            </sui-form>
         </Modal>
         <div class="page-header">
             <div class="category-icon">
@@ -12,7 +23,7 @@
                     ターゲット1900
                 </h2>
                 <p>対象: 最難関私立・難関国公立大学志望の方向け</p>
-                <p class="created-date"><i class="fas fa-history"></i>  14日前に作成</p>
+                <p class="created-date"><i class="fas fa-history"></i> 14日前に作成</p>
             </div>
         </div>
         <div class="page-contents">
@@ -51,7 +62,7 @@
             Modal,
         },
         data() {
-            return({
+            return ({
                 current: 1,
                 valueBasic: null,
                 openModal: false,
@@ -103,6 +114,7 @@
 
     .page-contents {
         margin: 30px 0 0 0;
+
         .words {
             .tools-bar {
                 margin: 10px 0;
