@@ -7,7 +7,8 @@ const detectPlugin = store => {
                 break;
             }
 
-            case 'page/setDisableScroll': {
+            case 'application/SET_DISABLE_SCROLL': {
+                $('body').css('overflow-y', state.application.isDisableScroll ? 'hidden' : 'visible');
                 break;
             }
         }

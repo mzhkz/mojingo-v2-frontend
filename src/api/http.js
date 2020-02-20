@@ -23,7 +23,7 @@ const http = {
                 updated: 0,
 
                 level: 2,
-                name: "Rikako Saitou",
+                name: "Hanako Saitou",
             });
             console.warn("開発用テストトークンを付与")
         }

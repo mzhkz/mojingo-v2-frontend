@@ -110,7 +110,7 @@ module.exports = {
                         options: {
                             resources: [
                                 utils.srcDir('styles/styles.scss'),
-                                // utils.srcDir('css/sass/_mixin.scss'),
+                                utils.srcDir('styles/_mixin.scss'),
                                 // utils.srcDir('css/sass/_utility.scss'),
                             ],
                         }

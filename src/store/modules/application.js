@@ -5,6 +5,8 @@ const store = {
         isFetching: false,
         renderLayout: "Default",
         currentPageTitle: "",
+        isMasking: false,
+        isDisableScroll: false,
     },
 
     mutations: {
@@ -23,6 +25,14 @@ const store = {
         SET_TITLE(state, title) {
             state.currentPageTitle = title;
         },
+
+        SET_MASK(state, mask) {
+            state.isMasking = mask;
+        },
+
+        SET_DISABLE_SCROLL(state, disable) {
+            state.isDisableScroll = disable;
+        },
     },
 
     actions: {
@@ -40,6 +50,14 @@ const store = {
 
         SET_TITLE({commit}, data) {
             commit('SET_TITLE', data);
+        },
+
+        SET_MASK({commit}, data) {
+            commit('SET_MASK', data);
+        },
+
+        SET_DISABLE_SCROLL({commit}, data) {
+            commit('SET_DISABLE_SCROLL', data);
         },
     }
 };

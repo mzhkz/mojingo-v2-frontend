@@ -3,7 +3,7 @@
         <div class="app-header-wrapper">
             <div class="app-header-contain">
                 <div class="logo">
-                    WORDLINK
+                    <img :src="logoImage4" class="logo-img">
                 </div>
                 <div @click="handleClick">
                     <i class="fas fa-align-justify"></i>
@@ -13,7 +13,7 @@
         <div class="app-sidebar-wrapper">
             <div class="app-sidebar-contain" :class="{ active: !browsing }">
                 <div class="logo">
-                    WORDLINK
+                    <img class="logo-img" :src="logoImage3">
                 </div>
                 <ul>
                     <router-link :to="{ name: 'dashboard', params: { }}">
@@ -48,9 +48,17 @@
 
 <script>
     import {mapState, mapActions} from 'vuex'
+    import LogoImage3 from "@/assets/images/WordLink_03.png";
+    import LogoImage4 from "@/assets/images/WordLink_04.png";
 
     export default {
         name: "Header",
+        data() {
+            return {
+                logoImage3: LogoImage3,
+                logoImage4: LogoImage4,
+            }
+        },
         computed: {
             ...mapState({
                 browsing: state => state.application.isBrowsingMenu // このstateはグローバル。名前空間を掘る。
@@ -74,8 +82,12 @@
         width: 240px;
         font-size: 20px;
         text-align: center;
-        padding: 30px 10px;
+        padding: 20px 5px;
         font-family: "Product Sans", sans-serif;
+    }
+
+    .logo-img {
+        width: 130px;
     }
 
     .app-topbar-contents {
@@ -100,11 +112,8 @@
             justify-content: space-between;
 
             .logo {
-                width: 240px;
-                font-size: 20px;
-                text-align: center;
-                padding: 30px 10px;
-                font-family: "Product Sans", sans-serif;
+               text-align: left;
+                padding-left: 30px;
             }
         }
     }

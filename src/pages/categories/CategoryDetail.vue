@@ -14,7 +14,14 @@
         </div>
         <div class="page-contents">
             <div class="words">
-                <Search v-model="valueBasic" placeholder="単語を検索"/>
+                <div class="tools-bar">
+                    <Search v-model="valueBasic" placeholder="単語を検索"/>
+                    <div class="commands-wrapper">
+                        <button>
+                            <i class="fas fa-pen"></i>
+                        </button>
+                    </div>
+                </div>
                 <Pagination :maxValue="10" v-model="current"/>
                 <WordCard name="emerge" mean="現れる；出てくる" :number="1900"/>
                 <WordCard name="engage" mean="雇う；従事する；従事させる" :number="1900"/>
@@ -91,9 +98,33 @@
     .page-contents {
         margin: 30px 0 0 0;
         .words {
-            .search-wrapper {
+            .tools-bar {
                 margin: 10px 0;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                .search-wrapper {
+                    width: 100%;
+                }
+
+                .commands-wrapper {
+                    button {
+                        border: none;
+                        background: transparent;
+                        padding: 10px 12px;
+                        color: $default-link-color;
+                        cursor: pointer;
+                        text-decoration: none;
+                        transition: background 200ms ease-out;
+
+                        &:hover {
+
+                        }
+                    }
+                }
             }
+
             .review-finished {
                 width: 100%;
                 padding: 20px 0;
