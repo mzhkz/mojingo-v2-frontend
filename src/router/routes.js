@@ -63,6 +63,17 @@ const routes = [
             main: () => import('@/pages/reviews/Review')
         }
     },
+    {
+        name: 'marking',
+        category: 'reviews',
+        title: 'マーキング',
+        path: '/reviews/:which/:id/marking',
+        layout: 'TopBar',
+        level: 1,
+        components: {
+            main: () => import('@/pages/mark/Marking')
+        }
+    },
 
     /** Admin */
     {

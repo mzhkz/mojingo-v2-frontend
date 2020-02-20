@@ -11,7 +11,7 @@
                     </sui-form-field>
                 </sui-form-fields>
                 <div class="space h30"></div>
-                <sui-button type="submit">範囲を指定して作成</sui-button>
+                <sui-button type="submit">上記の範囲から作成</sui-button>
             </sui-form>
         </Modal>
         <div class="page-header">
@@ -41,6 +41,12 @@
                 <WordCard name="engage" mean="雇う；従事する；従事させる" number="1900"/>
                 <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
                 <WordCard name="admire" mean="共感する；感心する" number="1902"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+
                 <Pagination :maxValue="10" v-model="current"/>
             </div>
         </div>
