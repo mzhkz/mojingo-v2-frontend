@@ -18,7 +18,7 @@
                     <p>を決める；決心する</p>
                 </div>
                 <div class="answer-button-field">
-                    <button class="submit-button">
+                    <button class="submit-button correct">
                         正解
                     </button>
                     <button class="submit-button">
@@ -82,6 +82,14 @@
             cursor: pointer;
             text-decoration: none;
             width: 100%;
+
+            &.correct {
+                background: #d5e6d8;
+            }
+
+            &.incorrect {
+               background: #e6d5d5;
+            }
 
         }
 
