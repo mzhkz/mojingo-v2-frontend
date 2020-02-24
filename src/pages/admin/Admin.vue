@@ -1,13 +1,23 @@
 <template>
     <div>
+        <Modal :show="setPermissionForm.modal" title="権限を変更">
+            <sui-form-field>
+                <label>権限</label>
+                <sui-dropdown
+                        placeholder="権限"
+                        selection
+                        :options="setPermissionForm.options"
+                        v-model="setPermissionForm.current"></sui-dropdown>
+            </sui-form-field>
+        </Modal>
         <Modal :show="resetPasswordForm.modal" title="パスワードをリセット">
             <sui-form>
                 <sui-form-fields fields="two">
                     <sui-form-field>
-                        <input placeholder="From ..." />
+                        <input placeholder="新しいパスワード" />
                     </sui-form-field>
                     <sui-form-field>
-                        <input placeholder="To" />
+                        <input placeholder="もう一度入力してください" />
                     </sui-form-field>
                 </sui-form-fields>
                 <div class="space h30"></div>
@@ -73,7 +83,7 @@
                             <sui-dropdown-item>プロフィールを表示</sui-dropdown-item>
                             <sui-dropdown-item @click="editBasicInfoForm.modal = true">基本情報を変更</sui-dropdown-item>
                             <sui-dropdown-item @click="resetPasswordForm.modal = true">パスワードを変更</sui-dropdown-item>
-                            <sui-dropdown-item>管理権限を付与
+                            <sui-dropdown-item @click="setPermissionForm.modal = true">権限を変更
                                 <span class="description">すべてのデータにアクセス可能</span>
                             </sui-dropdown-item>
                         </sui-dropdown-menu>
@@ -100,6 +110,25 @@
 
                 editBasicInfoForm: {
                     modal: false,
+                },
+
+                setPermissionForm: {
+                    modal: false,
+                    current: 1,
+                    options: [
+                        {
+                            text: '生徒',
+                            value: 1,
+                        },
+                        {
+                            text: '管理者',
+                            value: 2,
+                        },
+                        {
+                            text: '利用制限（ログイン不可）',
+                            value: 0,
+                        },
+                    ],
                 }
             }
         }
