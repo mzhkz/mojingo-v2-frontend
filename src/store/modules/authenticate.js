@@ -28,8 +28,17 @@ const store = {
             commit('UPDATE', data);
         },
 
-        RESET({commit}, data) {
-            commit('RESET', data);
+        RESET({commit}) {
+            commit('UPDATE', {
+                token: false,
+                created: 0,
+                updated: 0,
+
+                level: 0,
+                name: "",
+                username: "",
+                id: "",
+            });
         }
     },
 };

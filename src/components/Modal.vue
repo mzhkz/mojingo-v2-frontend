@@ -63,7 +63,7 @@
         .modal-content {
             background: $app-content-color;
             min-width: 45%;
-            min-height: 30%;
+            min-height: 20%;
             margin: 10px;
 
             @include sp {

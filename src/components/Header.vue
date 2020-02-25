@@ -25,22 +25,25 @@
                     <router-link :to="{ name: 'categories', params: {}}">
                         <li>単語カテゴリー</li>
                     </router-link>
+                    <router-link :to="{name: 'profile', params: { which: 'me'}}">
+                        <li>
+                            プロフィール
+                        </li>
+                    </router-link>
                     <router-link :to="{name: 'admin'}">
                         <li v-if="$store.state.authenticate.level >= 2" class="bound">
                             <i class="fas fa-lock"></i>　管理者
                         </li>
                     </router-link>
                 </ul>
-                <router-link :to="{name: 'profile', params: { which: 'me'}}">
-                    <div class="user-information-wrapper">
-                        <div class="user-information">
-                            <div class="user-icon">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <h4> {{ $store.state.authenticate.name}}</h4>
+                <div class="user-information-wrapper">
+                    <div @click="logout" class="user-information">
+                        <div class="user-icon">
+                            <i class="fas fa-sign-out-alt"></i>
                         </div>
+                        <h4> ログアウト</h4>
                     </div>
-                </router-link>
+                </div>
             </div>
         </div>
     </section>
@@ -72,6 +75,13 @@
             handleClick() {
                 console.log(this.browsing);
                 this.$store.dispatch('application/SET_BROWSING_MENU', !this.browsing);
+            },
+
+            logout() {
+                this.$store.dispatch('authenticate/RESET');
+                this.$router.push({name: "login"});
+                this.$store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 2, message: "ログアウトしました。"});
+
             }
         }
     }
@@ -150,6 +160,7 @@
                 .user-information {
                     display: flex;
                     align-items: center;
+                    cursor: pointer;
                 }
                 .user-icon {
                     font-size: 15px;
