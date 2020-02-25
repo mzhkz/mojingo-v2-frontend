@@ -1,8 +1,11 @@
 const store = {
-    state: [],
+    namespaced: true,
+    state: {
+        alerts: []
+    },
     mutations: {
         PUSH_ALERT(state, {icon, level, message}) {
-            state.push({icon: icon, level: level, message: message})
+            state.alerts.push({icon: icon, level: level, message: message})
         },
     },
 
@@ -10,6 +13,10 @@ const store = {
         PUSH_ALERT({commit}, data) {
             commit('PUSH_ALERT', data);
         },
+
+        CLEAR_ALERT({state}) {
+            state.alerts = [];
+        }
     }
 };
 

@@ -7,7 +7,7 @@ Vue.use(Vuex);
 
 import ApplicationModule from "./modules/application"
 import AuthenticateModule from './modules/authenticate'
-import AlertModule from './modules/alerts'
+import AlertModule from './modules/alert'
 
 const store = new Vuex.Store({
     modules: {

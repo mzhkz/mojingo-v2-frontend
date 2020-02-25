@@ -31,6 +31,7 @@ const router = new Router({
         path: route.path,
         components: route.components,
         beforeEnter: async (to, from, next) => {
+            await store.dispatch('alert/CLEAR_ALERT');
             await store.dispatch('application/SET_TITLE', route.title);
             await store.dispatch('application/SET_LAYOUT', route.layout);
             return goLogin(to, from, next, route.level);

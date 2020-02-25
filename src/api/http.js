@@ -12,23 +12,25 @@ const http = {
         Vue.prototype.$WORDLINKAPI = Vue.WORDLINKAPI = http;
 
         this.setDefault();
-        this.initHttpCredential();
+        this.addInterceptors();
+        this.initHttpCredential()
     },
 
     setDefault() {
         if (constant.DEBUG) {
-            store.dispatch('authenticate/UPDATE', {
-                token: 'abc123',
-                created: 0,
-                updated: 0,
-
-                level: 2,
-                name: "Hanako Saitou",
-            });
-            console.warn("開発用テストトークンを付与")
+            // store.dispatch('authenticate/UPDATE', {
+            //     token: 'abc123',
+            //     created: 0,
+            //     updated: 0,
+            //
+            //     level: 2,
+            //     name: "Hanako Saitou",
+            // });
+            // console.warn("開発用テストトークンを付与")
         }
 
-        Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
+        // Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
+        Vue.WORDLINKAPI.defaults.baseURL = "http://localhost:9000";
         Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
         Vue.WORDLINKAPI.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         Vue.WORDLINKAPI.defaults.withCredentials = true;
@@ -50,14 +52,22 @@ const http = {
         Vue.WORDLINKAPI.interceptors.response.use((response) => {
             if (constant.DEBUG) console.log(response);
             store.dispatch('application/SET_FETCHING', false);
+            store.dispatch('alert/CLEAR_ALERT');
+            const {result, message} = response.data;
+            if (result !== 200) {
+                store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 2, message: message});
+                return Promise.reject();
+            }
+            return Promise.resolve(response);
 
         }, (error => {
             if (!this.isInvalidToken(error)) {
-
+                store.dispatch('alert/PUSH_ALERT', error);
             } else {
                 store.dispatch('authenticate/UPDATE', { active: false });
                 router.push({ name: 'login'});
             }
+            return Promise.reject(error);
         }));
 
         store.watch((state) => state.auth, () => {

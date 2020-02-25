@@ -5,6 +5,8 @@ const initState = {
 
     level: 0,
     name: "",
+    username: "",
+    id: "",
 };
 
 const store = {

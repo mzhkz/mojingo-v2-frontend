@@ -5,7 +5,7 @@ module.exports = {
         version: 'PRE ALPHA 1.1',
         api: {
             dev: {
-                base: "http://localhost:4040",
+                base: "http://localhost:5050",
             },
             prod: {
                 base: "https://api.mojingo.me",
