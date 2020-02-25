@@ -15,7 +15,7 @@ async function goLogin(to, from, next, need) {
        await store.dispatch('alert/PUSH_ALERT', {
            message: 'ログインしてください。',
            icon: 'close',
-           level: 'danger'
+           level: '3'
        });
        await store.dispatch('application/SET_LAYOUT', 'TopBar');
        next({name: 'login', query: {redirect: to.fullPath || '/'}});
