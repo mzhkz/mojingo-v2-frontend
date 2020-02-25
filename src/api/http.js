@@ -28,6 +28,7 @@ const http = {
             // });
             // console.warn("開発用テストトークンを付与")
         }
+        store.dispatch('authenticate/UPDATE', JSON.parse(localStorage.getItem('_SESSION')).auth);
 
         // Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
         Vue.WORDLINKAPI.defaults.baseURL = "http://localhost:9000";
@@ -55,7 +56,7 @@ const http = {
             store.dispatch('alert/CLEAR_ALERT');
             const {result, message} = response.data;
             if (result !== 200) {
-                store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 2, message: message});
+                store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 3, message: message});
                 return Promise.reject();
             }
             return Promise.resolve(response);

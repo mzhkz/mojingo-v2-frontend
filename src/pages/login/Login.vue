@@ -49,6 +49,16 @@
                     level: data.accessLevel,
                     name: `${data.firstName} ${data.lastName}`,
                 });
+
+
+                const redirect = this.$route.params["redirect"];
+                await this.$router.push(redirect ? redirect : "/");
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: "ログインしました"
+                });
             }
         }
     }
