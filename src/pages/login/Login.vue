@@ -38,7 +38,7 @@
                     base64Password: password,
                 });
 
-                const {data, message} = response.data;
+                const {data, message} = response;
 
                 await this.$store.dispatch('authenticate/UPDATE', {
                     token: message,

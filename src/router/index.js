@@ -8,7 +8,7 @@ Vue.use(Router);
 
 async function goLogin(to, from, next, need) {
     const level = store.state.authenticate.level;
-    console.log(`${need} ${level}`);
+    // console.log(`${need} ${level}`);
    if (need <= level) {
        next();
    } else {

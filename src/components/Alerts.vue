@@ -18,7 +18,11 @@
     }
     .alert {
         text-align: center;
-        padding: 16px;
+        padding: 14px;
+
+        &:nth-child(n+1) {
+            margin-bottom: 4px;
+        }
 
         &.level-0 {
             background: #4CAF50!important
@@ -37,7 +41,9 @@
         }
 
         h2 {
+            font-size: 15px;
             color: $app-content-color;
+            font-weight: bold;
         }
     }
 </style>

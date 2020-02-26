@@ -13,7 +13,7 @@ const http = {
 
         this.setDefault();
         this.addInterceptors();
-        this.initHttpCredential()
+        // this.initHttpCredential()
     },
 
     setDefault() {
@@ -28,7 +28,10 @@ const http = {
             // });
             // console.warn("開発用テストトークンを付与")
         }
-        store.dispatch('authenticate/UPDATE', JSON.parse(localStorage.getItem('_SESSION')).auth);
+        const cache = JSON.parse(localStorage.getItem('_SESSION'));
+        if (cache) {
+            store.dispatch('authenticate/UPDATE', cache.auth);
+        }
 
         // Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
         Vue.WORDLINKAPI.defaults.baseURL = "http://localhost:9000";
@@ -53,13 +56,14 @@ const http = {
         Vue.WORDLINKAPI.interceptors.response.use((response) => {
             if (constant.DEBUG) console.log(response);
             store.dispatch('application/SET_FETCHING', false);
-            store.dispatch('alert/CLEAR_ALERT');
-            const {result, message} = response.data;
+            // store.dispatch('alert/CLEAR_ALERT');
+            const responseData = response.data;
+            const {result, message, data} = responseData;
             if (result !== 200) {
                 store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 3, message: message});
                 return Promise.reject();
             }
-            return Promise.resolve(response);
+            return Promise.resolve(responseData);
 
         }, (error => {
             if (!this.isInvalidToken(error)) {

@@ -1,13 +1,14 @@
 <template>
     <div>
         <Modal :show="registerUserForm.modal" title="ユーザーを追加">
-            <sui-form>
+            <sui-form @submit.prevent="">
                 <sui-form-field>
                     <label>Name</label>
                     <sui-form-fields fields="two">
                         <sui-form-field>
                             <input
                                     type="text"
+                                    v-model="registerUserForm.firstName"
                                     name="name_first"
                                     placeholder="氏名"
                             />
@@ -15,6 +16,7 @@
                         <sui-form-field>
                             <input
                                     type="text"
+                                    v-model="registerUserForm.lastName"
                                     name="name-last"
                                     placeholder="名前"
                             />
@@ -27,12 +29,17 @@
                         <sui-form-field width="twelve">
                             <input
                                     type="text"
+                                    v-model="registerUserForm.username"
                                     name="login_id"
                                     placeholder="ログイン固有ID"
                             />
                         </sui-form-field>
                         <sui-form-field width="four">
-                            <input type="text" name="school-yars" placeholder="学年" />
+                            <input
+                                    v-model="registerUserForm.schoolYears"
+                                    type="text"
+                                    name="school-years" p
+                                    laceholder="学年" />
                         </sui-form-field>
                     </sui-form-fields>
                 </sui-form-field>
@@ -41,12 +48,21 @@
                     <sui-dropdown
                             placeholder="権限"
                             selection
-                            :options="setPermissionForm.options"
-                            v-model="setPermissionForm.current"></sui-dropdown>
+                            :options="registerUserForm.options"
+                            v-model="registerUserForm.accessLevel"/>
+                </sui-form-field>
+                <sui-form-field>
+                    <label>パスワード</label>
+                    <input
+                            v-model="registerUserForm.password"
+                            type="password"
+                            placeholder="新しいパスワード" />
                 </sui-form-field>
                 <div class="space h30"></div>
-                <sui-button @click="editBasicInfoForm.modal = false">キャンセル</sui-button>
-                <sui-button type="submit">作成</sui-button>
+                <sui-button @click="registerUserForm.modal = false">キャンセル</sui-button>
+                <sui-button
+                        @click="submitEnrollUser"
+                >作成</sui-button>
             </sui-form>
         </Modal>
 
@@ -58,31 +74,43 @@
                         placeholder="権限"
                         selection
                         :options="setPermissionForm.options"
-                        v-model="setPermissionForm.current"></sui-dropdown>
+                        v-model="setPermissionForm.accessLevel"/>
             </sui-form-field>
+            <sui-button @click="setPermissionForm.modal = false">キャンセル</sui-button>
+            <sui-button
+                    @click="submitSetPermission">更新</sui-button>
         </Modal>
+
+
         <Modal :show="resetPasswordForm.modal" title="パスワードをリセット">
-            <sui-form>
+            <sui-form @submit.prevent="">
                 <sui-form-fields fields="two">
                     <sui-form-field>
-                        <input placeholder="新しいパスワード" />
+                        <input
+                                v-model="resetPasswordForm.password"
+                                placeholder="新しいパスワード" />
                     </sui-form-field>
                     <sui-form-field>
-                        <input placeholder="もう一度入力してください" />
+                        <input
+                                v-model="resetPasswordForm.password_confirm"
+                                placeholder="もう一度入力してください" />
                     </sui-form-field>
                 </sui-form-fields>
                 <div class="space h30"></div>
                 <sui-button @click="resetPasswordForm.modal = false">キャンセル</sui-button>
-                <sui-button type="submit">変更</sui-button>
+                <sui-button @click="submitResetPassword">変更</sui-button>
             </sui-form>
         </Modal>
+
+
         <Modal :show="editBasicInfoForm.modal" title="基本情報を変更">
-            <sui-form>
+            <sui-form @submit.prevent="">
                 <sui-form-field>
                     <label>Name</label>
                     <sui-form-fields fields="two">
                         <sui-form-field>
                             <input
+                                    v-model="editBasicInfoForm.firstName"
                                     type="text"
                                     name="name_first"
                                     placeholder="氏名"
@@ -90,6 +118,7 @@
                         </sui-form-field>
                         <sui-form-field>
                             <input
+                                    v-model="editBasicInfoForm.lastName"
                                     type="text"
                                     name="name-last"
                                     placeholder="名前"
@@ -102,19 +131,24 @@
                     <sui-form-fields>
                         <sui-form-field width="twelve">
                             <input
+                                    v-model="editBasicInfoForm.username"
                                     type="text"
                                     name="login_id"
                                     placeholder="ログイン固有ID"
                             />
                         </sui-form-field>
                         <sui-form-field width="four">
-                            <input type="text" name="school-yars" placeholder="学年" />
+                            <input
+                                    v-model="editBasicInfoForm.schoolYears"
+                                    type="text"
+                                    name="school-years"
+                                    placeholder="学年" />
                         </sui-form-field>
                     </sui-form-fields>
                 </sui-form-field>
                 <div class="space h30"></div>
                 <sui-button @click="editBasicInfoForm.modal = false">キャンセル</sui-button>
-                <sui-button type="submit">変更</sui-button>
+                <sui-button @click="submitEditBasicInfo">変更</sui-button>
             </sui-form>
         </Modal>
 
@@ -123,23 +157,27 @@
             <div class="register-user" @click="registerUserForm.modal = true">
                 <h2>ユーザーを追加</h2>
             </div>
-            <div v-for="i in 10" :key="i" class="user-card">
+            <div v-for="user in users" :key="user.id" class="user-card">
                 <div class="user-upper-contents">
                     <div class="user-icon">
                         <i class="fas fa-user"></i>
                     </div>
                     <div class="user-information">
-                        <h2>Riku Mochizuki</h2>
-                        <p>riku_mochizuki -  20日前に参加</p>
+                        <h2>{{user.username}}</h2>
+                        <p>{{user.firstName + " " + user.lastName}}</p>
                     </div>
                 </div>
                 <div class="user-lower-contents">
                     <sui-dropdown text="操作">
                         <sui-dropdown-menu>
-                            <sui-dropdown-item>プロフィールを表示</sui-dropdown-item>
-                            <sui-dropdown-item @click="editBasicInfoForm.modal = true">基本情報を変更</sui-dropdown-item>
-                            <sui-dropdown-item @click="resetPasswordForm.modal = true">パスワードを変更</sui-dropdown-item>
-                            <sui-dropdown-item @click="setPermissionForm.modal = true">権限を変更
+                            <sui-dropdown-item
+                                    @click="$router.push({name: 'profile', params: {which: user.username}})">プロフィールを表示</sui-dropdown-item>
+                            <sui-dropdown-item
+                                    @click="openEditBasicInfo(user)">基本情報を変更</sui-dropdown-item>
+                            <sui-dropdown-item
+                                    @click="openResetPassword(user)">パスワードを変更</sui-dropdown-item>
+                            <sui-dropdown-item
+                                    @click="openSetPermission(user)">権限を変更
                                 <span class="description">すべてのデータにアクセス可能</span>
                             </sui-dropdown-item>
                         </sui-dropdown-menu>
@@ -175,25 +213,181 @@
         },
         data() {
             return {
+                users: null,
+                focusingUser: null, //Edit
+
                 resetPasswordForm: {
                     modal: false,
+                    password: null,
+                    password_confirm: null,
                 },
 
                 editBasicInfoForm: {
                     modal: false,
+                    username: null,
+                    firstName: null,
+                    lastName: null,
+                    schoolYears: null,
                 },
 
                 setPermissionForm: {
                     modal: false,
-                    current: 1,
+                    accessLevel: 1,
                     options: Object.assign([], parmissions),
                 },
 
                 registerUserForm: {
                     modal: false,
                     options: Object.assign([], parmissions),
-                }
+                    accessLevel: 1,
+                    username: null,
+                    firstName: null,
+                    lastName: null,
+                    schoolYears: null,
+                    password: null,
+                },
             }
+        },
+        methods: {
+            async fetchData() {
+                const response = await this.$WORDLINKAPI.get(`/user/list`);
+                const {data, message} = response;
+                this.users = data;
+            },
+
+            async updateUser(id, {username, firstName, lastName}) {
+                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/update`, {
+                    username: username,
+                    firstName: firstName,
+                    lastName: lastName,
+                });
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${username}を更新しました`,
+                });
+            },
+
+            /** Register a user */
+            async enrollUser({username, accessLevel, firstName, lastName, password}) {
+                const {message} = await this.$WORDLINKAPI.post(`/user/enroll`, {
+                    username: username,
+                    accessLevel: accessLevel,
+                    firstName: firstName,
+                    lastName: lastName,
+                    password: password
+                });
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${username}を登録しました`,
+                });
+            },
+
+            async resetPasswordUser(id, {password}) {
+                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/reset-pass`, {
+                   password: password
+                });
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `パスワードを更新しました`,
+                });
+            },
+
+            async setPermissionUser(id, {accessLevel}) {
+                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/qualify`, {
+                    applyLevel: accessLevel
+                });
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `権限を更新しました`,
+                });
+            },
+
+
+
+            submitEnrollUser() {
+                this.enrollUser({
+                    username: this.registerUserForm.username,
+                    accessLevel: this.registerUserForm.accessLevel,
+                    firstName: this.registerUserForm.firstName,
+                    lastName: this.registerUserForm.lastName,
+                    schoolYears: this.registerUserForm.schoolYears,
+                    password: this.registerUserForm.password
+                });
+                this.registerUserForm.modal = false;
+                this.fetchData()
+            },
+
+            openEditBasicInfo(user) {
+                this.focusUser(user);
+                this.editBasicInfoForm = {
+                    modal: true,
+                    username: this.focusingUser.username,
+                    firstName: this.focusingUser.firstName,
+                    lastName: this.focusingUser.lastName,
+                    schoolYears: this.focusingUser.schoolYears,
+                }
+            },
+
+            submitEditBasicInfo() {
+                this.updateUser(this.focusingUser.id, {
+                    username: this.editBasicInfoForm.username,
+                    firstName: this.editBasicInfoForm.firstName,
+                    lastName: this.editBasicInfoForm.lastName,
+                    schoolYears: this.editBasicInfoForm.schoolYears,
+                });
+
+                this.editBasicInfoForm.modal = false;
+                this.fetchData(); //Data fetching..
+            },
+
+            openResetPassword(user) {
+                this.focusUser(user);
+                this.resetPasswordForm = {
+                    modal: true,
+                    password: null,
+                    password_confirm: null,
+                }
+            },
+
+            submitResetPassword() {
+                this.resetPasswordUser(this.focusingUser.id, {
+                    password: this.resetPasswordForm.password,
+                });
+                this.resetPasswordForm.modal = false;
+            },
+
+            openSetPermission(user) {
+                this.focusUser(user);
+                this.setPermissionForm = {
+                    modal: true,
+                    options: Object.assign([], parmissions),
+                    accessLevel: this.focusingUser.accessLevel,
+                }
+            },
+
+            submitSetPermission() {
+                this.setPermissionUser(this.focusingUser.id, {
+                    accessLevel: this.setPermissionForm.accessLevel,
+                });
+                this.setPermissionForm.modal = false;
+                this.fetchData(); //Data fetching..
+            },
+
+            focusUser(user) {
+                this.focusingUser = Object.assign({}, user); //copy
+            },
+        },
+
+        beforeMount() {
+            this.fetchData()
         }
     }
 </script>
