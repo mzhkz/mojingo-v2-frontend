@@ -171,7 +171,7 @@
                     <sui-dropdown text="操作">
                         <sui-dropdown-menu>
                             <sui-dropdown-item
-                                    @click="$router.push({name: 'profile', params: {which: user.username}})">プロフィールを表示</sui-dropdown-item>
+                                    @click="$router.push({name: 'profile', params: {id: user.id}})">プロフィールを表示</sui-dropdown-item>
                             <sui-dropdown-item
                                     @click="openEditBasicInfo(user)">基本情報を変更</sui-dropdown-item>
                             <sui-dropdown-item
@@ -322,7 +322,7 @@
                     password: this.registerUserForm.password
                 });
                 this.registerUserForm.modal = false;
-                this.fetchData()
+                this.fetchData();
             },
 
             openEditBasicInfo(user) {

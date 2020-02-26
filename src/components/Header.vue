@@ -25,7 +25,7 @@
                     <router-link :to="{ name: 'categories', params: {}}">
                         <li>単語カテゴリー</li>
                     </router-link>
-                    <router-link :to="{name: 'profile', params: { which: 'me'}}">
+                    <router-link :to="{name: 'profile', params: { id: 'me'}}">
                         <li>
                             プロフィール
                         </li>
@@ -36,7 +36,7 @@
                         </li>
                     </router-link>
                 </ul>
-                <div class="user-information-wrapper">
+                <div v-if="$store.state.authenticate.token !== false" class="user-information-wrapper">
                     <div @click="logout" class="user-information">
                         <div class="user-icon">
                             <i class="fas fa-sign-out-alt"></i>

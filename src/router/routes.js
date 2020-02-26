@@ -91,7 +91,7 @@ const routes = [
     {
         name: 'profile',
         category: 'profile',
-        path: '/profile/:which',
+        path: '/profile/:id',
         title: 'プロフィール',
         layout: 'default',
         level: 1,

@@ -16,10 +16,7 @@ const store = {
     mutations: {
         UPDATE(state, diff) {
             state = Object.assign(state, diff);
-        },
-
-        RESET(state) {
-            state = Object.assign({}, initState)
+            localStorage.setItem('_SESSION', JSON.stringify({auth: state}));
         },
     },
 

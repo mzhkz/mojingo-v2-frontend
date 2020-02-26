@@ -75,7 +75,8 @@ const http = {
             return Promise.reject(error);
         }));
 
-        store.watch((state) => state.auth, () => {
+        store.watch((state) => state.authenticate.token, () => {
+            console.log("ffff!!");
             Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
         });
     },

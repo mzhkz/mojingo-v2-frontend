@@ -1,18 +1,18 @@
 <template>
-    <div>
+    <div v-if="profile">
         <div class="page-header">
             <div class="user-icon">
                 <i class="fas fa-user"></i>
             </div>
             <div class="user-information">
                 <h2>
-                   sato_rika
-                    <span class="admin-budge">
+                   {{profile.username}}
+                    <span v-if="profile.accessLevel >= 2" class="admin-budge">
                         <i class="fas fa-wrench"></i>
                     </span>
                 </h2>
-                <p>Rikako Satou</p>
-                <p class="joined-date"><i class="fas fa-history"></i>  14日前に参加</p>
+                <p>{{`${profile.firstName} ${profile.lastName}`}}</p>
+                <p class="joined-date"><i class="fas fa-history"></i> 日前に参加</p>
             </div>
         </div>
         <div class="page-contents">
@@ -40,10 +40,24 @@
         components: {
             ReviewCard
         },
+        data() {
+            return {
+                profile: null
+            }
+        },
         methods: {
             handleClickReadMore() {
                 this.$router.push({})
+            },
+
+            async fetchData() {
+                const {data, message} = await this.$WORDLINKAPI.get(`/user/profile/${this.$route.params["id"]}`);
+                this.profile = data;
             }
+        },
+
+        beforeMount() {
+            this.fetchData();
         }
     }
 </script>
