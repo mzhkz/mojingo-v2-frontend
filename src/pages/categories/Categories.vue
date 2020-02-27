@@ -1,11 +1,14 @@
 <template>
-    <div>
-        <router-link :to="{name: 'category_detail', params: {id: 'target1900'}}">
-            <CategoryCard name="ターゲット1900" description="対象: 最難関私立・難関国公立大学志望の方向け" :number="1900"></CategoryCard>
+    <div v-if="categories">
+        <router-link
+                v-for="(category, index) in categories"
+                :key="category.raw.id"
+                :to="{name: 'category_detail', params: {id: category.raw.id}}">
+            <CategoryCard :name="category.raw.name"
+                          :description="category.raw.description"
+                          :number="category.wordSize"/>
         </router-link>
-        <router-link :to="{name: 'category_detail', params: {id: 'database3000'}}">
-            <CategoryCard name="データベース3000" description="対象: 共通テスト・センター試験・中堅大学" :number="1800"></CategoryCard>
-        </router-link>
+        <p v-if="categories.length === 0" class="not-search-result">検索結果なし</p>
     </div>
 </template>
 
@@ -18,6 +21,22 @@
         components: {
             CategoryCard,
             // Modal,
+        },
+        data() {
+            return {
+                categories: null,
+            }
+        },
+        methods: {
+          async fetchData() {
+              const {data, message} = await this.$WORDLINKAPI.get(`/categories`);
+              this.categories = data;
+
+          }
+        },
+
+        beforeMount() {
+            this.fetchData();
         }
     }
 </script>

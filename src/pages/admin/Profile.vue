@@ -1,17 +1,17 @@
 <template>
-    <div v-if="profile">
+    <div v-if="result">
         <div class="page-header">
             <div class="user-icon">
                 <i class="fas fa-user"></i>
             </div>
             <div class="user-information">
                 <h2>
-                   {{profile.username}}
-                    <span v-if="profile.accessLevel >= 2" class="admin-budge">
+                   {{result.profile.username}}
+                    <span v-if="result.profile.accessLevel >= 2" class="admin-budge">
                         <i class="fas fa-wrench"></i>
                     </span>
                 </h2>
-                <p>{{`${profile.firstName} ${profile.lastName}`}}</p>
+                <p>{{`${result.profile.firstName} ${result.profile.lastName}`}}</p>
                 <p class="joined-date"><i class="fas fa-history"></i> 日前に参加</p>
             </div>
         </div>
@@ -19,7 +19,8 @@
             <div class="reviews">
                 <h2>小テスト結果</h2>
                 <ReviewCard
-                        name="小テスト 300-400"
+                        v-for="(review, index) in result.reviews"
+                        :name="review.name"
                         description="確認テスト @ 2020年 02月15日 "
                         :correct="100"
                         :all="120"
@@ -42,7 +43,7 @@
         },
         data() {
             return {
-                profile: null
+                result: null
             }
         },
         methods: {
@@ -52,7 +53,7 @@
 
             async fetchData() {
                 const {data, message} = await this.$WORDLINKAPI.get(`/user/profile/${this.$route.params["id"]}`);
-                this.profile = data;
+                this.result = data;
             }
         },
 
