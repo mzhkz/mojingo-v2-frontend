@@ -1,38 +1,140 @@
 <template>
-    <div v-if="categories">
-        <router-link
-                v-for="(category, index) in categories"
-                :key="category.raw.id"
-                :to="{name: 'category_detail', params: {id: category.raw.id}}">
-            <CategoryCard :name="category.raw.name"
-                          :description="category.raw.description"
-                          :number="category.wordSize"/>
-        </router-link>
-        <p v-if="categories.length === 0" class="not-search-result">検索結果なし</p>
+    <div>
+        <Modal :show="registerCategoryForm.modal" title="辞書を追加">
+            <sui-form @submit.prevent="">
+                <sui-form-field>
+                    <label>辞書名</label>
+                    <input
+                            type="text"
+                            v-model="registerCategoryForm.name"
+                            name="name"
+                            placeholder="辞書名"
+                    />
+                </sui-form-field>
+                <sui-form-field>
+                    <label>説明</label>
+                    <input
+                            type="text"
+                            v-model="registerCategoryForm.description"
+                            name="description"
+                            placeholder="説明"
+                    />
+                </sui-form-field>
+                <sui-form-field>
+                    <label>CSVファイル {{`${registerCategoryForm.csvBody.length -1 }個の単語を検出`}}</label>
+                    <input type="file"
+                           @change="handleChangeCSVFile"
+                           name="csv-file"
+                    />
+                </sui-form-field>
+                <div class="space h30"></div>
+                <sui-button @click="registerCategoryForm.modal = false">キャンセル</sui-button>
+                <sui-button @click="submitCreateCategory">作成</sui-button>
+            </sui-form>
+        </Modal>
+
+
+        <div v-if="categories">
+            <div v-if="$store.state.authenticate.level >= 2" class="register-category" @click="registerCategoryForm.modal = true">
+                <h2>辞書を追加</h2>
+            </div>
+            <router-link
+                    v-for="(category, index) in categories"
+                    :key="category.raw.id"
+                    :to="{name: 'category_detail', params: {id: category.raw.id}}">
+                <CategoryCard :name="category.raw.name"
+                              :description="category.raw.description"
+                              :number="category.wordSize"/>
+            </router-link>
+            <p v-if="categories.length === 0" class="not-search-result">検索結果なし</p>
+        </div>
     </div>
 </template>
 
 <script>
     import CategoryCard from '../../components/CatrgoryCard';
-    // import Modal from '../../components/Modal';
+    import Modal from '@/components/Modal';
 
     export default {
         name: "Category",
         components: {
             CategoryCard,
-            // Modal,
+            Modal,
         },
         data() {
             return {
                 categories: null,
+                registerCategoryForm: {
+                    modal: false,
+                    name: null,
+                    description: null,
+                    csvBody: [],
+                },
             }
         },
         methods: {
-          async fetchData() {
+            async fetchData() {
               const {data, message} = await this.$WORDLINKAPI.get(`/categories`);
               this.categories = data;
+            },
 
-          }
+            async createCategory({name, description, csvBody}) {
+              const {data, message} = await this.$WORDLINKAPI.post(`/categories/create`, {
+                  name: this.registerCategoryForm.name,
+                  description: this.registerCategoryForm.description,
+                  csvBody: this.registerCategoryForm.csvBody,
+              });
+              const nameCached = this.registerCategoryForm.name;
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${nameCached}を作成しました`,
+                });
+            },
+
+            submitCreateCategory() {
+                this.createCategory({
+                    name: this.registerCategoryForm.name,
+                    description: this.registerCategoryForm.description,
+                    csvBody: this.registerCategoryForm.csvBody,
+                });
+                this.registerCategoryForm = {
+                    modal: false,
+                    name: null,
+                    description: null,
+                    csvBody: [],
+                };
+                this.fetchData();
+            },
+
+            handleChangeCSVFile(event) {
+              event.preventDefault();
+              const files = event.target.files;
+              this.readCSV(files[0]);
+            },
+
+            readCSV(fileData) {
+                this.registerCategoryForm.csvBody = [];
+                // CSVファイル以外は処理を止める
+                if(!fileData.name.match('.csv$')) {
+                    alert('CSVファイルを選択してください');
+                    return;
+                }
+                // FileReaderオブジェクトを使ってファイル読み込み
+                const reader = new FileReader();
+                // ファイル読み込みに成功したときの処理
+                reader.onload = () => {
+                    const cols = reader.result.split('\n');
+                    const data = [];
+                    let response = "";
+                    for (let i = 0; i < cols.length; i++) {
+                        data[i] = cols[i];
+                    }
+                    this.registerCategoryForm.csvBody = data;
+                    alert(`${data.length - 1}個の単語を検出しました`)
+                };
+                reader.readAsText(fileData);
+            }
         },
 
         beforeMount() {
@@ -41,6 +143,19 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    .register-category {
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        border: 2px dotted #e2e2e2;
+        margin: 10px 0;
 
+        transition: 200ms;
+
+        &:hover {
+            background: $app-primary-focus-color;
+            border: 2px dotted $default-link-color;
+        }
+    }
 </style>

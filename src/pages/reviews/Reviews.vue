@@ -1,13 +1,16 @@
 <template>
    <div v-if="result">
-       <ReviewCard
+       <router-link
                v-for="(data, index) in result"
-               :key="index"
-               :name="data.review.name"
-               :description="data.review.description"
-               :correct="data.correctSize"
-               :all="data.incorrectSize"
-       />
+               :key="data.review.id"
+               :to="{name: 'review', params: {id: data.review.id}}">
+           <ReviewCard
+                   :name="data.review.name"
+                   :description="data.review.description"
+                   :correct="data.correctSize"
+                   :all="data.incorrectSize"
+           />
+       </router-link>
        <p v-if="result.length === 0" class="not-search-result">検索結果なし</p>
    </div>
 </template>

@@ -18,13 +18,17 @@
         <div class="page-contents">
             <div class="reviews">
                 <h2>小テスト結果</h2>
-                <ReviewCard
-                        v-for="(review, index) in result.reviews"
-                        :name="review.name"
-                        description="確認テスト @ 2020年 02月15日 "
-                        :correct="100"
-                        :all="120"
-                />
+                <router-link
+                        v-for="(data, index) in result.reviews"
+                        :key="data.review.id"
+                        :to="{name: 'review', params: {id: data.review.id}}">
+                    <ReviewCard
+                            :name="data.review.name"
+                            :description="data.review.description"
+                            :correct="data.correctSize"
+                            :all="data.incorrectSize"
+                    />
+                </router-link>
                 <div class="read-more">
                     <sui-button @click="$router.push({ name: 'reviews', params: { which: 'me'}})">小テスト一覧を見る</sui-button>
                 </div>
