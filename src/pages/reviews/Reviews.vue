@@ -29,7 +29,7 @@
         },
         methods: {
             async fetchData() {
-                const {data, message} = await this.$WORDLINKAPI.get(`/review/${this.$route.params["which"]}`);
+                const {data, message} = await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}`);
                 this.result = data;
             },
         },

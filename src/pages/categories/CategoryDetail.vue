@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="categoryData && wordData">
         <Modal :show="openModal" title="小テストを作成">
             <sui-form>
                 <sui-form-fields fields="two">
@@ -20,34 +20,30 @@
             </div>
             <div class="category-information">
                 <h2>
-                    ターゲット1900
+                    {{categoryData.name}}
                 </h2>
-                <p>対象: 最難関私立・難関国公立大学志望の方向け</p>
-                <p class="created-date"><i class="fas fa-history"></i> 14日前に作成</p>
+                <p>{{categoryData.description}}</p>
+                <p class="created-date"><i class="fas fa-history"></i> 日前に作成</p>
             </div>
         </div>
         <div class="page-contents">
             <div class="words">
                 <div class="tools-bar">
-                    <Search v-model="valueBasic" placeholder="単語を検索"/>
+                    <Search v-model="keyword" placeholder="単語を検索"/>
                     <div class="commands-wrapper">
                         <button @click="openModal = !openModal">
                             <i class="fas fa-pen"></i>
                         </button>
                     </div>
                 </div>
-                <Pagination :maxValue="10" v-model="current"/>
-                <WordCard name="emerge" mean="現れる；出てくる" number="1900"/>
-                <WordCard name="engage" mean="雇う；従事する；従事させる" number="1900"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
-                <WordCard name="admire" mean="共感する；感心する" number="1902"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
-                <WordCard name="atmosphere" mean="大気；雰囲気" number="1901"/>
+                <Pagination :maxValue="maxPageSize" v-model="page"/>
+                <WordCard v-for="word in wordData"
+                          :key="word.id"
+                          :name="word.name"
+                          :mean="word.mean"
+                          :number="word.number"/>
 
-                <Pagination :maxValue="10" v-model="current"/>
+                <Pagination :maxValue="maxPageSize" v-model="page"/>
             </div>
         </div>
     </div>
@@ -68,12 +64,45 @@
             Modal,
         },
         data() {
-            return ({
-                current: 1,
-                valueBasic: null,
+            return {
+                page: 1,
+                maxPageSize: 0,
+                keyword: null,
                 openModal: false,
-            })
+
+                categoryData: null,
+                wordData: null,
+            }
         },
+        methods: {
+            async fetchCategory() {
+                const {data, message} = await this.$WORDLINKAPI.get(`/categories/view/${this.$route.params["id"]}`);
+                this.categoryData = data.category;
+                this.maxPageSize = data.maxPageSize
+            },
+
+            async fetchWords() {
+                const {data, message} = await this.$WORDLINKAPI
+                    .get(`/categories/view/${this.$route.params["id"]}/words`, {
+                        params: {
+                            page: this.page,
+                            keyword: this.keyword
+                        }
+                    });
+                this.wordData = data;
+            }
+        },
+
+        beforeMount() {
+            this.fetchWords();
+            this.fetchCategory()
+        },
+
+        watch: {
+            page() {
+              this.fetchWords();
+            },
+        }
     }
 </script>
 

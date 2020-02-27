@@ -39,12 +39,12 @@
                 <h2>辞書を追加</h2>
             </div>
             <router-link
-                    v-for="(category, index) in categories"
-                    :key="category.raw.id"
-                    :to="{name: 'category_detail', params: {id: category.raw.id}}">
-                <CategoryCard :name="category.raw.name"
-                              :description="category.raw.description"
-                              :number="category.wordSize"/>
+                    v-for="(data, index) in categories"
+                    :key="data.category.id"
+                    :to="{name: 'category_detail', params: {id: data.category.id}}">
+                <CategoryCard :name="data.category.name"
+                              :description="data.category.description"
+                              :number="data.wordCount"/>
             </router-link>
             <p v-if="categories.length === 0" class="not-search-result">検索結果なし</p>
         </div>
@@ -79,17 +79,18 @@
             },
 
             async createCategory({name, description, csvBody}) {
-              const {data, message} = await this.$WORDLINKAPI.post(`/categories/create`, {
+                const nameCached = this.registerCategoryForm.name;
+                const {data, message} = await this.$WORDLINKAPI.post(`/categories/create`, {
                   name: this.registerCategoryForm.name,
                   description: this.registerCategoryForm.description,
                   csvBody: this.registerCategoryForm.csvBody,
-              });
-              const nameCached = this.registerCategoryForm.name;
+                });
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
                     level: 0,
                     message: `${nameCached}を作成しました`,
                 });
+                this.fetchData();
             },
 
             submitCreateCategory() {
@@ -104,7 +105,6 @@
                     description: null,
                     csvBody: [],
                 };
-                this.fetchData();
             },
 
             handleChangeCSVFile(event) {

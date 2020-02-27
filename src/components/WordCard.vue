@@ -17,7 +17,7 @@
         props: {
             name: {type: String},
             mean: {type: String},
-            number: {type: String},
+            number: {type: Number},
             borderColor: {type: String},
             clickHandle: {type: Function},
         }
