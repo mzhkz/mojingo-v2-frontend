@@ -1,16 +1,21 @@
 <template>
-    <div v-if="categoryData && wordData">
-        <Modal :show="openModal" title="小テストを作成">
-            <sui-form>
+    <div v-if="CATEGORY_DATA && WORD_DATA">
+        <Modal :show="createReviewModal.modal" title="小テストを作成">
+            <sui-form @submit.prevent="submitCreateReview">
                 <sui-form-fields fields="two">
                     <sui-form-field>
-                        <input placeholder="From ..." />
+                        <input v-model="createReviewModal.start"
+                               type="number"
+                               placeholder="From ..." />
                     </sui-form-field>
                     <sui-form-field>
-                        <input placeholder="To" />
+                        <input v-model="createReviewModal.end"
+                               type="number"
+                               placeholder="To" />
                     </sui-form-field>
                 </sui-form-fields>
                 <div class="space h30"></div>
+                <sui-button @click="createReviewModal.modal=false">キャンセル</sui-button>
                 <sui-button type="submit">上記の範囲から作成</sui-button>
             </sui-form>
         </Modal>
@@ -20,9 +25,9 @@
             </div>
             <div class="category-information">
                 <h2>
-                    {{categoryData.name}}
+                    {{CATEGORY_DATA.name}}
                 </h2>
-                <p>{{categoryData.description}}</p>
+                <p>{{CATEGORY_DATA.description}}</p>
                 <p class="created-date"><i class="fas fa-history"></i> 日前に作成</p>
             </div>
         </div>
@@ -31,19 +36,19 @@
                 <div class="tools-bar">
                     <Search v-model="keyword" placeholder="単語を検索"/>
                     <div class="commands-wrapper">
-                        <button @click="openModal = !openModal">
+                        <button @click="createReviewModal.modal = true">
                             <i class="fas fa-pen"></i>
                         </button>
                     </div>
                 </div>
-                <Pagination :maxValue="maxPageSize" v-model="page"/>
-                <WordCard v-for="word in wordData"
+                <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
+                <WordCard v-for="word in WORD_DATA"
                           :key="word.id"
                           :name="word.name"
                           :mean="word.mean"
                           :number="word.number"/>
 
-                <Pagination :maxValue="maxPageSize" v-model="page"/>
+                <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
             </div>
         </div>
     </div>
@@ -66,19 +71,23 @@
         data() {
             return {
                 page: 1,
-                maxPageSize: 0,
                 keyword: null,
-                openModal: false,
+                createReviewModal: {
+                    modal: false,
+                    start: null,
+                    end: null,
+                },
 
-                categoryData: null,
-                wordData: null,
+                MAX_PAGE_SIZE: 0,
+                CATEGORY_DATA: null,
+                WORD_DATA: null,
             }
         },
         methods: {
             async fetchCategory() {
                 const {data, message} = await this.$WORDLINKAPI.get(`/categories/view/${this.$route.params["id"]}`);
-                this.categoryData = data.category;
-                this.maxPageSize = data.maxPageSize
+                this.CATEGORY_DATA = data.category;
+                this.MAX_PAGE_SIZE = data.maxPageSize
             },
 
             async fetchWords() {
@@ -89,7 +98,33 @@
                             keyword: this.keyword
                         }
                     });
-                this.wordData = data;
+                this.WORD_DATA = data;
+            },
+
+            async createReview(categoryId, {start, end, shuffle}) {
+                const {data, message} = await this.$WORDLINKAPI.post(`/reviews/create/`, {
+                    category: categoryId,
+                    start: start,
+                    end: end,
+                    shuffle: shuffle
+                });
+                await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${data.name}を作成しました`,
+                });
+
+                this.createReviewModal.modal = false;
+            },
+
+            submitCreateReview() {
+                this.createReview(this.CATEGORY_DATA.id, {
+                    start: this.createReviewModal.start,
+                    end: this.createReviewModal.end,
+                    shuffle: true,
+                })
             }
         },
 

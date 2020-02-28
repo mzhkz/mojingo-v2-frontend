@@ -21,7 +21,7 @@
                     />
                 </sui-form-field>
                 <sui-form-field>
-                    <label>CSVファイル {{`${registerCategoryForm.csvBody.length -1 }個の単語を検出`}}</label>
+                    <label>CSVファイル 形式: {No,Name,Mean}</label>
                     <input type="file"
                            @change="handleChangeCSVFile"
                            name="csv-file"
@@ -67,7 +67,7 @@
                 registerCategoryForm: {
                     modal: false,
                     name: null,
-                    description: null,
+                    description: "",
                     csvBody: [],
                 },
             }
@@ -102,7 +102,7 @@
                 this.registerCategoryForm = {
                     modal: false,
                     name: null,
-                    description: null,
+                    description: "",
                     csvBody: [],
                 };
             },

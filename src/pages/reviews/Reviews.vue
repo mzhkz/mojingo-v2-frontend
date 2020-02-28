@@ -1,7 +1,7 @@
 <template>
-   <div v-if="result">
+   <div v-if="REVIEW_DATA">
        <router-link
-               v-for="(data, index) in result"
+               v-for="(data, index) in REVIEW_DATA"
                :key="data.review.id"
                :to="{name: 'review', params: {id: data.review.id}}">
            <ReviewCard
@@ -11,7 +11,7 @@
                    :all="data.incorrectSize"
            />
        </router-link>
-       <p v-if="result.length === 0" class="not-search-result">検索結果なし</p>
+       <p v-if="REVIEW_DATA.length === 0" class="not-search-result">検索結果なし</p>
    </div>
 </template>
 
@@ -24,13 +24,13 @@
         },
         data() {
             return {
-                result: null,
+                REVIEW_DATA: null,
             }
         },
         methods: {
             async fetchData() {
                 const {data, message} = await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}`);
-                this.result = data;
+                this.REVIEW_DATA = data;
             },
         },
 
