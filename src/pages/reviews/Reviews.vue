@@ -8,7 +8,8 @@
                    :name="data.review.name"
                    :description="`${data.createAgo}に作成`"
                    :correct="data.correctSize"
-                   :all="data.incorrectSize"
+                   :all="data.incorrectSize + data.correctSize"
+                   :finished="data.review.finished"
            />
        </router-link>
        <p v-if="REVIEW_DATA.length === 0" class="not-search-result">検索結果なし</p>

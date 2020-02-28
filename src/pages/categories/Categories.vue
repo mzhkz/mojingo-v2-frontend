@@ -35,7 +35,7 @@
 
 
         <div v-if="categories">
-            <div v-if="$store.state.authenticate.level >= 2" class="register-category" @click="registerCategoryForm.modal = true">
+            <div v-if="$store.state.authenticate.level >= 2" class="contents-action-button" @click="registerCategoryForm.modal = true">
                 <h2>辞書を追加</h2>
             </div>
             <router-link
@@ -144,18 +144,4 @@
 </script>
 
 <style scoped lang="scss">
-    .register-category {
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        border: 2px dotted #e2e2e2;
-        margin: 10px 0;
-
-        transition: 200ms;
-
-        &:hover {
-            background: $app-primary-focus-color;
-            border: 2px dotted $default-link-color;
-        }
-    }
 </style>

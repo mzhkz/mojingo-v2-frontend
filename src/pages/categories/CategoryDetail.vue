@@ -1,7 +1,7 @@
 <template>
     <div v-if="CATEGORY_DATA && WORD_DATA">
         <Modal :show="createReviewModal.modal" title="小テストを作成">
-            <sui-form @submit.prevent="submitCreateReview">
+            <sui-form @submit.prevent="">
                 <sui-form-fields fields="two">
                     <sui-form-field>
                         <input v-model="createReviewModal.start"
@@ -15,10 +15,32 @@
                     </sui-form-field>
                 </sui-form-fields>
                 <div class="space h30"></div>
-                <sui-button @click="createReviewModal.modal=false">キャンセル</sui-button>
-                <sui-button type="submit">上記の範囲から作成</sui-button>
+                <sui-button type="cancel" @click="createReviewModal.modal=false">キャンセル</sui-button>
+                <sui-button @click="submitCreateReview">上記の範囲から作成</sui-button>
             </sui-form>
         </Modal>
+
+        <Modal title="辞書を編集">
+            <sui-form @submit.prevent="">
+                <sui-form-fields fields="two">
+                    <sui-form-field>
+                        <input v-model="createReviewModal.start"
+                               type="number"
+                               placeholder="From ..." />
+                    </sui-form-field>
+                    <sui-form-field>
+                        <input v-model="createReviewModal.end"
+                               type="number"
+                               placeholder="To" />
+                    </sui-form-field>
+                </sui-form-fields>
+                <div class="space h30"></div>
+                <sui-button type="cancel" @click="createReviewModal.modal=false">キャンセル</sui-button>
+                <sui-button @click="submitCreateReview">上記の範囲から作成</sui-button>
+            </sui-form>
+        </Modal>
+
+
         <div class="page-header">
             <div class="category-icon">
                 <i class="fas fa-dice-d6"></i>
@@ -74,8 +96,8 @@
                 keyword: null,
                 createReviewModal: {
                     modal: false,
-                    start: null,
-                    end: null,
+                    start: "",
+                    end: "",
                 },
 
                 MAX_PAGE_SIZE: 0,
@@ -108,18 +130,17 @@
                     end: end,
                     shuffle: shuffle
                 });
-                await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
+                await this.$router.push({name: 'marking', params: {id: data.id, which: this.$store.state.authenticate.id}});
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
                     level: 0,
                     message: `${data.name}を作成しました`,
                 });
-
-                this.createReviewModal.modal = false;
             },
 
             submitCreateReview() {
+                this.createReviewModal.modal = false;
                 this.createReview(this.CATEGORY_DATA.id, {
                     start: this.createReviewModal.start,
                     end: this.createReviewModal.end,

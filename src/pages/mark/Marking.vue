@@ -58,6 +58,7 @@
             },
 
             async postResult({target, result}) {
+                await this.$store.dispatch('alert/CLEAR_ALERT');
                 const {data, message} =
                     await this.$WORDLINKAPI
                         .post(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/let/mark/${this.MARKER_ID}`, {
@@ -65,14 +66,13 @@
                         result: result,
                     });
                 if (data === "finished") {
-                    this.$router.push(
-                        {
-                            name: 'review',
-                            params: {
-                                id: this.$route.params["id"],
-                                which: this.$route.params["which"],
-                            }
-                        })
+                    this.$router.replace({
+                        name: 'review',
+                        params: {
+                            id: this.$route.params["id"],
+                            which: this.$route.params["which"],
+                        }
+                    })
                 } else {
                     this.QUESTION = data;
                     this.MARKER_WORD_ID = data.wordId;

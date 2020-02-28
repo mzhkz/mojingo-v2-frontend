@@ -9,8 +9,8 @@
         <div class="review-lower-contents">
             <div>
                 <h3>正答率
-                    <span class="correct">{{ correct }}</span> / <span class="correct-and-incorrect">{{ all}}　</span>
-                    <span class="review-finished">
+                    <span class="correct">{{ correct }}</span> / <span class="correct-and-incorrect">{{ all }}　</span>
+                    <span v-if="finished" class="review-finished">
                         　<i class="fas fa-check"></i>
                     </span>
                 </h3>
@@ -31,6 +31,7 @@
             correct: Number,
             all: Number,
             percent: Number,
+            finished: Boolean,
         }
     }
 </script>

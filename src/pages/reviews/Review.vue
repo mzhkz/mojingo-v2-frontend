@@ -13,6 +13,11 @@
             </div>
         </div>
         <div class="page-contents">
+            <div v-if="REVIEW_DATA.review.entries.length !== REVIEW_DATA.review.answers.length"
+                 class="contents-action-button"
+                 @click="$router.push({name: 'marking', params: {id: REVIEW_DATA.review.id, which: $store.state.authenticate.id}})">
+                <h2>続きから回答を開始する</h2>
+            </div>
             <div class="answers">
                 <h2>小テスト結果</h2>
                 <WordCard v-for="answer in REVIEW_DATA.review.answers"
@@ -22,7 +27,10 @@
                           :number="answer.word.number"
                           :borderColor="judgeColor(judgeCorrect(answer))"/>
                 <div class="review-finished">
-                    <sui-button @click="$router.push({ name: 'reviews', params: { which: 'me'}})">復習テストを完了する</sui-button>
+                    <sui-button :disabled="REVIEW_DATA.review.finished || REVIEW_DATA.review.entries.length !== REVIEW_DATA.review.answers.length"
+                                @click="submitFinished">
+                        復習テストを完了する
+                    </sui-button>
                 </div>
             </div>
         </div>
@@ -47,6 +55,22 @@
                     await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
                 this.REVIEW_DATA = data;
                 this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`)
+            },
+
+            async postFinished() {
+                const {data, message} =
+                    await this.$WORDLINKAPI.post(`/reviews/me/${this.$route.params["id"]}/finished`);
+                this.REVIEW_DATA.review.finished = true;
+                // await this.$router.push({ name: 'reviews', params: { which: 'me'}});
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${this.REVIEW_DATA.review.name}の復習が完了しました！お疲れさまです！`,
+                });
+            },
+
+            submitFinished() {
+              this.postFinished();
             },
 
             judgeCorrect(answer) {

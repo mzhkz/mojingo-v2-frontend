@@ -43,3 +43,18 @@ a {
   text-align: center;
   color: #637282;
 }
+
+.contents-action-button {
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  border: 2px dotted #e2e2e2;
+  margin: 10px 0;
+
+  transition: 200ms;
+
+  &:hover {
+    background: $app-primary-focus-color;
+    border: 2px dotted $default-link-color;
+  }
+}

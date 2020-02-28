@@ -154,7 +154,7 @@
 
 
         <div class="members">
-            <div class="register-user" @click="registerUserForm.modal = true">
+            <div class="contents-action-button" @click="registerUserForm.modal = true">
                 <h2>ユーザーを追加</h2>
             </div>
             <div v-for="user in users" :key="user.id" class="user-card">
@@ -267,6 +267,7 @@
                     level: 0,
                     message: `${username}を更新しました`,
                 });
+                this.fetchData();
             },
 
             /** Register a user */
@@ -284,6 +285,7 @@
                     level: 0,
                     message: `${username}を登録しました`,
                 });
+                this.fetchData();
             },
 
             async resetPasswordUser(id, {password}) {
@@ -322,7 +324,6 @@
                     password: this.registerUserForm.password
                 });
                 this.registerUserForm.modal = false;
-                this.fetchData();
             },
 
             openEditBasicInfo(user) {
@@ -345,7 +346,6 @@
                 });
 
                 this.editBasicInfoForm.modal = false;
-                this.fetchData(); //Data fetching..
             },
 
             openResetPassword(user) {
@@ -393,21 +393,6 @@
 </script>
 
 <style scoped lang="scss">
-
-    .register-user {
-        padding: 20px;
-        text-align: center;
-        cursor: pointer;
-        border: 2px dotted #e2e2e2;
-        margin: 10px 0;
-
-        transition: 200ms;
-
-        &:hover {
-            background: $app-primary-focus-color;
-            border: 2px dotted $default-link-color;
-        }
-    }
 
     .user-card {
         padding: 20px;

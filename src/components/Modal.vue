@@ -1,9 +1,9 @@
 <template>
-    <div class="modal-wrapper" :class="{ active: active}">
+    <div class="modal-wrapper" :class="{ active: active }">
         <div class="modal-content">
             <div class="modal-tools-bar">
                 <div class="space"></div>
-                <button @click="active = !active">
+                <button>
                     <i class="fas fa-times"></i>
                 </button>
             </div>

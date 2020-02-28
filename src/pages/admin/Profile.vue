@@ -19,18 +19,19 @@
             <div class="reviews">
                 <h2>小テスト結果</h2>
                 <router-link
-                        v-for="(data, index) in result.reviews"
-                        :key="data.review.id"
-                        :to="{name: 'review', params: {id: data.review.id}}">
-                    <ReviewCard
-                            :name="data.review.name"
-                            :description="data.review.description"
-                            :correct="data.correctSize"
-                            :all="data.incorrectSize"
-                    />
+                v-for="(data, index) in result.reviews"
+                :key="data.review.id"
+                :to="{name: 'review', params: {id: data.review.id}}">
+                <ReviewCard
+                        :name="data.review.name"
+                        :description="`${data.createAgo}に作成`"
+                        :correct="data.correctSize"
+                        :all="data.incorrectSize + data.correctSize"
+                        :finished="data.review.finished"
+                />
                 </router-link>
                 <div class="read-more">
-                    <sui-button @click="$router.push({ name: 'reviews', params: { which: 'me'}})">小テスト一覧を見る</sui-button>
+                    <sui-button @click="$router.push({ name: 'reviews', params: { which: $route.params['id']}})">小テスト一覧を見る</sui-button>
                 </div>
             </div>
         </div>
