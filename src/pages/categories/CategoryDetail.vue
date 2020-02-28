@@ -20,23 +20,23 @@
             </sui-form>
         </Modal>
 
-        <Modal title="辞書を編集">
+        <Modal :show="editCategoryModal.modal" title="辞書を編集">
             <sui-form @submit.prevent="">
-                <sui-form-fields fields="two">
-                    <sui-form-field>
-                        <input v-model="createReviewModal.start"
-                               type="number"
-                               placeholder="From ..." />
-                    </sui-form-field>
-                    <sui-form-field>
-                        <input v-model="createReviewModal.end"
-                               type="number"
-                               placeholder="To" />
-                    </sui-form-field>
-                </sui-form-fields>
+                <sui-form-field>
+                    <label>辞書名</label>
+                    <input v-model="editCategoryModal.name"
+                           type="text"
+                           placeholder="辞書名" />
+                </sui-form-field>
+                <sui-form-field>
+                    <label>説明</label>
+                    <input v-model="editCategoryModal.description"
+                           type="text"
+                           placeholder="この辞書の説明" />
+                </sui-form-field>
                 <div class="space h30"></div>
-                <sui-button type="cancel" @click="createReviewModal.modal=false">キャンセル</sui-button>
-                <sui-button @click="submitCreateReview">上記の範囲から作成</sui-button>
+                <sui-button type="cancel" @click="editCategoryModal.modal=false">キャンセル</sui-button>
+                <sui-button @click="submitUpdateCategory">更新</sui-button>
             </sui-form>
         </Modal>
 
@@ -54,9 +54,16 @@
             </div>
         </div>
         <div class="page-contents">
+            <div v-if="$store.state.authenticate.level >= 2"
+                 class="contents-action-button"
+                 @click="openUpdateCategory">
+                <h2>辞書を編集</h2>
+            </div>
             <div class="words">
                 <div class="tools-bar">
-                    <Search v-model="keyword" placeholder="単語を検索"/>
+                    <Search v-model="keyword"
+                            @submit="handleChangeWord"
+                            placeholder="単語を検索"/>
                     <div class="commands-wrapper">
                         <button @click="createReviewModal.modal = true">
                             <i class="fas fa-pen"></i>
@@ -99,6 +106,11 @@
                     start: "",
                     end: "",
                 },
+                editCategoryModal: {
+                    modal: false,
+                    name: null,
+                    description: null,
+                },
 
                 MAX_PAGE_SIZE: 0,
                 CATEGORY_DATA: null,
@@ -109,7 +121,7 @@
             async fetchCategory() {
                 const {data, message} = await this.$WORDLINKAPI.get(`/categories/view/${this.$route.params["id"]}`);
                 this.CATEGORY_DATA = data.category;
-                this.MAX_PAGE_SIZE = data.maxPageSize
+                await this.$store.dispatch('application/SET_TITLE', `辞書「${this.CATEGORY_DATA.name}」`)
             },
 
             async fetchWords() {
@@ -120,7 +132,22 @@
                             keyword: this.keyword
                         }
                     });
-                this.WORD_DATA = data;
+                this.WORD_DATA = data.body;
+                this.MAX_PAGE_SIZE = data.pageSize;
+            },
+
+            async updateCategory({name, description}) {
+                const {data, message} = await this.$WORDLINKAPI
+                    .post(`/categories/view/${this.$route.params["id"]}/update`, {
+                        name: name,
+                        description: description,
+                    });
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `更新しました`,
+                });
+                await this.fetchCategory();
             },
 
             async createReview(categoryId, {start, end, shuffle}) {
@@ -139,6 +166,22 @@
                 });
             },
 
+            submitUpdateCategory() {
+                this.editCategoryModal.modal = false;
+                this.updateCategory({
+                    name: this.editCategoryModal.name,
+                    description: this.editCategoryModal.description,
+                })
+            },
+
+            openUpdateCategory() {
+                this.editCategoryModal = {
+                    modal: true,
+                    name: this.CATEGORY_DATA.name,
+                    description: this.CATEGORY_DATA.description
+                };
+            },
+
             submitCreateReview() {
                 this.createReviewModal.modal = false;
                 this.createReview(this.CATEGORY_DATA.id, {
@@ -146,6 +189,10 @@
                     end: this.createReviewModal.end,
                     shuffle: true,
                 })
+            },
+
+            handleChangeWord() {
+                this.page = 1;
             }
         },
 
@@ -158,6 +205,11 @@
             page() {
               this.fetchWords();
             },
+
+            keyword() {
+                this.fetchWords();
+                this.page = 1
+            }
         }
     }
 </script>

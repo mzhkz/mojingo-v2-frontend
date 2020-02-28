@@ -24,7 +24,7 @@ const routes = [
     {
         name: 'categories',
         category: 'categories',
-        title: '単語カテゴリー',
+        title: '辞書一覧',
         path: '/categories',
         layout: 'default',
         level: 1,
@@ -35,6 +35,7 @@ const routes = [
     {
         name: 'category_detail',
         category: 'categories',
+        title: '辞書',
         path: '/categories/:id',
         layout: 'default',
         level: 1,

@@ -54,7 +54,7 @@
                 const {data, message} =
                     await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
                 this.REVIEW_DATA = data;
-                this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`)
+                await this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`)
             },
 
             async postFinished() {
