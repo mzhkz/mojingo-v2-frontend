@@ -6,7 +6,7 @@
                :to="{name: 'review', params: {id: data.review.id}}">
            <ReviewCard
                    :name="data.review.name"
-                   :description="data.review.description"
+                   :description="`${data.createAgo}に作成`"
                    :correct="data.correctSize"
                    :all="data.incorrectSize"
            />

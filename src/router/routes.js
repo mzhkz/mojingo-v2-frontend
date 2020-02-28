@@ -56,6 +56,7 @@ const routes = [
     {
         name: 'review',
         category: 'review',
+        title: '小テスト',
         path: '/reviews/:which/:id',
         layout: 'default',
         level: 1,

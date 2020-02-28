@@ -1,23 +1,26 @@
 <template>
-    <div>
+    <div v-if="REVIEW_DATA">
         <div class="page-header">
             <div class="review-icon pass">
                 <i class="fas fa-undo-alt"></i>
             </div>
             <div class="review-information">
                 <h2>
-                    1200-1900
+                    {{REVIEW_DATA.review.name}}
                 </h2>
-                <p>小テストの結果です</p>
-                <p class="created-date"><i class="fas fa-history"></i>  14日前に作成</p>
+                <p>{{REVIEW_DATA.review.description}}</p>
+                <p class="created-date"><i class="fas fa-history"></i>  {{REVIEW_DATA.createAgo}}に作成</p>
             </div>
         </div>
         <div class="page-contents">
             <div class="answers">
                 <h2>小テスト結果</h2>
-                <WordCard name="admire" mean="共感する；感心する" :number="1900" borderColor="#87e2ab"/>
-                <WordCard name="admire" mean="共感する；感心する" :number="1901" borderColor="#87e2ab"/>
-                <WordCard name="admire" mean="共感する；感心する" :number="1902" borderColor="#e29887"/>
+                <WordCard v-for="answer in REVIEW_DATA.review.answers"
+                          :key="answer.id"
+                          :name="answer.word.name"
+                          :mean="answer.word.mean"
+                          :number="answer.word.number"
+                          :borderColor="judgeColor(judgeCorrect(answer))"/>
                 <div class="review-finished">
                     <sui-button @click="$router.push({ name: 'reviews', params: { which: 'me'}})">復習テストを完了する</sui-button>
                 </div>
@@ -32,6 +35,34 @@
         name: "Review",
         components: {
             WordCard,
+        },
+        data() {
+            return {
+                REVIEW_DATA: null,
+            }
+        },
+        methods: {
+            async fetchData() {
+                const {data, message} =
+                    await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
+                this.REVIEW_DATA = data;
+                this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`)
+            },
+
+            judgeCorrect(answer) {
+                return answer.histories.filter(history => history.impactReviewId === this.REVIEW_DATA.review.id)[0].result === 1
+            },
+
+            judgeColor(judgement) {
+                if (judgement) {
+                    return "#87e2ab"
+                }
+                return "#e29887"
+            }
+        },
+
+        beforeMount() {
+            this.fetchData()
         }
     }
 </script>

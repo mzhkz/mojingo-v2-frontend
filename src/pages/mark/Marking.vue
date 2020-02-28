@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div v-if="QUESTION">
         <div class="marking-sheet">
            <h2>
-               <span class="number">問1.</span>
-               decade
+               <span class="number">問{{QUESTION.number}}.</span>
+               {{QUESTION.name}}
                <span class="speech">
                    <i class="fas fa-volume-up"></i>
                </span>
@@ -15,13 +15,15 @@
 
             <div v-show="showAnswer" class="answer-wrapper">
                 <div class="answer-box">
-                    <p>を決める；決心する</p>
+                    <p>{{QUESTION.mean}}</p>
                 </div>
                 <div class="answer-button-field">
-                    <button class="submit-button correct">
+                    <button @click="submitAnswer({target: MARKER_WORD_ID, result: 1})"
+                            class="submit-button correct">
                         正解
                     </button>
-                    <button class="submit-button">
+                    <button @click="submitAnswer({target: MARKER_WORD_ID, result: 0})"
+                            class="submit-button">
                         不正解
                     </button>
                 </div>
@@ -36,7 +38,72 @@
         data() {
             return {
                 showAnswer: false,
+
+                MARKER_ID: null,
+                MARKER_WORD_ID: null,
+                MARKER_CORRECT_REPRESENT: null,
+                MARKER_INCORRECT_REPRESENT: null,
+                QUESTION: null,
             }
+        },
+        methods: {
+            async fetchData() {
+              const {data, message} =
+                  await this.$WORDLINKAPI.post(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/let`);
+                this.QUESTION = data;
+                this.MARKER_ID = data.id;
+                this.MARKER_WORD_ID = data.wordId;
+                this.MARKER_CORRECT_REPRESENT = data.representCorrect;
+                this.MARKER_INCORRECT_REPRESENT = data.representIncorrect;
+            },
+
+            async postResult({target, result}) {
+                const {data, message} =
+                    await this.$WORDLINKAPI
+                        .post(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/let/mark/${this.MARKER_ID}`, {
+                        target: target,
+                        result: result,
+                    });
+                if (data === "finished") {
+                    this.$router.push(
+                        {
+                            name: 'review',
+                            params: {
+                                id: this.$route.params["id"],
+                                which: this.$route.params["which"],
+                            }
+                        })
+                } else {
+                    this.QUESTION = data;
+                    this.MARKER_WORD_ID = data.wordId;
+                    this.MARKER_CORRECT_REPRESENT = data.representCorrect;
+                    this.MARKER_INCORRECT_REPRESENT = data.representIncorrect;
+                }
+            },
+
+            submitAnswer({target, result}) {
+                this.showAnswer = false;
+                switch (result) {
+                    case 1 : {
+                        this.postResult({
+                            target: target,
+                            result: this.MARKER_CORRECT_REPRESENT,
+                        });
+                        break;
+                    }
+                    case 0 : {
+                        this.postResult({
+                            target: target,
+                            result: this.MARKER_INCORRECT_REPRESENT,
+                        });
+                        break;
+                    }
+                }
+            }
+        },
+
+        beforeMount() {
+            this.fetchData()
         }
     }
 </script>
