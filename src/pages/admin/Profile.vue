@@ -21,7 +21,7 @@
                 <router-link
                 v-for="(data, index) in result.reviews"
                 :key="data.review.id"
-                :to="{name: 'review', params: {id: data.review.id}}">
+                :to="{name: 'review', params: {id: data.review.id, which: $route.params['id']}}">
                 <ReviewCard
                         :name="data.review.name"
                         :description="`${data.createAgo}に作成`"
