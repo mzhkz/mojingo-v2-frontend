@@ -62,7 +62,8 @@ const routes = [
         layout: 'default',
         level: 1,
         components: {
-            main: () => import('@/pages/reviews/Review')
+            main: () => import('@/pages/reviews/Review'),
+            print: () => import('@/pages/reviews/Print'),
         }
     },
     {

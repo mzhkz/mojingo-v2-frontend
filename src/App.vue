@@ -33,28 +33,11 @@
     }
 </script>
 <style lang="scss">
-    #main-display {
-
-    }
 
     #print-display {
         display: none;
         background-color: #fff;
 
-        @media print {
-            @page {
-                margin: 8.0mm 2cm;
-                size: A4 portrait; //縦向き
-            }
-
-            #MainDisplay {
-                display: none;
-            }
-
-            #PrintDisplay {
-                display: block;
-            }
-        }
     }
 
     #display-mask {
@@ -71,6 +54,25 @@
         z-index: 4;
 
         &.active {
+            display: block;
+        }
+    }
+
+    @media print {
+        @page {
+            margin: 8.0mm 2cm;
+            size: A4 portrait; //縦向き
+        }
+
+        #display-mask {
+            display: none;
+        }
+
+        #main-display {
+            display: none;
+        }
+
+        #print-display {
             display: block;
         }
     }

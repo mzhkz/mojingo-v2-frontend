@@ -38,6 +38,7 @@
         data() {
             return {
                 showAnswer: false,
+                onlyRecord: false,
 
                 MARKER_ID: null,
                 MARKER_WORD_ID: null,
@@ -55,6 +56,14 @@
                 this.MARKER_WORD_ID = data.wordId;
                 this.MARKER_CORRECT_REPRESENT = data.representCorrect;
                 this.MARKER_INCORRECT_REPRESENT = data.representIncorrect;
+
+                if (this.isRecodingOtherUser) {
+                    await this.$store.dispatch('alert/PUSH_ALERT', {
+                        icon: "",
+                        level: 2,
+                        message: `この小テストのオーナーは${data.owner.username}さんです。`,
+                    });
+                }
             },
 
             async postResult({target, result}) {
@@ -82,7 +91,7 @@
             },
 
             submitAnswer({target, result}) {
-                this.showAnswer = false;
+                this.showAnswer = this.onlyRecord;
                 switch (result) {
                     case 1 : {
                         this.postResult({
@@ -103,7 +112,22 @@
         },
 
         beforeMount() {
+            this.onlyRecord = this.$route.query['onlyRecord'] !== undefined;
+            this.showAnswer = this.onlyRecord;
+            if (this.onlyRecord) {
+                this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 2,
+                    message: `現在、回答記録モードです`,
+                });
+            }
             this.fetchData()
+        },
+
+        computed: {
+            isRecodingOtherUser() {
+                return this.QUESTION.owner.id !== this.$store.state.authenticate.id
+            }
         }
     }
 </script>

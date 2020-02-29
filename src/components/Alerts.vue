@@ -33,7 +33,7 @@
         }
 
         &.level-2 {
-            background: #4CAF50!important
+            background: #ff9800!important
         }
 
         &.level-3 {
@@ -42,7 +42,7 @@
 
         h2 {
             font-size: 15px;
-            color: $app-content-color;
+            color: #ffffff;
             font-weight: bold;
         }
     }

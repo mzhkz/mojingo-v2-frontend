@@ -7,6 +7,7 @@ const store = {
         currentPageTitle: "",
         isMasking: false,
         isDisableScroll: false,
+        reservedReview: null,
     },
 
     mutations: {
@@ -33,6 +34,10 @@ const store = {
         SET_DISABLE_SCROLL(state, disable) {
             state.isDisableScroll = disable;
         },
+
+        PRESET_REVIEW(state, review) {
+            state.reservedReview = review;
+        },
     },
 
     actions: {
@@ -58,6 +63,10 @@ const store = {
 
         SET_DISABLE_SCROLL({commit}, data) {
             commit('SET_DISABLE_SCROLL', data);
+        },
+
+        PRESET_REVIEW({commit}, data) {
+            commit('PRESET_REVIEW', data);
         },
     }
 };

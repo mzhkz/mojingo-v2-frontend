@@ -9,13 +9,18 @@
                     {{REVIEW_DATA.review.name}}
                 </h2>
                 <p>{{REVIEW_DATA.review.description}}</p>
-                <p class="created-date"><i class="fas fa-history"></i>  {{REVIEW_DATA.createAgo}}に作成</p>
+                <p class="created-date">
+                    <i class="fas fa-history"></i>  {{REVIEW_DATA.createAgo}}に作成 <br>
+                </p>
+                <p class="owner-username">
+                    {{REVIEW_DATA.review.owner.username}} がオーナー
+                </p>
             </div>
         </div>
         <div class="page-contents">
             <div v-if="REVIEW_DATA.review.entries.length !== REVIEW_DATA.review.answers.length"
                  class="contents-action-button"
-                 @click="$router.push({name: 'marking', params: {id: REVIEW_DATA.review.id, which: $store.state.authenticate.id}})">
+                 @click="$router.push({name: 'marking', params: {id: REVIEW_DATA.review.id, which: $route.params['which']}})">
                 <h2>続きから回答を開始する</h2>
             </div>
             <div class="answers">
@@ -54,7 +59,16 @@
                 const {data, message} =
                     await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
                 this.REVIEW_DATA = data;
+                await this.$store.dispatch('application/PRESET_REVIEW', data.review);
                 await this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`)
+
+                if (this.isRecodingOtherUser) {
+                    await this.$store.dispatch('alert/PUSH_ALERT', {
+                        icon: "",
+                        level: 2,
+                        message: `この小テストのオーナーは${this.REVIEW_DATA.review.owner.username}さんです。`,
+                    });
+                }
             },
 
             async postFinished() {
@@ -87,6 +101,12 @@
 
         beforeMount() {
             this.fetchData()
+        },
+
+        computed: {
+            isRecodingOtherUser() {
+                return this.REVIEW_DATA.review.owner.id !== this.$store.state.authenticate.id
+            }
         }
     }
 </script>
@@ -126,8 +146,13 @@
                 margin: 0;
 
                 &.created-date {
-                    margin: 12px 0 0 0;
+                    margin: 10px 0 0 0;
                     font-size: .87rem;
+                }
+
+                &.owner-username {
+                    margin: 4px 0 0 0;
+                    font-size: .89rem;
                 }
             }
         }

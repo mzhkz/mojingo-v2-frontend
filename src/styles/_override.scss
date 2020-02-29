@@ -1,0 +1,17 @@
+body {
+  background: $app-primary-color;
+  overflow-x: hidden;
+  color: $default-letter-color;
+
+  font-family: $default-font-family;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: unset;
+  color: $default-letter-color;
+}
+
+a {
+  text-decoration: none;
+  color: $default-link-color;
+}
