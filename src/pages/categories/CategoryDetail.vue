@@ -157,7 +157,7 @@
                     end: end,
                     shuffle: shuffle
                 });
-                await this.$router.push({name: 'marking', params: {id: data.id, which: this.$store.state.authenticate.id}});
+                await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",

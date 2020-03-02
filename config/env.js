@@ -9,6 +9,5 @@ module.exports = {
         APP_ENV_DEBUG: !IS_PRODUCTION,
         APP_VERSION: config.system.version,
         API_BASE_URL: IS_PRODUCTION ? config.system.api.prod.base : config.system.api.dev.base,
-        API_OAUTH_REDIRECT_HOST:  IS_PRODUCTION ? config.system.api.prod.oauth_redirect : `http://${config.dev.host}:${config.dev.port}`
     },
 };

@@ -387,7 +387,7 @@
         },
 
         beforeMount() {
-            this.fetchData()
+            this.fetchData();
         }
     }
 </script>

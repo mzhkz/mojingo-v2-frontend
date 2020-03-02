@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     system: {
-        version: 'PRE ALPHA 1.1',
+        version: 'PRE ALPHA 0.1',
         api: {
             dev: {
                 base: "http://localhost:3000",
