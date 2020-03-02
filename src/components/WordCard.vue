@@ -57,6 +57,7 @@
         padding: 8px;
         border: 2px dotted #e2e2e2;
         background: $app-primary-color;
+        color: #c3c3c3;
 
         p {
             font-size: 13px;
