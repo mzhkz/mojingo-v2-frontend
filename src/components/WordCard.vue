@@ -11,7 +11,7 @@
            </div>
        </div>
         <div v-if="category" class="word-provide-by">
-            <p>> でるじゅん</p>
+            <p>> {{category}}</p>
         </div>
     </div>
 </template>
