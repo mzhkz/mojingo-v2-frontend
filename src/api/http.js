@@ -60,6 +60,10 @@ const http = {
             const responseData = response.data;
             const {result, message, data} = responseData;
             if (result !== 200) {
+                if (result === 401) {
+                    store.dispatch('authenticate/UPDATE', {});
+                    router.push({ name: 'login'});
+                }
                 store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 3, message: message});
                 return Promise.reject();
             }

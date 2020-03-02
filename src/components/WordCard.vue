@@ -1,12 +1,17 @@
 <template>
     <div class="word-card">
         <span class="concept-line" :style="{background: borderColor}"/>
-        <div class="word-description-wrap">
-            <h2>{{ name }}</h2>
-            <p>{{ mean}}</p>
-        </div>
-        <div class="word-keyring-wrap">
-            {{number}}
+       <div class="word-basic-information">
+           <div class="word-description-wrap">
+               <h2>{{ name }}</h2>
+               <p>{{ mean}}</p>
+           </div>
+           <div class="word-keyring-wrap">
+               {{number}}
+           </div>
+       </div>
+        <div v-if="category" class="word-provide-by">
+            <p>> でるじゅん</p>
         </div>
     </div>
 </template>
@@ -18,6 +23,7 @@
             name: {type: String},
             mean: {type: String},
             number: {type: Number},
+            category: {type: String},
             borderColor: {type: String},
             clickHandle: {type: Function},
         }
@@ -25,12 +31,9 @@
 </script>
 
 <style scoped lang="scss">
+
     .word-card {
         position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 82px;
         background: $app-content-color;
         overflow: hidden;
         box-shadow: 0 0px 7px 1px #efefef;
@@ -48,22 +51,28 @@
             width: 3px;
             background: $app-primary-focus-color;
         }
+    }
+
+    .word-provide-by {
+        padding: 8px;
+        border: 2px dotted #e2e2e2;
+        background: $app-primary-color;
+
+        p {
+            font-size: 13px;
+        }
+    }
+
+    .word-basic-information {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 82px;
 
         .word-description-wrap {
             width: 100%;
             padding: 0 40px 5px 23px;
-            font-family: system-ui,
-                /* macOS 10.11-10.12 */ -apple-system,
-                /* Windows 6+ */ Segoe UI,
-                /* Android 4+ */ Roboto,
-                /* Ubuntu 10.10+ */ Ubuntu,
-                /* Gnome 3+ */ Cantarell,
-                /* KDE Plasma 5+ */ Noto Sans,
-                /* fallback */ sans-serif,
-                /* macOS emoji */ "Apple Color Emoji",
-                /* Windows emoji */ "Segoe UI Emoji",
-                /* Windows emoji */ "Segoe UI Symbol",
-                /* Linux emoji */ "Noto Color Emoji";
+            font-family: $default-font-family;
 
             h2 {
                 font-weight: unset;

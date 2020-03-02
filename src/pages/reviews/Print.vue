@@ -49,7 +49,7 @@
 <style scoped lang="scss">
 
     .question-print-logo {
-        width: 130px;
+        width: 110px;
         padding: 10px 0;
     }
 

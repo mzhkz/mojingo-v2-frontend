@@ -8,8 +8,8 @@ module.exports = {
                 base: "http://localhost:3000",
             },
             prod: {
-                base: "https://api.mojingo.me",
-                oauth_redirect: "https://app.mojingo.me",
+                base: "https://api.wordlink.biz",
+                oauth_redirect: "https://app.wordlink.biz",
             }
         }
     },

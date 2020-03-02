@@ -8,6 +8,9 @@
                @blur="isFocusing = false"
                :placeholder="placeholder"
                class="search-input"/>
+        <div v-if="internalValue" @click="internalValue = null" class="close-icon">
+            <i class="fas fa-times"/>
+        </div>
     </div>
 </template>
 
@@ -55,6 +58,11 @@
 
         .search-icon {
            padding: 12px 20px;
+        }
+
+        .close-icon {
+            padding: 12px 20px;
+            cursor: pointer;
         }
 
         .search-input {
