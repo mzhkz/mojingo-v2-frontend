@@ -34,6 +34,8 @@ const router = new Router({
             await store.dispatch('alert/CLEAR_ALERT');
             await store.dispatch('application/SET_TITLE', route.title);
             await store.dispatch('application/SET_LAYOUT', route.layout);
+            await store.dispatch('application/SET_CATEGORY', route.category);
+            await store.dispatch('application/SET_BROWSING_MENU', false);
             return goLogin(to, from, next, route.level);
         },
     })),

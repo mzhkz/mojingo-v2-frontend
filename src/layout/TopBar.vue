@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header/>
+        <Header :visibleSideBar="false"/>
         <div class="app-content-grid">
             <sui-container text>
                 <Alerts/>

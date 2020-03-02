@@ -5,33 +5,41 @@
                 <div class="logo">
                     <img :src="logoImage4" class="logo-img">
                 </div>
-                <div @click="handleClick">
-                    <i class="fas fa-align-justify"></i>
+                <div v-if="visibleSideBar"
+                     class="hamburger-menu"
+                     @click="handleClick">
+                    <i class="fas fa-align-justify"/>
+                </div>
+                <div class="print-menu"
+                     @click="print">
+                    <i class="fas fa-print"/>
                 </div>
             </div>
         </div>
-        <div class="app-sidebar-wrapper">
-            <div class="app-sidebar-contain" :class="{ active: !browsing }">
+        <div v-if="visibleSideBar" class="app-sidebar-wrapper">
+            <div class="app-sidebar-contain" :class="{ active: browsing }">
                 <div class="logo">
                     <img class="logo-img" :src="logoImage3">
                 </div>
                 <ul>
                     <router-link :to="{ name: 'dashboard', params: { }}">
-                        <li class="active">ダッシュボード</li>
+                        <li :class="{ active: currentPageCategory === 'dashboard'}">ダッシュボード</li>
                     </router-link>
                     <router-link :to="{ name: 'reviews', params: { which: 'me' }}">
-                        <li>小テスト</li>
+                        <li :class="{ active: currentPageCategory === 'reviews'}">小テスト</li>
                     </router-link>
                     <router-link :to="{ name: 'categories', params: {}}">
-                        <li>単語カテゴリー</li>
+                        <li :class="{ active: currentPageCategory === 'categories'}">単語カテゴリー</li>
                     </router-link>
                     <router-link :to="{name: 'profile', params: { id: 'me'}}">
-                        <li>
+                        <li :class="{ active: currentPageCategory === 'profile'}">
                             プロフィール
                         </li>
                     </router-link>
                     <router-link :to="{name: 'admin'}">
-                        <li v-if="$store.state.authenticate.level >= 2" class="bound">
+                        <li v-if="$store.state.authenticate.level >= 2"
+                            :class="{ active: currentPageCategory === 'admin'}"
+                            class="bound">
                             <i class="fas fa-lock"></i>　管理者
                         </li>
                     </router-link>
@@ -62,9 +70,13 @@
                 logoImage4: LogoImage4,
             }
         },
+        props: {
+            visibleSideBar: {type: Boolean, default: true },
+        },
         computed: {
             ...mapState({
-                browsing: state => state.application.isBrowsingMenu // このstateはグローバル。名前空間を掘る。
+                browsing: state => state.application.isBrowsingMenu, // このstateはグローバル。名前空間を掘る。
+                currentPageCategory: state => state.application.currentPageCategory,
             })
         },
         methods: {
@@ -81,7 +93,10 @@
                 this.$store.dispatch('authenticate/RESET');
                 this.$router.push({name: "login"});
                 this.$store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 2, message: "ログアウトしました。"});
+            },
 
+            print() {
+                window.print();
             }
         }
     }
@@ -114,7 +129,12 @@
         background: $app-primary-color;
         padding: 0 35px 0 0;
 
+        @include tab() {
+            padding: 0 25px 0 0;
+        }
+
         .app-header-contain {
+            position: relative;
             height: 60px;
             width: 100%;
             display: flex;
@@ -124,6 +144,17 @@
             .logo {
                text-align: left;
                 padding-left: 30px;
+            }
+
+            .hamburger-menu {
+                display: none;
+            }
+
+
+            @include tab() {
+                .hamburger-menu {
+                    display: block;
+                }
             }
         }
     }
@@ -135,16 +166,21 @@
             width: 240px;
             height: 100vh;
             background: $app-primary-content-color;
-            transform: translateX(-240px);
+            transform: translateX(0);
             transition: 100ms transform;
+
+            @include tab() {
+                transform: translateX(-240px);
+
+                &.active {
+                    transform: translateX(0);
+                }
+            }
 
             .logo {
                 color: $app-primary-color;
             }
 
-            &.active {
-                transform: translateX(0);
-            }
 
             .logo-space {
                 height: 60px;

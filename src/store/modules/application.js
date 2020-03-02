@@ -5,6 +5,7 @@ const store = {
         isFetching: false,
         renderLayout: "Default",
         currentPageTitle: "",
+        currentPageCategory: "",
         isMasking: false,
         isDisableScroll: false,
         reservedReview: null,
@@ -25,6 +26,10 @@ const store = {
 
         SET_TITLE(state, title) {
             state.currentPageTitle = title;
+        },
+
+        SET_CATEGORY(state, category) {
+            state.currentPageCategory = category;
         },
 
         SET_MASK(state, mask) {
@@ -55,6 +60,10 @@ const store = {
 
         SET_TITLE({commit}, data) {
             commit('SET_TITLE', data);
+        },
+
+        SET_CATEGORY({commit}, data) {
+            commit('SET_CATEGORY', data);
         },
 
         SET_MASK({commit}, data) {
