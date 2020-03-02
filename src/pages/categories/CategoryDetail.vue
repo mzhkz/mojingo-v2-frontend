@@ -66,7 +66,7 @@
                             placeholder="単語を検索"/>
                     <div class="commands-wrapper">
                         <button @click="createReviewModal.modal = true">
-                            <i class="fas fa-pen"></i>
+                            <i class="fas fa-play"></i>
                         </button>
                     </div>
                 </div>
