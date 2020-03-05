@@ -33,8 +33,7 @@ const http = {
             store.dispatch('authenticate/UPDATE', cache.auth);
         }
 
-        // Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
-        Vue.WORDLINKAPI.defaults.baseURL = "http://localhost:9000";
+        Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
         Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
         Vue.WORDLINKAPI.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         Vue.WORDLINKAPI.defaults.withCredentials = true;
@@ -71,7 +70,7 @@ const http = {
 
         }, (error => {
             if (!this.isInvalidToken(error)) {
-                store.dispatch('alert/PUSH_ALERT', error);
+                store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 3, message: error});
             } else {
                 store.dispatch('authenticate/UPDATE', { active: false });
                 router.push({ name: 'login'});

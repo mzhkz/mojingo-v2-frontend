@@ -2,6 +2,7 @@
   "name": "wordlink-frontend",
   "scripts": {
     "start": "npx webpack-serve --config ./build/webpack/webpack.dev.js",
+    "server": "node server/wordlink-frontend_app.js",
     "build:dev": "cross-env NODE_ENV=development webpack --progress --profile --config ./build/webpack/webpack.dev.js",
     "build:prod": "cross-env NODE_ENV=production webpack --progress --profile --config ./build/webpack/webpack.prod.js",
     "build:prod:analytics": "cross-env NODE_ENV=production webpack --progress --profile --config ./build/webpack/webpack.prod.analytics.js"

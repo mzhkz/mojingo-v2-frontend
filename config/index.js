@@ -5,11 +5,10 @@ module.exports = {
         version: 'PRE ALPHA 0.1',
         api: {
             dev: {
-                base: "http://localhost:3000",
+                base: "http://localhost:9000",
             },
             prod: {
-                base: "https://api.wordlink.biz",
-                oauth_redirect: "https://app.wordlink.biz",
+                base: "https://wordlink-demo-b2.mozhok.me",
             }
         }
     },
@@ -27,5 +26,9 @@ module.exports = {
         port: 3000,
         autoOpenBrowser: true,
         cssSourceMap: true,
+    },
+    express: {
+        host: '0.0.0.0',
+        port: 8888,
     }
 };
