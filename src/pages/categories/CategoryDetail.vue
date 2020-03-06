@@ -34,9 +34,26 @@
                            type="text"
                            placeholder="この辞書の説明" />
                 </sui-form-field>
+                <p @click="openDeleteCategory">辞書を削除</p>
                 <div class="space h30"></div>
                 <sui-button type="cancel" @click="editCategoryModal.modal=false">キャンセル</sui-button>
                 <sui-button @click="submitUpdateCategory">更新</sui-button>
+            </sui-form>
+        </Modal>
+
+
+        <Modal :show="deleteCategoryModal.modal" title="辞書を削除">
+            <sui-form @submit.prevent="">
+                <sui-form-field>
+                    <label>確認</label>
+                    <input v-model="deleteCategoryModal.name"
+                           type="text"
+                           placeholder="確認のため、辞書名を入力してください。" />
+                </sui-form-field>
+                <p>関連づいた単語も削除されます</p>
+                <div class="space h30"></div>
+                <sui-button type="cancel" @click="deleteCategoryModal.modal=false">キャンセル</sui-button>
+                <sui-button @click="submitDeleteCategory" color="red">Delete</sui-button>
             </sui-form>
         </Modal>
 
@@ -50,7 +67,7 @@
                     {{CATEGORY_DATA.name}}
                 </h2>
                 <p>{{CATEGORY_DATA.description}}</p>
-                <p class="created-date"><i class="fas fa-history"></i> 日前に作成</p>
+                <p class="created-date"><i class="fas fa-history"/> {{CREATED_AGO}}に作成</p>
             </div>
         </div>
         <div class="page-contents">
@@ -66,7 +83,7 @@
                             placeholder="単語を検索"/>
                     <div class="commands-wrapper">
                         <button @click="createReviewModal.modal = true">
-                            <i class="fas fa-play"></i>
+                            <i class="fas fa-play"/>
                         </button>
                     </div>
                 </div>
@@ -112,8 +129,14 @@
                     description: null,
                 },
 
+                deleteCategoryModal: {
+                    modal: false,
+                    confirm: null,
+                },
+
                 MAX_PAGE_SIZE: 0,
                 CATEGORY_DATA: null,
+                CREATED_AGO: null,
                 WORD_DATA: null,
             }
         },
@@ -121,6 +144,7 @@
             async fetchCategory() {
                 const {data, message} = await this.$WORDLINKAPI.get(`/categories/view/${this.$route.params["id"]}`);
                 this.CATEGORY_DATA = data.category;
+                this.CREATED_AGO = data.createdAgo;
                 await this.$store.dispatch('application/SET_TITLE', `辞書「${this.CATEGORY_DATA.name}」`)
             },
 
@@ -148,6 +172,18 @@
                     message: `更新しました`,
                 });
                 await this.fetchCategory();
+            },
+
+            async deleteCategory() {
+                const {data, message} = await this.$WORDLINKAPI
+                    .post(`/categories/view/${this.$route.params["id"]}/delete`, {});
+                await this.$router.push({name: 'categories'});
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${this.CATEGORY_DATA.name}を削除しました`,
+                });
             },
 
             async createReview(categoryId, {start, end, shuffle}) {
@@ -189,6 +225,29 @@
                     end: this.createReviewModal.end,
                     shuffle: true,
                 })
+            },
+
+            openDeleteCategory() {
+                this.editCategoryModal.modal = false;
+                this.deleteCategoryModal = {
+                    modal: true,
+                    withDepend: true,
+                    confirm: null,
+                };
+            },
+
+            submitDeleteCategory() {
+                this.deleteCategoryModal.modal = false;
+
+                if (this.deleteCategoryModal.name !== this.CATEGORY_DATA.name) {
+                    this.$store.dispatch('alert/PUSH_ALERT', {
+                        icon: "",
+                        level: 3,
+                        message: `辞書名が一致しません`,
+                    });
+                }　else {
+                    this.deleteCategory()
+                }
             },
 
             handleChangeWord() {

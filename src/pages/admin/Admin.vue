@@ -10,6 +10,7 @@
                                     type="text"
                                     v-model="registerUserForm.firstName"
                                     name="name_first"
+                                    autocomplete="off"
                                     placeholder="氏名"
                             />
                         </sui-form-field>
@@ -18,6 +19,7 @@
                                     type="text"
                                     v-model="registerUserForm.lastName"
                                     name="name-last"
+                                    autocomplete="off"
                                     placeholder="名前"
                             />
                         </sui-form-field>
@@ -25,23 +27,13 @@
                 </sui-form-field>
                 <sui-form-field>
                     <label>システム情報</label>
-                    <sui-form-fields>
-                        <sui-form-field width="twelve">
-                            <input
-                                    type="text"
-                                    v-model="registerUserForm.username"
-                                    name="login_id"
-                                    placeholder="ログイン固有ID"
-                            />
-                        </sui-form-field>
-                        <sui-form-field width="four">
-                            <input
-                                    v-model="registerUserForm.schoolYears"
-                                    type="text"
-                                    name="school-years" p
-                                    laceholder="学年" />
-                        </sui-form-field>
-                    </sui-form-fields>
+                    <input
+                            type="text"
+                            v-model="registerUserForm.username"
+                            name="login_id"
+                            autocomplete="off"
+                            placeholder="ログイン固有ID"
+                    />
                 </sui-form-field>
                 <sui-form-field>
                     <label>権限</label>
@@ -56,6 +48,7 @@
                     <input
                             v-model="registerUserForm.password"
                             type="password"
+                            autocomplete="off"
                             placeholder="新しいパスワード" />
                 </sui-form-field>
                 <div class="space h30"></div>
@@ -76,6 +69,7 @@
                         :options="setPermissionForm.options"
                         v-model="setPermissionForm.accessLevel"/>
             </sui-form-field>
+            <div class="space h30"></div>
             <sui-button @click="setPermissionForm.modal = false">キャンセル</sui-button>
             <sui-button
                     @click="submitSetPermission">更新</sui-button>
@@ -88,11 +82,15 @@
                     <sui-form-field>
                         <input
                                 v-model="resetPasswordForm.password"
+                                type="password"
+                                autocomplete="off"
                                 placeholder="新しいパスワード" />
                     </sui-form-field>
                     <sui-form-field>
                         <input
                                 v-model="resetPasswordForm.password_confirm"
+                                type="password"
+                                autocomplete="off"
                                 placeholder="もう一度入力してください" />
                     </sui-form-field>
                 </sui-form-fields>
@@ -114,6 +112,7 @@
                                     type="text"
                                     name="name_first"
                                     placeholder="氏名"
+                                    autocomplete="off"
                             />
                         </sui-form-field>
                         <sui-form-field>
@@ -122,33 +121,64 @@
                                     type="text"
                                     name="name-last"
                                     placeholder="名前"
+                                    autocomplete="off"
                             />
                         </sui-form-field>
                     </sui-form-fields>
                 </sui-form-field>
                 <sui-form-field>
                     <label>システム情報</label>
-                    <sui-form-fields>
-                        <sui-form-field width="twelve">
-                            <input
-                                    v-model="editBasicInfoForm.username"
-                                    type="text"
-                                    name="login_id"
-                                    placeholder="ログイン固有ID"
-                            />
-                        </sui-form-field>
-                        <sui-form-field width="four">
-                            <input
-                                    v-model="editBasicInfoForm.schoolYears"
-                                    type="text"
-                                    name="school-years"
-                                    placeholder="学年" />
-                        </sui-form-field>
-                    </sui-form-fields>
+                    <input
+                            v-model="editBasicInfoForm.username"
+                            type="text"
+                            name="login_id"
+                            placeholder="ログイン固有ID"
+                            autocomplete="off"
+                    />
                 </sui-form-field>
                 <div class="space h30"></div>
                 <sui-button @click="editBasicInfoForm.modal = false">キャンセル</sui-button>
                 <sui-button @click="submitEditBasicInfo">変更</sui-button>
+            </sui-form>
+        </Modal>
+
+        <Modal :show="deleteUserForm.modal" title="ユーザーを削除">
+            <sui-form @submit.prevent="">
+                <sui-form-field>
+                    <label>ユーザー名確認</label>
+                    <sui-form-fields fields="two">
+                        <sui-form-field>
+                            <input
+                                    v-model="deleteUserForm.confirm_firstName"
+                                    type="text"
+                                    name="name_first"
+                                    placeholder="氏名"
+                                    autocomplete="off"
+                            />
+                        </sui-form-field>
+                        <sui-form-field>
+                            <input
+                                    v-model="deleteUserForm.confirm_lastName"
+                                    type="text"
+                                    name="name-last"
+                                    placeholder="名前"
+                                    autocomplete="off"
+                            />
+                        </sui-form-field>
+                    </sui-form-fields>
+                </sui-form-field>
+                <sui-form-field>
+                    <label>ユーザー名確認</label>
+                    <input
+                            v-model="deleteUserForm.confirm_username"
+                            type="text"
+                            name="login_id"
+                            placeholder="ログイン固有ID"
+                    />
+                </sui-form-field>
+                <div class="space h30"></div>
+                <sui-button @click="deleteUserForm.modal = false">キャンセル</sui-button>
+                <sui-button @click="submitDeleteUser" color="red">Delete</sui-button>
             </sui-form>
         </Modal>
 
@@ -160,11 +190,13 @@
             <div v-for="user in users" :key="user.id" class="user-card">
                 <div class="user-upper-contents">
                     <div class="user-icon">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-user"/>
                     </div>
                     <div class="user-information">
-                        <h2>{{user.username}}</h2>
-                        <p>{{user.firstName + " " + user.lastName}}</p>
+                        <router-link :to="{name: 'profile', params: {id: user.id}}">
+                            <h2>{{user.username}}</h2>
+                            <p>{{user.firstName + " " + user.lastName}}</p>
+                        </router-link>
                     </div>
                 </div>
                 <div class="user-lower-contents">
@@ -179,6 +211,9 @@
                             <sui-dropdown-item
                                     @click="openSetPermission(user)">権限を変更
                                 <span class="description">すべてのデータにアクセス可能</span>
+                            </sui-dropdown-item>
+                            <sui-dropdown-item
+                                    @click="openDeleteUser(user)">このユーザーを削除　
                             </sui-dropdown-item>
                         </sui-dropdown-menu>
                     </sui-dropdown>
@@ -197,8 +232,12 @@
             value: 1,
         },
         {
-            text: '管理者',
+            text: 'モデレーター',
             value: 2,
+        },
+        {
+            text: 'システム管理者',
+            value: 3,
         },
         {
             text: '利用制限（ログイン不可）',
@@ -228,6 +267,13 @@
                     firstName: null,
                     lastName: null,
                     schoolYears: null,
+                },
+
+                deleteUserForm: {
+                    modal: false,
+                    confirm_username: null,
+                    confirm_firstName: null,
+                    confirm_lastName: null,
                 },
 
                 setPermissionForm: {
@@ -312,6 +358,16 @@
                 });
             },
 
+            async deleteUser(id, {name}) {
+                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/dismiss`);
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 1,
+                    message: `${name} ユーザーを削除しました。`,
+                });
+            },
+
 
 
             submitEnrollUser() {
@@ -379,6 +435,36 @@
                 });
                 this.setPermissionForm.modal = false;
                 this.fetchData(); //Data fetching..
+            },
+
+
+            openDeleteUser(user) {
+                this.focusUser(user);
+                this.deleteUserForm = {
+                    modal: true,
+                    confirm_username: null,
+                    confirm_firstName: null,
+                    confirm_lastName: null
+                }
+            },
+
+            submitDeleteUser() {
+                this.deleteUserForm.modal = false;
+                if (this.deleteUserForm.confirm_username !== this.focusingUser.username ||
+                    this.deleteUserForm.confirm_firstName !== this.focusingUser.firstName ||
+                    this.deleteUserForm.confirm_lastName !== this.focusingUser.lastName) {
+                    this.$store.dispatch('alert/PUSH_ALERT', {
+                        icon: "",
+                        level: 3,
+                        message: `確認項目が一致しません`,
+                    });
+                }　else {
+                    this.deleteUser(this.focusingUser.id, {
+                        name: this.focusingUser.username,
+                    });
+                    this.deleteUserForm.modal = false;
+                    this.fetchData(); //Data fetching..
+                }
             },
 
             focusUser(user) {

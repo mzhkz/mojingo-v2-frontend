@@ -2,10 +2,10 @@ const path = require('path');
 
 module.exports = {
     system: {
-        version: 'PRE ALPHA 0.1',
+        version: 'PRE ALPHA 0.1.2',
         api: {
             dev: {
-                base: "http://localhost:9000",
+                base: "http://localhost:8000",
             },
             prod: {
                 base: "https://wordlink-demo-b2.mozhok.me",

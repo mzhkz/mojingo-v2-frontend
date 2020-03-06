@@ -12,7 +12,7 @@
                     </span>
                 </h2>
                 <p>{{`${result.profile.firstName} ${result.profile.lastName}`}}</p>
-                <p class="joined-date"><i class="fas fa-history"></i> 日前に参加</p>
+                <p class="joined-date"><i class="fas fa-history"/> {{result.createdAgo}}に参加</p>
             </div>
         </div>
         <div class="page-contents">

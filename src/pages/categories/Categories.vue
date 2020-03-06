@@ -114,12 +114,12 @@
             },
 
             readCSV(fileData) {
-                this.registerCategoryForm.csvBody = [];
                 // CSVファイル以外は処理を止める
                 if(!fileData.name.match('.csv$')) {
                     alert('CSVファイルを選択してください');
                     return;
                 }
+                this.registerCategoryForm.csvBody = [];
                 // FileReaderオブジェクトを使ってファイル読み込み
                 const reader = new FileReader();
                 // ファイル読み込みに成功したときの処理
