@@ -74,6 +74,7 @@
                         target: target,
                         result: result,
                     });
+                this.showAnswer = this.onlyRecord;
                 if (data === "finished") {
                     this.$router.replace({
                         name: 'review',
@@ -91,7 +92,6 @@
             },
 
             submitAnswer({target, result}) {
-                this.showAnswer = this.onlyRecord;
                 switch (result) {
                     case 1 : {
                         this.postResult({

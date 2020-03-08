@@ -194,7 +194,10 @@
                     </div>
                     <div class="user-information">
                         <router-link :to="{name: 'profile', params: {id: user.id}}">
-                            <h2>{{user.username}}</h2>
+                            <h2>
+                                {{user.username}}
+                                <VerifiedBadge v-if="user.accessLevel >= 2"/>
+                            </h2>
                             <p>{{user.firstName + " " + user.lastName}}</p>
                         </router-link>
                     </div>
@@ -225,6 +228,7 @@
 
 <script>
     import Modal from '@/components/Modal';
+    import VerifiedBadge from "@/components/VerifiedBadge"
 
     const parmissions = [
         {
@@ -249,6 +253,7 @@
         name: "Admin",
         components: {
             Modal,
+            VerifiedBadge,
         },
         data() {
             return {
@@ -344,6 +349,7 @@
                     level: 0,
                     message: `パスワードを更新しました`,
                 });
+                this.fetchData();
             },
 
             async setPermissionUser(id, {accessLevel}) {
@@ -356,6 +362,7 @@
                     level: 0,
                     message: `権限を更新しました`,
                 });
+                this.fetchData();
             },
 
             async deleteUser(id, {name}) {

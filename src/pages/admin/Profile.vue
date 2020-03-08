@@ -7,9 +7,7 @@
             <div class="user-information">
                 <h2>
                    {{result.profile.username}}
-                    <span v-if="result.profile.accessLevel >= 2" class="admin-budge">
-                        <i class="fas fa-wrench"></i>
-                    </span>
+                    <VerifiedBadge v-if="result.profile.accessLevel >= 2"/>
                 </h2>
                 <p>{{`${result.profile.firstName} ${result.profile.lastName}`}}</p>
                 <p class="joined-date"><i class="fas fa-history"/> {{result.createdAgo}}に参加</p>
@@ -40,11 +38,13 @@
 
 <script>
     import ReviewCard from "@/components/ReviewCard"
+    import VerifiedBadge from "@/components/VerifiedBadge"
 
     export default {
         name: "Profile",
         components: {
-            ReviewCard
+            ReviewCard,
+            VerifiedBadge,
         },
         data() {
             return {
@@ -99,12 +99,31 @@
                 margin: 0 0 4px 0;
                 font-size: 20px;
 
-                .admin-budge {
-                    color: #796f6c;
-                    font-size: 13px;
+                .verified-budge {
+                    display: inline-block;
+                    width: 24px;
+                    height: 24px;
                     text-align: center;
-                    padding: 10px;
-                    border-radius: 50px;
+                    padding: 12px 12px 12px 13px;
+                    margin-bottom: -4.2px;
+
+                    .contents {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        .fa-certificate {
+                            position: absolute;
+                            color: #4285f4;
+                            font-size: 19px;
+                        }
+
+                        .fa-check {
+                            position: absolute;
+                            font-size: 9px;
+                            color: #ffffff;
+                        }
+                    }
                 }
             }
 
