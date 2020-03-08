@@ -1,29 +1,34 @@
 <template>
-   <div v-if="REVIEW_DATA">
-       <Pagination v-model="page" :maxValue="MAX_PAGE_SIZE"/>
-       <router-link
-               v-for="(data, index) in REVIEW_DATA"
-               :key="data.review.id"
-               :to="{name: 'review', params: {id: data.review.id}}">
-           <ReviewCard
-                   :name="data.review.name"
-                   :description="`${data.createAgo}に作成`"
-                   :correct="data.correctSize"
-                   :all="data.incorrectSize + data.correctSize"
-                   :finished="data.review.finished"
-           />
-       </router-link>
-       <Pagination v-model="page" :maxValue="MAX_PAGE_SIZE"/>
-       <p v-if="REVIEW_DATA.length === 0" class="not-search-result">検索結果なし</p>
-   </div>
+   <section>
+       <div v-if="REVIEW_DATA">
+           <Pagination v-model="page" :maxValue="MAX_PAGE_SIZE"/>
+           <router-link
+                   v-for="(data, index) in REVIEW_DATA"
+                   :key="data.review.id"
+                   :to="{name: 'review', params: {id: data.review.id}}">
+               <ReviewCard
+                       :name="data.review.name"
+                       :description="`${data.createAgo}に作成`"
+                       :correct="data.correctSize"
+                       :all="data.incorrectSize + data.correctSize"
+                       :finished="data.review.finished"
+               />
+           </router-link>
+           <Pagination v-model="page" :maxValue="MAX_PAGE_SIZE"/>
+           <p v-if="REVIEW_DATA.length === 0" class="not-search-result">検索結果なし</p>
+       </div>
+   </section>
 </template>
 
 <script>
     import ReviewCard from "@/components/ReviewCard"
     import Pagination from "@/components/Pagination";
+    import DummyItem from '@/components/DummyItem';
+
     export default {
         name: "Reviews",
         components: {
+            DummyItem,
             ReviewCard,
             Pagination,
         },

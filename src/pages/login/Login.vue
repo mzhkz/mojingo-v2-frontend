@@ -19,8 +19,13 @@
 </template>
 
 <script>
+    import DummyItem from '@/components/DummyItem';
+
     export default {
         name: "Login",
+        components:{
+            DummyItem
+        },
         data() {
             return {
                 form: {

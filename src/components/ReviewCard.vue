@@ -2,7 +2,7 @@
     <div class="review-card">
         <div class="review-upper-contents">
             <h2>
-                <i class="far fa-clock"></i>　{{ name }}
+                <i class="fas fa-undo-alt"></i>　{{ name }}
             </h2>
             <p>{{ description }}</p>
         </div>
@@ -51,38 +51,13 @@
         .review-upper-contents {
             width: 100%;
             padding: 20px;
-            font-family: system-ui,
-                /* macOS 10.11-10.12 */
-            -apple-system,
-                /* Windows 6+ */
-            Segoe UI,
-                /* Android 4+ */
-            Roboto,
-                /* Ubuntu 10.10+ */
-            Ubuntu,
-                /* Gnome 3+ */
-            Cantarell,
-                /* KDE Plasma 5+ */
-            Noto Sans,
-                /* fallback */
-            sans-serif,
-                /* macOS emoji */
-            "Apple Color Emoji",
-                /* Windows emoji */
-            "Segoe UI Emoji",
-                /* Windows emoji */
-            "Segoe UI Symbol",
-                /* Linux emoji */
-            "Noto Color Emoji";
+            font-family: $default-font-family;
 
             h2 {
-                font-weight: unset;
+                font-weight: bold;
                 font-size: 18px;
                 margin-bottom: 7px;
-                color: $default-link-color;
                 font-family: unset;
-
-
             }
 
             p {
@@ -111,7 +86,7 @@
 
                     .review-finished {
                         font-size: 12px;
-                        color: #3ede94;
+                        color: #1eb91c;
                     }
                 }
             }

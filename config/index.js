@@ -23,7 +23,7 @@ module.exports = {
         staticsDir: '_statics',
         publicPath: '/',
         host: "localhost",
-        port: 3000,
+        port: 3333,
         autoOpenBrowser: true,
         cssSourceMap: true,
     },

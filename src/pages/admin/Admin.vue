@@ -1,234 +1,237 @@
 <template>
-    <div>
-        <Modal :show="registerUserForm.modal" title="ユーザーを追加">
-            <sui-form @submit.prevent="">
-                <sui-form-field>
-                    <label>Name</label>
-                    <sui-form-fields fields="two">
-                        <sui-form-field>
-                            <input
-                                    type="text"
-                                    v-model="registerUserForm.firstName"
-                                    name="name_first"
-                                    autocomplete="off"
-                                    placeholder="氏名"
-                            />
-                        </sui-form-field>
-                        <sui-form-field>
-                            <input
-                                    type="text"
-                                    v-model="registerUserForm.lastName"
-                                    name="name-last"
-                                    autocomplete="off"
-                                    placeholder="名前"
-                            />
-                        </sui-form-field>
-                    </sui-form-fields>
-                </sui-form-field>
-                <sui-form-field>
-                    <label>システム情報</label>
-                    <input
-                            type="text"
-                            v-model="registerUserForm.username"
-                            name="login_id"
-                            autocomplete="off"
-                            placeholder="ログイン固有ID"
-                    />
-                </sui-form-field>
+    <section>
+        <div>
+            <Modal :show="registerUserForm.modal" title="ユーザーを追加">
+                <sui-form @submit.prevent="">
+                    <sui-form-field>
+                        <label>Name</label>
+                        <sui-form-fields fields="two">
+                            <sui-form-field>
+                                <input
+                                        type="text"
+                                        v-model="registerUserForm.firstName"
+                                        name="name_first"
+                                        autocomplete="off"
+                                        placeholder="氏名"
+                                />
+                            </sui-form-field>
+                            <sui-form-field>
+                                <input
+                                        type="text"
+                                        v-model="registerUserForm.lastName"
+                                        name="name-last"
+                                        autocomplete="off"
+                                        placeholder="名前"
+                                />
+                            </sui-form-field>
+                        </sui-form-fields>
+                    </sui-form-field>
+                    <sui-form-field>
+                        <label>システム情報</label>
+                        <input
+                                type="text"
+                                v-model="registerUserForm.username"
+                                name="login_id"
+                                autocomplete="off"
+                                placeholder="ログイン固有ID"
+                        />
+                    </sui-form-field>
+                    <sui-form-field>
+                        <label>権限</label>
+                        <sui-dropdown
+                                placeholder="権限"
+                                selection
+                                :options="registerUserForm.options"
+                                v-model="registerUserForm.accessLevel"/>
+                    </sui-form-field>
+                    <sui-form-field>
+                        <label>パスワード</label>
+                        <input
+                                v-model="registerUserForm.password"
+                                type="password"
+                                autocomplete="off"
+                                placeholder="新しいパスワード" />
+                    </sui-form-field>
+                    <div class="space h30"></div>
+                    <sui-button @click="registerUserForm.modal = false">キャンセル</sui-button>
+                    <sui-button
+                            @click="submitEnrollUser"
+                    >作成</sui-button>
+                </sui-form>
+            </Modal>
+
+
+            <Modal :show="setPermissionForm.modal" title="権限を変更">
                 <sui-form-field>
                     <label>権限</label>
                     <sui-dropdown
                             placeholder="権限"
                             selection
-                            :options="registerUserForm.options"
-                            v-model="registerUserForm.accessLevel"/>
-                </sui-form-field>
-                <sui-form-field>
-                    <label>パスワード</label>
-                    <input
-                            v-model="registerUserForm.password"
-                            type="password"
-                            autocomplete="off"
-                            placeholder="新しいパスワード" />
+                            :options="setPermissionForm.options"
+                            v-model="setPermissionForm.accessLevel"/>
                 </sui-form-field>
                 <div class="space h30"></div>
-                <sui-button @click="registerUserForm.modal = false">キャンセル</sui-button>
+                <sui-button @click="setPermissionForm.modal = false">キャンセル</sui-button>
                 <sui-button
-                        @click="submitEnrollUser"
-                >作成</sui-button>
-            </sui-form>
-        </Modal>
+                        @click="submitSetPermission">更新</sui-button>
+            </Modal>
 
 
-        <Modal :show="setPermissionForm.modal" title="権限を変更">
-            <sui-form-field>
-                <label>権限</label>
-                <sui-dropdown
-                        placeholder="権限"
-                        selection
-                        :options="setPermissionForm.options"
-                        v-model="setPermissionForm.accessLevel"/>
-            </sui-form-field>
-            <div class="space h30"></div>
-            <sui-button @click="setPermissionForm.modal = false">キャンセル</sui-button>
-            <sui-button
-                    @click="submitSetPermission">更新</sui-button>
-        </Modal>
-
-
-        <Modal :show="resetPasswordForm.modal" title="パスワードをリセット">
-            <sui-form @submit.prevent="">
-                <sui-form-fields fields="two">
-                    <sui-form-field>
-                        <input
-                                v-model="resetPasswordForm.password"
-                                type="password"
-                                autocomplete="off"
-                                placeholder="新しいパスワード" />
-                    </sui-form-field>
-                    <sui-form-field>
-                        <input
-                                v-model="resetPasswordForm.password_confirm"
-                                type="password"
-                                autocomplete="off"
-                                placeholder="もう一度入力してください" />
-                    </sui-form-field>
-                </sui-form-fields>
-                <div class="space h30"></div>
-                <sui-button @click="resetPasswordForm.modal = false">キャンセル</sui-button>
-                <sui-button @click="submitResetPassword">変更</sui-button>
-            </sui-form>
-        </Modal>
-
-
-        <Modal :show="editBasicInfoForm.modal" title="基本情報を変更">
-            <sui-form @submit.prevent="">
-                <sui-form-field>
-                    <label>Name</label>
+            <Modal :show="resetPasswordForm.modal" title="パスワードをリセット">
+                <sui-form @submit.prevent="">
                     <sui-form-fields fields="two">
                         <sui-form-field>
                             <input
-                                    v-model="editBasicInfoForm.firstName"
-                                    type="text"
-                                    name="name_first"
-                                    placeholder="氏名"
+                                    v-model="resetPasswordForm.password"
+                                    type="password"
                                     autocomplete="off"
-                            />
+                                    placeholder="新しいパスワード" />
                         </sui-form-field>
                         <sui-form-field>
                             <input
-                                    v-model="editBasicInfoForm.lastName"
-                                    type="text"
-                                    name="name-last"
-                                    placeholder="名前"
+                                    v-model="resetPasswordForm.password_confirm"
+                                    type="password"
                                     autocomplete="off"
-                            />
+                                    placeholder="もう一度入力してください" />
                         </sui-form-field>
                     </sui-form-fields>
-                </sui-form-field>
-                <sui-form-field>
-                    <label>システム情報</label>
-                    <input
-                            v-model="editBasicInfoForm.username"
-                            type="text"
-                            name="login_id"
-                            placeholder="ログイン固有ID"
-                            autocomplete="off"
-                    />
-                </sui-form-field>
-                <div class="space h30"></div>
-                <sui-button @click="editBasicInfoForm.modal = false">キャンセル</sui-button>
-                <sui-button @click="submitEditBasicInfo">変更</sui-button>
-            </sui-form>
-        </Modal>
-
-        <Modal :show="deleteUserForm.modal" title="ユーザーを削除">
-            <sui-form @submit.prevent="">
-                <sui-form-field>
-                    <label>ユーザー名確認</label>
-                    <sui-form-fields fields="two">
-                        <sui-form-field>
-                            <input
-                                    v-model="deleteUserForm.confirm_firstName"
-                                    type="text"
-                                    name="name_first"
-                                    placeholder="氏名"
-                                    autocomplete="off"
-                            />
-                        </sui-form-field>
-                        <sui-form-field>
-                            <input
-                                    v-model="deleteUserForm.confirm_lastName"
-                                    type="text"
-                                    name="name-last"
-                                    placeholder="名前"
-                                    autocomplete="off"
-                            />
-                        </sui-form-field>
-                    </sui-form-fields>
-                </sui-form-field>
-                <sui-form-field>
-                    <label>ユーザー名確認</label>
-                    <input
-                            v-model="deleteUserForm.confirm_username"
-                            type="text"
-                            name="login_id"
-                            placeholder="ログイン固有ID"
-                    />
-                </sui-form-field>
-                <div class="space h30"></div>
-                <sui-button @click="deleteUserForm.modal = false">キャンセル</sui-button>
-                <sui-button @click="submitDeleteUser" color="red">Delete</sui-button>
-            </sui-form>
-        </Modal>
+                    <div class="space h30"></div>
+                    <sui-button @click="resetPasswordForm.modal = false">キャンセル</sui-button>
+                    <sui-button @click="submitResetPassword">変更</sui-button>
+                </sui-form>
+            </Modal>
 
 
-        <div class="members">
-            <div class="contents-action-button" @click="registerUserForm.modal = true">
-                <h2>ユーザーを追加</h2>
-            </div>
-            <div v-for="user in users" :key="user.id" class="user-card">
-                <div class="user-upper-contents">
-                    <div class="user-icon">
-                        <i class="fas fa-user"/>
-                    </div>
-                    <div class="user-information">
-                        <router-link :to="{name: 'profile', params: {id: user.id}}">
-                            <h2>
-                                {{user.username}}
-                                <VerifiedBadge v-if="user.accessLevel >= 2"/>
-                            </h2>
-                            <p>{{user.firstName + " " + user.lastName}}</p>
-                        </router-link>
-                    </div>
+            <Modal :show="editBasicInfoForm.modal" title="基本情報を変更">
+                <sui-form @submit.prevent="">
+                    <sui-form-field>
+                        <label>Name</label>
+                        <sui-form-fields fields="two">
+                            <sui-form-field>
+                                <input
+                                        v-model="editBasicInfoForm.firstName"
+                                        type="text"
+                                        name="name_first"
+                                        placeholder="氏名"
+                                        autocomplete="off"
+                                />
+                            </sui-form-field>
+                            <sui-form-field>
+                                <input
+                                        v-model="editBasicInfoForm.lastName"
+                                        type="text"
+                                        name="name-last"
+                                        placeholder="名前"
+                                        autocomplete="off"
+                                />
+                            </sui-form-field>
+                        </sui-form-fields>
+                    </sui-form-field>
+                    <sui-form-field>
+                        <label>システム情報</label>
+                        <input
+                                v-model="editBasicInfoForm.username"
+                                type="text"
+                                name="login_id"
+                                placeholder="ログイン固有ID"
+                                autocomplete="off"
+                        />
+                    </sui-form-field>
+                    <div class="space h30"></div>
+                    <sui-button @click="editBasicInfoForm.modal = false">キャンセル</sui-button>
+                    <sui-button @click="submitEditBasicInfo">変更</sui-button>
+                </sui-form>
+            </Modal>
+
+            <Modal :show="deleteUserForm.modal" title="ユーザーを削除">
+                <sui-form @submit.prevent="">
+                    <sui-form-field>
+                        <label>ユーザー名確認</label>
+                        <sui-form-fields fields="two">
+                            <sui-form-field>
+                                <input
+                                        v-model="deleteUserForm.confirm_firstName"
+                                        type="text"
+                                        name="name_first"
+                                        placeholder="氏名"
+                                        autocomplete="off"
+                                />
+                            </sui-form-field>
+                            <sui-form-field>
+                                <input
+                                        v-model="deleteUserForm.confirm_lastName"
+                                        type="text"
+                                        name="name-last"
+                                        placeholder="名前"
+                                        autocomplete="off"
+                                />
+                            </sui-form-field>
+                        </sui-form-fields>
+                    </sui-form-field>
+                    <sui-form-field>
+                        <label>ユーザー名確認</label>
+                        <input
+                                v-model="deleteUserForm.confirm_username"
+                                type="text"
+                                name="login_id"
+                                placeholder="ログイン固有ID"
+                        />
+                    </sui-form-field>
+                    <div class="space h30"></div>
+                    <sui-button @click="deleteUserForm.modal = false">キャンセル</sui-button>
+                    <sui-button @click="submitDeleteUser" color="red">Delete</sui-button>
+                </sui-form>
+            </Modal>
+
+
+            <div class="members">
+                <div class="contents-action-button" @click="registerUserForm.modal = true">
+                    <h2>ユーザーを追加</h2>
                 </div>
-                <div class="user-lower-contents">
-                    <sui-dropdown text="操作">
-                        <sui-dropdown-menu>
-                            <sui-dropdown-item
-                                    @click="$router.push({name: 'profile', params: {id: user.id}})">プロフィールを表示</sui-dropdown-item>
-                            <sui-dropdown-item
-                                    @click="openEditBasicInfo(user)">基本情報を変更</sui-dropdown-item>
-                            <sui-dropdown-item
-                                    @click="openResetPassword(user)">パスワードを変更</sui-dropdown-item>
-                            <sui-dropdown-item
-                                    @click="openSetPermission(user)">権限を変更
-                                <span class="description">すべてのデータにアクセス可能</span>
-                            </sui-dropdown-item>
-                            <sui-dropdown-item
-                                    @click="openDeleteUser(user)">このユーザーを削除　
-                            </sui-dropdown-item>
-                        </sui-dropdown-menu>
-                    </sui-dropdown>
+                <div v-for="user in users" :key="user.id" class="user-card">
+                    <div class="user-upper-contents">
+                        <div class="user-icon">
+                            <i class="fas fa-user"/>
+                        </div>
+                        <div class="user-information">
+                            <router-link :to="{name: 'profile', params: {id: user.id}}">
+                                <h2>
+                                    {{user.username}}
+                                    <VerifiedBadge v-if="user.accessLevel >= 2"/>
+                                </h2>
+                                <p>{{user.firstName + " " + user.lastName}}</p>
+                            </router-link>
+                        </div>
+                    </div>
+                    <div class="user-lower-contents">
+                        <sui-dropdown text="操作">
+                            <sui-dropdown-menu>
+                                <sui-dropdown-item
+                                        @click="$router.push({name: 'profile', params: {id: user.id}})">プロフィールを表示</sui-dropdown-item>
+                                <sui-dropdown-item
+                                        @click="openEditBasicInfo(user)">基本情報を変更</sui-dropdown-item>
+                                <sui-dropdown-item
+                                        @click="openResetPassword(user)">パスワードを変更</sui-dropdown-item>
+                                <sui-dropdown-item
+                                        @click="openSetPermission(user)">権限を変更
+                                    <span class="description">すべてのデータにアクセス可能</span>
+                                </sui-dropdown-item>
+                                <sui-dropdown-item
+                                        @click="openDeleteUser(user)">このユーザーを削除　
+                                </sui-dropdown-item>
+                            </sui-dropdown-menu>
+                        </sui-dropdown>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
     import Modal from '@/components/Modal';
     import VerifiedBadge from "@/components/VerifiedBadge"
+    import DummyItem from '@/components/DummyItem';
 
     const parmissions = [
         {
@@ -254,6 +257,7 @@
         components: {
             Modal,
             VerifiedBadge,
+            DummyItem,
         },
         data() {
             return {

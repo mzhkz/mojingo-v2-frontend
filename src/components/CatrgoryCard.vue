@@ -44,10 +44,9 @@
             font-family: $default-font-family
 
             h2 {
-                font-weight: unset;
+                font-weight: bold;
                 font-size: 18px;
                 margin-bottom: 7px;
-                color: $default-link-color;
                 font-family: unset;
             }
 
