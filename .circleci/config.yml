@@ -8,10 +8,10 @@ jobs:
     working_directory: ~/repo
     environment:
       BUILD_APP: ./config ./dist ./server ./node_modules # 成果物
-      HOST_NAME: 35.200.23.55 # デプロイ先のホスト名
-      USER_NAME: mozuku_470  # デプロイ先のユーザー名
-      APP_DIR: /opt/mojingo/frontend/build/ #デプロイ先のディレクトリ
-      SERVICE_NAME: mojingo-frontend
+      HOST_NAME: 104.199.186.211 # デプロイ先のホスト名
+      USER_NAME: mojingo_app  # デプロイ先のユーザー名
+      APP_DIR: /opt/mojingov2/frontend/build/ #デプロイ先のディレクトリ
+      SERVICE_NAME: mojingov2-frontend
 
     steps:
       - checkout
@@ -37,7 +37,7 @@ jobs:
         # 設定した秘密鍵のFingerPrintを追記する
       - add_ssh_keys:
           fingerprints:
-            - "88:d3:19:e3:f3:34:6d:35:73:08:02:8f:13:55:67:8b"
+            - "d0:7e:4a:d2:97:8e:d4:43:13:67:d1:d3:7c:a8:97:8c"
       - deploy:
           name: deployment
           command: |
