@@ -95,10 +95,9 @@
 
 <style scoped lang="scss">
     .logo {
-        width: 280px;
         font-size: 20px;
         text-align: center;
-        padding: 30px 7px 10px 3px;
+        padding: 30px 5px;
         display: flex;
         align-items: center;
         justify-content: center;
