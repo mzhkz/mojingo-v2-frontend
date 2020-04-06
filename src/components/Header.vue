@@ -17,7 +17,7 @@
                 <div class="logo">
                     <img class="logo-img" :src="logoImage">
                     <div class="logo-name">
-                        Mojingo <small>v2</small>
+                        Mojingo <small>2.0</small>
                     </div>
                 </div>
                 <ul>

@@ -2,13 +2,13 @@ const path = require('path');
 
 module.exports = {
     system: {
-        version: 'PRE ALPHA 0.1.2',
+        version: '2.0',
         api: {
             dev: {
                 base: "http://localhost:8000",
             },
             prod: {
-                base: "https://wordlink-demo-b2.mozhok.me",
+                base: "https://api-v2.mojingo.me",
             }
         }
     },
