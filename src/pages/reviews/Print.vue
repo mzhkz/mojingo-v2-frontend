@@ -29,13 +29,13 @@
 </template>
 
 <script>
-    import LogoImage4 from "@/assets/images/WordLink_04.png";
+    import LogoImage from "@/assets/images/MojingoV2.png";
 
     export default {
         name: "Print",
         data() {
             return {
-                logoImage: LogoImage4,
+                logoImage: LogoImage,
             }
         },
         computed: {

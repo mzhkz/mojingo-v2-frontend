@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  build_and_deploy:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:12.9
+
+    working_directory: ~/repo
+    environment:
+      BUILD_APP: ./config ./dist ./server ./node_modules # 成果物
+      HOST_NAME: 35.200.23.55 # デプロイ先のホスト名
+      USER_NAME: mozuku_470  # デプロイ先のユーザー名
+      APP_DIR: /opt/mojingo/frontend/build/ #デプロイ先のディレクトリ
+      SERVICE_NAME: mojingo-frontend
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run build!
+      - run:
+          name: build
+          command: yarn build:prod
+        # 設定した秘密鍵のFingerPrintを追記する
+      - add_ssh_keys:
+          fingerprints:
+            - "88:d3:19:e3:f3:34:6d:35:73:08:02:8f:13:55:67:8b"
+      - deploy:
+          name: deployment
+          command: |
+            ssh-keyscan ${HOST_NAME} >> ~/.ssh/known_hosts
+            sudo apt install -y rsync
+            echo ${SERVICE_NAME} サービスを終了します。
+            ssh ${USER_NAME}@${HOST_NAME} "sudo systemctl stop ${SERVICE_NAME} " # サービスを停止する
+            echo ビルドデータをデプロイしています...
+            rsync -au ${BUILD_APP} ${USER_NAME}@${HOST_NAME}:${APP_DIR} # 成果物をデプロイする
+            echo デプロイが完了しました。
+            echo ${SERVICE_NAME} サービスを起動します。
+            ssh ${USER_NAME}@${HOST_NAME} "sudo systemctl start ${SERVICE_NAME} " # サービスを起動する
+workflows:
+  version: 2
+  build_and_deploy: # workflow名
+    jobs:
+      - build_and_deploy:
+          #          requires: # buildとtestが成功したら
+          #            - build
+          #            - test
+          filters:
+            branches: # masterブランチのみ実行する
+              only:
+                - master

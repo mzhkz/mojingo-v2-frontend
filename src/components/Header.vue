@@ -10,16 +10,15 @@
                      @click="handleClick">
                     <i class="fas fa-align-justify"/>
                 </div>
-<!--                <div class="print-menu"-->
-<!--                     @click="print">-->
-<!--                    <i class="fas fa-print"/>-->
-<!--                </div>-->
             </div>
         </div>
         <div v-if="visibleSideBar" class="app-sidebar-wrapper">
             <div class="app-sidebar-contain" :class="{ active: browsing }">
                 <div class="logo">
-                    <img class="logo-img" :src="logoImage3">
+                    <img class="logo-img" :src="logoImage">
+                    <div class="logo-name">
+                        Mojingo <small>v2</small>
+                    </div>
                 </div>
                 <ul>
                     <router-link :to="{ name: 'dashboard', params: { }}">
@@ -48,7 +47,7 @@
                     <li @click="logout">
                         <i class="fas fa-sign-out-alt"></i>　ログアウト
                     </li>
-                </ul >
+                </ul>
             </div>
         </div>
     </section>
@@ -56,15 +55,13 @@
 
 <script>
     import {mapState, mapActions} from 'vuex'
-    import LogoImage3 from "@/assets/images/WordLink_03.png";
-    import LogoImage4 from "@/assets/images/WordLink_04.png";
+    import LogoImage from "@/assets/images/MojingoV2.png";
 
     export default {
         name: "Header",
         data() {
             return {
-                logoImage3: LogoImage3,
-                logoImage4: LogoImage4,
+                logoImage: LogoImage,
             }
         },
         props: {
@@ -104,13 +101,26 @@
         width: 240px;
         font-size: 20px;
         text-align: center;
-        padding: 20px 5px;
-        font-family: "Product Sans", sans-serif;
+        padding: 30px 7px 10px 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .logo-img {
+            width: 50px;
+        }
+
+        .logo-name {
+            padding-left: 9px;
+            font-family: "Product Sans", sans-serif;
+
+            small {
+                color: $default-link-color;
+                font-size: 11px;
+            }
+        }
     }
 
-    .logo-img {
-        width: 130px;
-    }
 
     .app-topbar-contents {
         position: relative;
