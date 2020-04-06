@@ -16,9 +16,6 @@
             <div class="app-sidebar-contain" :class="{ active: browsing }">
                 <div class="logo">
                     <img class="logo-img" :src="logoImage">
-                    <div class="logo-name">
-                        Mojingo <small>2.0</small>
-                    </div>
                 </div>
                 <ul>
                     <router-link :to="{ name: 'dashboard', params: { }}">
@@ -98,7 +95,7 @@
 
 <style scoped lang="scss">
     .logo {
-        width: 240px;
+        width: 280px;
         font-size: 20px;
         text-align: center;
         padding: 30px 7px 10px 3px;
@@ -107,7 +104,7 @@
         justify-content: center;
 
         .logo-img {
-            width: 50px;
+            width: 55px;
         }
 
         .logo-name {
