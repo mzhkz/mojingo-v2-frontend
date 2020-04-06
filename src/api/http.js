@@ -8,8 +8,7 @@ import * as constant from '@/constants/'
 
 const http = {
     install(Vue, options) {
-        const http = Axios.create();
-        Vue.prototype.$WORDLINKAPI = Vue.WORDLINKAPI = http;
+        Vue.prototype.$WORDLINKAPI = Vue.WORDLINKAPI = Axios.create();
 
         this.setDefault();
         this.addInterceptors();
@@ -58,7 +57,7 @@ const http = {
             // store.dispatch('alert/CLEAR_ALERT');
             const responseData = response.data;
             const {result, message, data} = responseData;
-            if (result !== 200) {
+            if (result !== 200 && response.headers["content-type"].indexOf('application/json') > -1) {
                 if (result === 401) {
                     store.dispatch('authenticate/UPDATE', {});
                     router.push({ name: 'login'});

@@ -4,7 +4,7 @@
            <h2>
                <span class="number">問{{QUESTION.number}}.</span>
                {{QUESTION.name}}
-               <span class="speech">
+               <span @click="playSpeech(QUESTION.wordId)" class="speech">
                    <i class="fas fa-volume-up"></i>
                </span>
             </h2>
@@ -45,6 +45,9 @@
                 MARKER_CORRECT_REPRESENT: null,
                 MARKER_INCORRECT_REPRESENT: null,
                 QUESTION: null,
+
+                audioBuffer: null, //音声キャッシュ
+                enableAutoSpeechWord: false, //単語を読み上げるか
             }
         },
         methods: {
@@ -64,6 +67,8 @@
                         message: `この小テストのオーナーは${data.owner.username}さんです。`,
                     });
                 }
+
+                this.playSpeech(this.QUESTION.wordId)
             },
 
             async postResult({target, result}) {
@@ -88,6 +93,9 @@
                     this.MARKER_WORD_ID = data.wordId;
                     this.MARKER_CORRECT_REPRESENT = data.representCorrect;
                     this.MARKER_INCORRECT_REPRESENT = data.representIncorrect;
+
+                    this.audioBuffer = null; //音声データをリセット
+                    this.playSpeech(this.QUESTION.wordId);
                 }
             },
 
@@ -108,7 +116,32 @@
                         break;
                     }
                 }
-            }
+            },
+
+            /** 再生 */
+            async playSpeech(word_id) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioContent = new AudioContext();
+                audioContent.createBufferSource().start(0);
+                const instance = this; //Safari対応策
+                if (!this.audioBuffer) { //mp3のbufferをすでにロード済みかどうか
+                    const audioData = await this.$WORDLINKAPI.get(`/words/${word_id}/pronounce`, { responseType: "arraybuffer" }); //mp3を取得
+                    audioContent.decodeAudioData(audioData, function (audioBuffer) { //SafariがPromise対応のため
+                        instance.audioBuffer = audioBuffer;
+                        instance.createAudioSourceAndPlay(audioContent, audioBuffer);
+                    });
+                } else {
+                    this.createAudioSourceAndPlay(audioContent, this.audioBuffer);//再生
+                }
+            },
+
+            createAudioSourceAndPlay(audioContent, audioBuffer) {
+                const audioSource = audioContent.createBufferSource();
+                audioSource.buffer = audioBuffer;
+                audioSource.loop = false;
+                audioSource.connect(audioContent.destination);
+                audioSource.start(0);　//再生
+            },
         },
 
         beforeMount() {
