@@ -16,6 +16,7 @@
             <div v-show="showAnswer" class="answer-wrapper">
                 <div class="answer-box">
                     <p>{{QUESTION.mean}}</p>
+                    <small v-if="QUESTION.description">{{QUESTION.description}}</small>
                 </div>
                 <div class="answer-button-field">
                     <button @click="submitAnswer({target: MARKER_WORD_ID, result: 1})"
