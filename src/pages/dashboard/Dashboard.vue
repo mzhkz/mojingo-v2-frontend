@@ -11,6 +11,11 @@
                   :number="word.number"
                   :category="word.category.name"/>
         <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
+        <RecommendedCard v-for="(data, index) in RECOMMENDED"
+                          :key="data.category.id" :category="data.category.name" description="コツコツ復習して、定着を図ろう！" :entries="data.entriesSize" :review="data.reviewSize"/>
+        <div v-if="RECOMMENDED.length <= 0" class="contents-action-button">
+            今、復習する単語はありません
+        </div>
     </div>
 </template>
 
@@ -18,6 +23,7 @@
     import WordCard from "../../components/WordCard";
     import Pagination from "@/components/Pagination";
     import Search from "@/components/Search";
+    import RecommendedCard from '@/components/RecommendedCard';
 
     export default {
         name: "Dashboard",
@@ -25,6 +31,7 @@
             WordCard,
             Pagination,
             Search,
+            RecommendedCard,
         },
         data() {
             return {
@@ -34,6 +41,8 @@
                 MAX_PAGE_SIZE: 0,
                 RESULT_WORD_SIZE: 0,
                 WORD_DATA: [],
+
+                RECOMMENDED: [],
             }
         },
         methods: {
@@ -48,6 +57,13 @@
                 this.WORD_DATA = data.body;
                 this.MAX_PAGE_SIZE = data.pageSize;
                 this.RESULT_WORD_SIZE = data.resultSize;
+
+            },
+
+            async fetchRecommended() {
+                const {data, message} = await this.$WORDLINKAPI
+                    .get(`/words/recommended`);
+                this.RECOMMENDED = data;
             },
         },
 
@@ -60,6 +76,9 @@
                 this.fetchWords();
                 this.page = 1
             }
+        },
+        beforeMount() {
+            this.fetchRecommended();
         }
     }
 </script>

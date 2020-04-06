@@ -26,5 +26,6 @@
 <style scoped lang="scss">
     .app-content-grid {
         padding-top: 75px;
+        padding-bottom: 55px;
     }
 </style>

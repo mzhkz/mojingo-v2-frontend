@@ -224,15 +224,15 @@
                     color: $app-primary-color;
 
                     &.active {
-                        background: $app-focus-primary-content-color;
+                        background: darken($app-primary-content-color, 10%);
 
                         &:before {
-                            content: ">　";
+                            /*content: ">　";*/
                         }
                     }
 
                     &:hover {
-                        background: darken($app-primary-content-color, 10%);
+                        background: darken($app-primary-content-color, 6.5%);
                     }
                 }
             }
