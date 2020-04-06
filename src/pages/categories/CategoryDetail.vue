@@ -1,5 +1,10 @@
 <template>
     <div v-if="CATEGORY_DATA && WORD_DATA">
+
+        <div @click="createReviewModal.modal = true" class="actions-bar">
+            <p><i class="fas fa-play"/>　問題を解く</p>
+        </div>
+
         <Modal :show="createReviewModal.modal" title="小テストを作成">
             <sui-form @submit.prevent="">
                 <sui-form-fields fields="two">
@@ -57,6 +62,13 @@
             </sui-form>
         </Modal>
 
+        <Modal :show="reloadWordModal.modal" title="Spreadsheetから再読み込み">
+            <p>コンテンツの追加・更新・削除を適用します。</p>
+            <div class="space h30"></div>
+            <sui-button type="cancel" @click="reloadWordModal.modal = false">キャンセル</sui-button>
+            <sui-button @click="submitReloadWord" color="red">実行</sui-button>
+        </Modal>
+
 
         <div class="page-header">
             <div class="category-icon">
@@ -82,8 +94,8 @@
                             @submit="handleChangeWord"
                             placeholder="単語を検索"/>
                     <div class="commands-wrapper">
-                        <button @click="createReviewModal.modal = true">
-                            <i class="fas fa-play"/>
+                        <button @click="reloadWordModal.modal = true" class="icon-button">
+                            <i class="fas fa-sync-alt"></i>
                         </button>
                     </div>
                 </div>
@@ -127,6 +139,9 @@
                     modal: false,
                     name: null,
                     description: null,
+                },
+                reloadWordModal: {
+                    modal: false,
                 },
 
                 deleteCategoryModal: {
@@ -202,6 +217,16 @@
                 });
             },
 
+            async syncWord() {
+                const {data, message} = await this.$WORDLINKAPI.post(`/categories/view/${this.$route.params["id"]}/sync`);
+                await this.fetchWords();
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `単語を再読み込みしました。`,
+                });
+            },
+
             submitUpdateCategory() {
                 this.editCategoryModal.modal = false;
                 this.updateCategory({
@@ -250,6 +275,11 @@
                 }
             },
 
+            submitReloadWord() {
+                this.syncWord();
+                this.reloadWordModal.modal = false;
+            },
+
             handleChangeWord() {
                 this.page = 1;
             }
@@ -274,6 +304,23 @@
 </script>
 
 <style scoped lang="scss">
+
+    .actions-bar {
+        z-index: 2;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 50px;
+        background: rgba(213, 216, 230, 0.85);
+        box-shadow: 0 0px 7px 1px #efefef;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
     .page-header {
         color: $default-link-color;
         min-height: 150px;
@@ -328,21 +375,6 @@
                     width: 100%;
                 }
 
-                .commands-wrapper {
-                    button {
-                        border: none;
-                        background: transparent;
-                        padding: 10px 12px;
-                        color: $default-link-color;
-                        cursor: pointer;
-                        text-decoration: none;
-                        transition: background 200ms ease-out;
-
-                        &:hover {
-
-                        }
-                    }
-                }
             }
 
             .review-finished {

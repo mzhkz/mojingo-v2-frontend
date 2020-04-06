@@ -22,10 +22,12 @@
                         />
                     </sui-form-field>
                     <sui-form-field>
-                        <label>CSVファイル 形式: {No,Name,Mean}</label>
-                        <input type="file"
-                               @change="handleChangeCSVFile"
-                               name="csv-file"
+                        <label>Google Spreadsheet ID</label>
+                        <input
+                                type="text"
+                                v-model="registerCategoryForm.sheetId"
+                                name="sheet_id"
+                                placeholder="https://docs.google.com/spreadsheets/d/[ID]/"
                         />
                     </sui-form-field>
                     <div class="space h30"></div>
@@ -72,7 +74,7 @@
                     modal: false,
                     name: null,
                     description: "",
-                    csvBody: [],
+                    sheetId: null,
                 },
             }
         },
@@ -82,12 +84,12 @@
               this.categories = data;
             },
 
-            async createCategory({name, description, csvBody}) {
+            async createCategory({name, description, sheetId}) {
                 const nameCached = this.registerCategoryForm.name;
                 const {data, message} = await this.$WORDLINKAPI.post(`/categories/create`, {
-                  name: this.registerCategoryForm.name,
-                  description: this.registerCategoryForm.description,
-                  csvBody: this.registerCategoryForm.csvBody,
+                    name: name,
+                    description: description,
+                    sheetId: sheetId,
                 });
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
@@ -101,44 +103,16 @@
                 this.createCategory({
                     name: this.registerCategoryForm.name,
                     description: this.registerCategoryForm.description,
-                    csvBody: this.registerCategoryForm.csvBody,
+                    sheetId: this.registerCategoryForm.sheetId,
                 });
                 this.registerCategoryForm = {
                     modal: false,
                     name: null,
                     description: "",
-                    csvBody: [],
+                    sheetId: null,
                 };
             },
 
-            handleChangeCSVFile(event) {
-              event.preventDefault();
-              const files = event.target.files;
-              this.readCSV(files[0]);
-            },
-
-            readCSV(fileData) {
-                // CSVファイル以外は処理を止める
-                if(!fileData.name.match('.csv$')) {
-                    alert('CSVファイルを選択してください');
-                    return;
-                }
-                this.registerCategoryForm.csvBody = [];
-                // FileReaderオブジェクトを使ってファイル読み込み
-                const reader = new FileReader();
-                // ファイル読み込みに成功したときの処理
-                reader.onload = () => {
-                    const cols = reader.result.split('\n');
-                    const data = [];
-                    let response = "";
-                    for (let i = 0; i < cols.length; i++) {
-                        data[i] = cols[i];
-                    }
-                    this.registerCategoryForm.csvBody = data;
-                    alert(`${data.length - 1}個の単語を検出しました`)
-                };
-                reader.readAsText(fileData);
-            }
         },
 
         beforeMount() {

@@ -3,17 +3,17 @@
         <div class="app-header-wrapper">
             <div class="app-header-contain">
                 <div class="logo">
-                    <img :src="logoImage4" class="logo-img">
+<!--                    <img :src="logoImage4" class="logo-img">-->
                 </div>
                 <div v-if="visibleSideBar"
                      class="hamburger-menu"
                      @click="handleClick">
                     <i class="fas fa-align-justify"/>
                 </div>
-                <div class="print-menu"
-                     @click="print">
-                    <i class="fas fa-print"/>
-                </div>
+<!--                <div class="print-menu"-->
+<!--                     @click="print">-->
+<!--                    <i class="fas fa-print"/>-->
+<!--                </div>-->
             </div>
         </div>
         <div v-if="visibleSideBar" class="app-sidebar-wrapper">
@@ -44,14 +44,11 @@
                         </li>
                     </router-link>
                 </ul>
-                <div v-if="$store.state.authenticate.token !== false" class="user-information-wrapper">
-                    <div @click="logout" class="user-information">
-                        <div class="user-icon">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </div>
-                        <h4> ログアウト</h4>
-                    </div>
-                </div>
+                <ul v-if="$store.state.authenticate.token !== false">
+                    <li @click="logout">
+                        <i class="fas fa-sign-out-alt"></i>　ログアウト
+                    </li>
+                </ul >
             </div>
         </div>
     </section>
@@ -126,7 +123,7 @@
         top: 0;
         right: 0;
         left: 0;
-        background: $app-primary-color;
+        background: transparent;
         padding: 0 35px 0 0;
 
         @include tab() {
@@ -148,6 +145,8 @@
 
             .hamburger-menu {
                 display: none;
+                background: rgba(247, 247, 248, 0.8);
+                padding: 10px;
             }
 
 

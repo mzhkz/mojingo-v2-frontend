@@ -13,9 +13,6 @@
 </script>
 
 <style scoped lang="scss">
-    .alerts-wrap {
-        margin: 0 0 30px 0;
-    }
     .alert {
         text-align: center;
         padding: 14px;

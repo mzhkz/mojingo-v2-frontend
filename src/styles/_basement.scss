@@ -36,3 +36,17 @@
     border: 2px dotted $default-link-color;
   }
 }
+
+.icon-button {
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  color: $default-link-color;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 200ms ease-out;
+
+  &:hover {
+
+  }
+}
