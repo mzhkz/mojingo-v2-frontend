@@ -6,13 +6,19 @@
         <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
         <WordCard v-for="word in WORD_DATA"
                   :key="word.id"
+                  :id="word.id"
                   :name="word.name"
                   :mean="word.mean"
                   :number="word.number"
                   :category="word.category.name"/>
         <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
         <RecommendedCard v-for="(data, index) in RECOMMENDED"
-                          :key="data.category.id" :category="data.category.name" description="コツコツ復習して、定着を図ろう！" :entries="data.entriesSize" :review="data.reviewSize"/>
+                          :key="data.category.id"
+                         @click="createReview(data.category.id)"
+                         :category="data.category.name"
+                         description="コツコツ復習して、定着を図ろう！"
+                         :entries="data.entriesSize"
+                         :review="data.reviewSize"/>
         <div v-if="RECOMMENDED.length <= 0" class="contents-action-button">
             今、復習する単語はありません
         </div>
@@ -64,6 +70,19 @@
                 const {data, message} = await this.$WORDLINKAPI
                     .get(`/words/recommended`);
                 this.RECOMMENDED = data;
+            },
+
+            async createReview(categoryId) {
+                const {data, message} = await this.$WORDLINKAPI.post(`/words/recommended`, {
+                    category: categoryId,
+                });
+                await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 0,
+                    message: `${data.name}を作成しました`,
+                });
             },
         },
 

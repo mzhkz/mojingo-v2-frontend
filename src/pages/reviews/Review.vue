@@ -27,6 +27,7 @@
                 <h2>小テスト結果</h2>
                 <WordCard v-for="answer in REVIEW_DATA.review.answers"
                           :key="answer.id"
+                          :id="answer.word.id"
                           :name="answer.word.name"
                           :mean="answer.word.mean"
                           :number="answer.word.number"

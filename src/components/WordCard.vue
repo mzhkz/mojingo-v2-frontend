@@ -1,15 +1,19 @@
 <template>
     <div class="word-card">
         <span class="concept-line" :style="{background: borderColor}"/>
-       <div class="word-basic-information">
-           <div class="word-description-wrap">
-               <h2>{{ name }}</h2>
-               <p>{{ mean}}</p>
-           </div>
-           <div class="word-keyring-wrap">
-               {{number}}
-           </div>
-       </div>
+        <div class="word-basic-information">
+            <div class="word-description-wrap">
+                <h2>{{ name }}
+                    <span @click="playSpeech(id)" class="speech">
+                        <i class="fas fa-volume-up"></i>
+                    </span>
+                </h2>
+                <p>{{ mean}}</p>
+            </div>
+            <div class="word-keyring-wrap">
+                {{number}}
+            </div>
+        </div>
         <div v-if="category" class="word-provide-by">
             <p>> {{category}}</p>
         </div>
@@ -20,13 +24,45 @@
     export default {
         name: "WordCard",
         props: {
+            id: {type: String},
             name: {type: String},
             mean: {type: String},
             number: {type: Number},
             category: {type: String},
             borderColor: {type: String},
             clickHandle: {type: Function},
-        }
+        },
+        data() {
+            return {
+                audioBuffer: null //音声データをリセット
+            }
+        },
+        methods: {
+            /** 再生 */
+            async playSpeech(word_id) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioContent = new AudioContext();
+                audioContent.createBufferSource().start(0);
+                const instance = this; //Safari対応策
+                if (!this.audioBuffer) { //mp3のbufferをすでにロード済みかどうか
+                    const audioData = await this.$WORDLINKAPI.get(`/words/${word_id}/pronounce`, {responseType: "arraybuffer"}); //mp3を取得
+                    audioContent.decodeAudioData(audioData, function (audioBuffer) { //SafariがPromise対応のため
+                        instance.audioBuffer = audioBuffer;
+                        instance.createAudioSourceAndPlay(audioContent, audioBuffer);
+                    });
+                } else {
+                    this.createAudioSourceAndPlay(audioContent, this.audioBuffer);//再生
+                }
+            },
+
+            createAudioSourceAndPlay(audioContent, audioBuffer) {
+                const audioSource = audioContent.createBufferSource();
+                audioSource.buffer = audioBuffer;
+                audioSource.loop = false;
+                audioSource.connect(audioContent.destination);
+                audioSource.start(0);　//再生
+            },
+        },
     }
 </script>
 
@@ -81,6 +117,18 @@
                 margin-bottom: 5px;
                 color: $default-link-color;
                 font-family: unset;
+
+                .speech {
+                    font-size: 15px;
+                    padding: 3px;
+                    margin-left: 10px;
+                    color: #bdbfcc;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: $default-letter-color;
+                    }
+                }
             }
 
             p {
@@ -100,7 +148,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color:  $default-link-color;
+            color: $default-link-color;
             font-size: 11px;
             font-weight: bold;
         }
