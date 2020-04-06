@@ -28,7 +28,7 @@ module.exports = {
         cssSourceMap: true,
     },
     express: {
-        host: '0.0.0.0',
+        host: '10.140.0.2',
         port: 8888,
     }
 };
