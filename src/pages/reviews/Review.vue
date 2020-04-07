@@ -19,10 +19,10 @@
                 </h2>
                 <p>{{REVIEW_DATA.review.description}}</p>
                 <p class="created-date">
-                    <i class="fas fa-history"/>  {{REVIEW_DATA.createAgo}}に作成 <br>
+                    <i class="fas fa-history"/>　{{REVIEW_DATA.createAgo}}に作成 <br>
                 </p>
                 <p class="owner-username">
-                    {{REVIEW_DATA.review.owner.username}} がオーナー
+                    <i class="fas fa-user"/>　{{REVIEW_DATA.review.owner.username}} がオーナー
                 </p>
             </div>
         </div>
@@ -36,10 +36,7 @@
                 <h2>小テスト結果</h2>
                 <WordCard v-for="answer in REVIEW_DATA.review.answers"
                           :key="answer.id"
-                          :id="answer.word.id"
-                          :name="answer.word.name"
-                          :mean="answer.word.mean"
-                          :number="answer.word.number"
+                          :WORD_DATA="answer.word"
                           :borderColor="judgeColor(judgeCorrect(answer))"/>
                 <div class="review-finished">
                     <sui-button :disabled="REVIEW_DATA.review.finished || REVIEW_DATA.review.entries.length !== REVIEW_DATA.review.answers.length"

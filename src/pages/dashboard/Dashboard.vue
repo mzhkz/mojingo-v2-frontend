@@ -7,11 +7,8 @@
             <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
             <WordCard v-for="word in WORD_DATA"
                       :key="word.id"
-                      :id="word.id"
-                      :name="word.name"
-                      :mean="word.mean"
-                      :number="word.number"
-                      :category="word.category.name"/>
+                      :displayCategory="true"
+                      :WORD_DATA="word"/>
             <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
         </div>
         <div v-else>

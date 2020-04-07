@@ -10,7 +10,7 @@
                     <VerifiedBadge v-if="result.profile.accessLevel >= 2"/>
                 </h2>
                 <p>{{`${result.profile.firstName} ${result.profile.lastName}`}}</p>
-                <p class="joined-date"><i class="fas fa-history"/> {{result.createdAgo}}に参加</p>
+                <p class="joined-date"><i class="fas fa-history"/>　{{result.createdAgo}}に参加</p>
             </div>
         </div>
         <div class="page-contents">

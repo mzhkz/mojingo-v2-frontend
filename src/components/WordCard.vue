@@ -1,36 +1,43 @@
 <template>
-    <div class="word-card">
+    <div class="word-card" :class="doPaintByLevel(WORD_DATA.rank)">
         <span class="concept-line" :style="{background: borderColor}"/>
+        <span class="appeal-level" :style="{'border-color': borderColor}"></span>
         <div class="word-basic-information">
             <div class="word-description-wrap">
-                <h2>{{ name }}
-                    <span @click="playSpeech(id)" class="speech">
+                <h2>
+                    <a @click="openWebDictionary('webilio')"> {{ WORD_DATA.name }}</a>
+                    <span @click="playSpeech(WORD_DATA.id)" class="speech">
                         <i class="fas fa-volume-up"></i>
                     </span>
                 </h2>
-                <p>{{ mean}}</p>
+                <p>{{ WORD_DATA.mean}}</p>
             </div>
             <div class="word-keyring-wrap">
-                {{number}}
+                {{WORD_DATA.number}}
             </div>
         </div>
-        <div v-if="category" class="word-provide-by">
-            <p>> {{category}}</p>
+        <div v-if="displayDescription && WORD_DATA.description" class="word-provide-by">
+            <p>> {{WORD_DATA.description}}</p>
+        </div>
+        <div v-if="displayCategory" class="word-provide-by">
+            <p>> {{WORD_DATA.category.name}}</p>
         </div>
     </div>
 </template>
 
 <script>
+    import Modal from '@/components/Modal';
+
     export default {
         name: "WordCard",
+        components: {
+            Modal,
+        },
         props: {
-            id: {type: String},
-            name: {type: String},
-            mean: {type: String},
-            number: {type: Number},
-            category: {type: String},
+            WORD_DATA: {type: Object},
+            displayCategory: {type: Boolean, default: false},
+            displayDescription: {type: Boolean, default: true},
             borderColor: {type: String},
-            clickHandle: {type: Function},
         },
         data() {
             return {
@@ -62,6 +69,32 @@
                 audioSource.connect(audioContent.destination);
                 audioSource.start(0);　//再生
             },
+
+            /**
+             * web辞書サービスのミニウインドウを開く
+             * @param service
+             */
+            openWebDictionary(service) {
+                const keyword = this.WORD_DATA.name;
+                let url = '';
+                switch (service) {
+                    case 'webilio': {
+                        url = `https://ejje.weblio.jp/content/${keyword}`;
+                        break;
+                    }
+                }
+                window.open(url, "DescriptiveWindowName",
+                    "resizable=no,width=600,height=670,scrollbars=yes,status=no")
+            },
+
+            /** ランクごとに色分けするクラスを適用 */
+            doPaintByLevel(rank) {
+                return {
+                    "stage-1": rank < 2 && rank > 0,
+                    "stage-2": 2 <= rank && rank <= 4,
+                    "stage-3": 5 <= rank,
+                }
+            },
         },
     }
 </script>
@@ -78,13 +111,46 @@
             margin-bottom: 8px;
         }
 
+        @mixin stage-color($theme-color) {
+            .concept-line {
+                background: $theme-color;
+            }
+
+            .appeal-level {
+                border-color: $theme-color;
+            }
+        }
+        &.stage-0 {
+            @include stage-color($app-primary-focus-color);
+        }
+        &.stage-1 {
+            @include stage-color($warning-color);
+        }
+        &.stage-2 {
+            @include stage-color($success-color);
+        }
+        &.stage-3 {
+            @include stage-color($info-color);
+        }
+
+        .appeal-level {
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            background: $app-primary-color;
+            border: 2px solid $app-primary-focus-color;
+            border-radius: 10px;
+            top: 33px;
+            left: -10px;
+        }
+
         .concept-line {
             position: absolute;
             top: 0;
             bottom: 0;
             left: 0;
             height: 100%;
-            width: 3px;
+            width: 2px;
             background: $app-primary-focus-color;
         }
     }
@@ -108,7 +174,7 @@
 
         .word-description-wrap {
             width: 100%;
-            padding: 0 40px 5px 23px;
+            padding: 0 40px 5px 31px;
             font-family: $default-font-family;
 
             h2 {
@@ -117,6 +183,10 @@
                 margin-bottom: 5px;
                 color: $default-link-color;
                 font-family: unset;
+
+                a {
+                    cursor: pointer;
+                }
 
                 .speech {
                     font-size: 15px;

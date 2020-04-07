@@ -80,14 +80,14 @@
                     {{CATEGORY_DATA.name}}
                 </h2>
                 <p>{{CATEGORY_DATA.description}}</p>
-                <p class="created-date"><i class="fas fa-history"/> {{CREATED_AGO}}に作成</p>
+                <p class="created-date"><i class="fas fa-history"/>　{{CREATED_AGO}}に作成</p>
                 <p class="owner-username">
-                    {{CATEGORY_DATA.owner.username}} がオーナー
+                    <i class="fas fa-user"/>　{{CATEGORY_DATA.owner.username}} がオーナー
                 </p>
             </div>
         </div>
         <div class="page-contents">
-            <div v-if="$store.state.authenticate.level >= 2"
+            <div v-if="$store.state.authenticate.id === CATEGORY_DATA.owner.id"
                  class="contents-action-button"
                  @click="openUpdateCategory">
                 <h2>辞書を編集</h2>
@@ -106,10 +106,7 @@
                 <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
                 <WordCard v-for="word in WORD_DATA"
                           :key="word.id"
-                          :id="word.id"
-                          :name="word.name"
-                          :mean="word.mean"
-                          :number="word.number"/>
+                          :WORD_DATA="word"/>
 
                 <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
             </div>

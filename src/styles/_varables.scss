@@ -1,14 +1,29 @@
+//ページ全体のイメージを決める
 $app-primary-color: #f7f7f8;
 $app-content-color: #ffffff;
 $app-secondary-color: #efeff1;
 
 $default-letter-color: #5f6368;
-
 $app-primary-focus-color: #d5d8e6;
 
+/** コンテンツのベースから―*/
 $app-primary-content-color: #262f3d;
 $app-focus-primary-content-color: #455f80;
 $app-primary-font-color: #b8c3d2;
+
+
+/** コンテンスカラー */
+$accent-color: #4285f4;
+$info-color: #039be5;
+$success-color: #74d88d;
+$warning-color: #efc463;
+$danger-color: #e66449;
+
+/** コンテンツサブカラー */
+$accent-thin-color: #cbdeff;
+$danger-thin-color: #fdcac0;
+$success-thin-color: #d2f9dc;
+$warning-thin-color: #fff3d1;
 
 $app-success-color: #87e2ab;
 $pass-warning-color: #e29887;
