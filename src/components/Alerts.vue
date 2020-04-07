@@ -21,8 +21,16 @@
             margin-bottom: 4px;
         }
 
+        &:last-child {
+            margin-bottom: 25px;
+        }
+
         &.level-0 {
-            background: #4CAF50!important
+            background: $app-content-color!important;
+
+            h2 {
+                color: #5f6368;
+            }
         }
 
         &.level-1 {

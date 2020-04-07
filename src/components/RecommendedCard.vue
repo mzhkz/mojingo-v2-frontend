@@ -2,14 +2,14 @@
     <div class="recommended-card">
         <div class="recommended-upper-contents">
             <h2><i class="fas fa-stopwatch"></i>　{{ category }} 　[{{entries}}単語]</h2>
-            <p>{{ description }}</p>
+            <p>コツコツ復習して、定着を図ろう！</p>
         </div>
         <div class="recommended-lower-contents">
             <div>
                 <h3>全 <span class="number">{{ review }}</span> 回の構成</h3>
             </div>
             <div>
-                <h3 class="start-button">テストを開始する</h3>
+                <button @click="$emit('createReviewHandle', id)" class="start-button">テストを開始する</button>
             </div>
         </div>
     </div>
@@ -20,7 +20,7 @@
         name: "RecommendedCard",
         props: {
             category: {type: String},
-            description: {type: String},
+            id: {type: String},
             entries: {type: Number},
             review: {type: Number},
         }
@@ -104,7 +104,11 @@
                 }
 
                 .start-button {
+                    cursor: pointer;
+                    border: none;
+                    font-size: 12px;
                     border-radius: 2px;
+                    color: $default-letter-color;
                     padding: 9px;
                     background: $app-primary-color;
                 }

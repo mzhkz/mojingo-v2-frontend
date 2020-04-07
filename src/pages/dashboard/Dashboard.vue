@@ -1,26 +1,30 @@
 <template>
     <div>
         <Search v-model="keyword" placeholder="単語を検索"/>
-        <p v-if="WORD_DATA.length <= 0" class="not-search-result">検索結果なし</p>
-        <p v-else class="not-search-result">{{RESULT_WORD_SIZE}}件の単語が見つかりました。</p>
-        <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
-        <WordCard v-for="word in WORD_DATA"
-                  :key="word.id"
-                  :id="word.id"
-                  :name="word.name"
-                  :mean="word.mean"
-                  :number="word.number"
-                  :category="word.category.name"/>
-        <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
-        <RecommendedCard v-for="(data, index) in RECOMMENDED"
-                          :key="data.category.id"
-                         @click="createReview(data.category.id)"
-                         :category="data.category.name"
-                         description="コツコツ復習して、定着を図ろう！"
-                         :entries="data.entriesSize"
-                         :review="data.reviewSize"/>
-        <div v-if="RECOMMENDED.length <= 0" class="contents-action-button">
-            今、復習する単語はありません
+        <div v-if="keyword">
+            <p v-if="WORD_DATA.length <= 0" class="not-search-result">{{WORD_DATA.length}}件の単語が見つかりました</p>
+            <p v-else class="not-search-result">{{RESULT_WORD_SIZE}}件の単語が見つかりました。</p>
+            <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
+            <WordCard v-for="word in WORD_DATA"
+                      :key="word.id"
+                      :id="word.id"
+                      :name="word.name"
+                      :mean="word.mean"
+                      :number="word.number"
+                      :category="word.category.name"/>
+            <Pagination :maxValue="MAX_PAGE_SIZE" v-model="page"/>
+        </div>
+        <div v-else>
+            <div class="space h30"></div>
+            <p v-if="RECOMMENDED.length <= 0" class="not-search-result">復習する単語はありません</p>
+            <p v-else class="not-search-result">ようこそ！{{$store.state.authenticate.name}}さん。</p>
+            <RecommendedCard v-for="(data, index) in RECOMMENDED"
+                             :key="data.category.id"
+                             @createReviewHandle="createReview"
+                             :id="data.category.id"
+                             :category="data.category.name"
+                             :entries="data.entriesSize"
+                             :review="data.reviewSize"/>
         </div>
     </div>
 </template>
@@ -74,13 +78,13 @@
 
             async createReview(categoryId) {
                 const {data, message} = await this.$WORDLINKAPI.post(`/words/recommended`, {
-                    category: categoryId,
+                    categoryId: categoryId,
                 });
                 await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `${data.name}を作成しました`,
                 });
             },

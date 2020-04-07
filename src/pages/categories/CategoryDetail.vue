@@ -39,7 +39,7 @@
                            type="text"
                            placeholder="この辞書の説明" />
                 </sui-form-field>
-                <p @click="openDeleteCategory">辞書を削除</p>
+                <p v-if="CATEGORY_DATA.owner.id === $store.state.authenticate.id" @click="openDeleteCategory">辞書を削除</p>
                 <div class="space h30"></div>
                 <sui-button type="cancel" @click="editCategoryModal.modal=false">キャンセル</sui-button>
                 <sui-button @click="submitUpdateCategory">更新</sui-button>
@@ -49,16 +49,17 @@
 
         <Modal :show="deleteCategoryModal.modal" title="辞書を削除">
             <sui-form @submit.prevent="">
+                <p>確認のため、辞書名「{{CATEGORY_DATA.name}}」を入力してください。</p>
+                <p class="strong">Google Spreadsheetのデータは削除されません</p>
                 <sui-form-field>
                     <label>確認</label>
                     <input v-model="deleteCategoryModal.name"
                            type="text"
-                           placeholder="確認のため、辞書名を入力してください。" />
+                           placeholder="辞書名" />
                 </sui-form-field>
-                <p>関連づいた単語も削除されます</p>
                 <div class="space h30"></div>
                 <sui-button type="cancel" @click="deleteCategoryModal.modal=false">キャンセル</sui-button>
-                <sui-button @click="submitDeleteCategory" color="red">Delete</sui-button>
+                <sui-button @click="submitDeleteCategory" color="red">削除</sui-button>
             </sui-form>
         </Modal>
 
@@ -66,7 +67,7 @@
             <p>コンテンツの追加・更新・削除を適用します。</p>
             <div class="space h30"></div>
             <sui-button type="cancel" @click="reloadWordModal.modal = false">キャンセル</sui-button>
-            <sui-button @click="submitReloadWord" color="red">実行</sui-button>
+            <sui-button @click="submitReloadWord">読み込み</sui-button>
         </Modal>
 
 
@@ -80,6 +81,9 @@
                 </h2>
                 <p>{{CATEGORY_DATA.description}}</p>
                 <p class="created-date"><i class="fas fa-history"/> {{CREATED_AGO}}に作成</p>
+                <p class="owner-username">
+                    {{CATEGORY_DATA.owner.username}} がオーナー
+                </p>
             </div>
         </div>
         <div class="page-contents">
@@ -184,7 +188,7 @@
                     });
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `更新しました`,
                 });
                 await this.fetchCategory();
@@ -197,7 +201,7 @@
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `${this.CATEGORY_DATA.name}を削除しました`,
                 });
             },
@@ -213,7 +217,7 @@
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `${data.name}を作成しました`,
                 });
             },
@@ -223,7 +227,7 @@
                 await this.fetchWords();
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `単語を再読み込みしました。`,
                 });
             },
@@ -357,6 +361,11 @@
                     margin: 12px 0 0 0;
                     font-size: .87rem;
                 }
+
+                &.owner-username {
+                    margin: 4px 0 0 0;
+                    font-size: .89rem;
+                }
             }
         }
 
@@ -376,13 +385,6 @@
                     width: 100%;
                 }
 
-            }
-
-            .review-finished {
-                width: 100%;
-                padding: 20px 0;
-                display: flex;
-                justify-content: center;
             }
         }
     }

@@ -38,7 +38,7 @@
 
 
             <div v-if="categories">
-                <div v-if="$store.state.authenticate.level >= 2" class="contents-action-button" @click="registerCategoryForm.modal = true">
+                <div class="contents-action-button" @click="registerCategoryForm.modal = true">
                     <h2>辞書を追加</h2>
                 </div>
                 <router-link
@@ -90,10 +90,11 @@
                     name: name,
                     description: description,
                     sheetId: sheetId,
+                    private: true,
                 });
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `${nameCached}を作成しました`,
                 });
                 this.fetchData();

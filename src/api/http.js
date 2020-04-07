@@ -32,6 +32,7 @@ const http = {
             store.dispatch('authenticate/UPDATE', cache.auth);
         }
 
+
         Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
         Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
         Vue.WORDLINKAPI.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';

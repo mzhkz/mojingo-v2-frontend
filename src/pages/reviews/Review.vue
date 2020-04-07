@@ -1,16 +1,25 @@
 <template>
     <div v-if="REVIEW_DATA">
+
+        <Modal :show="deleteReviewConfirmModal.modal" title="このレビューを削除しますか？">
+            <sui-button type="cancel" @click="deleteReviewConfirmModal.modal = false">キャンセル</sui-button>
+            <sui-button @click="submitDeleteReview" color="red">削除する</sui-button>
+        </Modal>
+
         <div class="page-header">
             <div class="review-icon pass">
-                <i class="fas fa-undo-alt"></i>
+                <i class="fas fa-undo-alt"/>
             </div>
             <div class="review-information">
                 <h2>
                     {{REVIEW_DATA.review.name}}
+                    <button @click="deleteReviewConfirmModal.modal = true" class="button">
+                        <i class="fas fa-trash-alt"/>
+                    </button>
                 </h2>
                 <p>{{REVIEW_DATA.review.description}}</p>
                 <p class="created-date">
-                    <i class="fas fa-history"></i>  {{REVIEW_DATA.createAgo}}に作成 <br>
+                    <i class="fas fa-history"/>  {{REVIEW_DATA.createAgo}}に作成 <br>
                 </p>
                 <p class="owner-username">
                     {{REVIEW_DATA.review.owner.username}} がオーナー
@@ -45,14 +54,20 @@
 
 <script>
     import WordCard from "@/components/WordCard"
+    import Modal from '@/components/Modal';
+
     export default {
         name: "Review",
         components: {
             WordCard,
+            Modal,
         },
         data() {
             return {
                 REVIEW_DATA: null,
+                deleteReviewConfirmModal: {
+                    modal: false,
+                },
             }
         },
         methods: {
@@ -61,7 +76,7 @@
                     await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
                 this.REVIEW_DATA = data;
                 await this.$store.dispatch('application/PRESET_REVIEW', data.review);
-                await this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`)
+                await this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`);
 
                 if (this.isRecodingOtherUser) {
                     await this.$store.dispatch('alert/PUSH_ALERT', {
@@ -79,13 +94,34 @@
                 // await this.$router.push({ name: 'reviews', params: { which: 'me'}});
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: `${this.REVIEW_DATA.review.name}の復習が完了しました！お疲れさまです！`,
                 });
             },
 
+            async deleteReview() {
+                const {data, message} =
+                    await this.$WORDLINKAPI.post(`/reviews/me/${this.$route.params["id"]}/delete`);
+
+                let cached = this.REVIEW_DATA.review.name;
+
+                await this.$store.dispatch('alert/PUSH_ALERT', {
+                    icon: "",
+                    level: 1,
+                    message: `レビュー「${cached}」を削除しました`,
+                });
+
+                this.deleteReviewConfirmModal.modal = false;
+
+                await this.$router.replace({name: "reviews"});
+            },
+
             submitFinished() {
               this.postFinished();
+            },
+
+            submitDeleteReview() {
+                this.deleteReview();
             },
 
             judgeCorrect(answer) {
@@ -162,7 +198,9 @@
 
     .page-contents {
         margin: 30px 0 0 0;
+
         .answers {
+
             .review-finished {
                 width: 100%;
                 padding: 20px 0;

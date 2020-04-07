@@ -61,7 +61,7 @@
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "",
-                    level: 0,
+                    level: 1,
                     message: "ログインしました"
                 });
             }

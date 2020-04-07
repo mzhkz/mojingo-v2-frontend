@@ -29,7 +29,7 @@
                     </router-link>
                     <router-link :to="{name: 'profile', params: { id: 'me'}}">
                         <li :class="{ active: currentPageCategory === 'profile'}">
-                            プロフィール
+                            マイページ
                         </li>
                     </router-link>
                     <router-link :to="{name: 'admin'}">
@@ -42,7 +42,7 @@
                 </ul>
                 <ul v-if="$store.state.authenticate.token !== false">
                     <li @click="logout">
-                        <i class="fas fa-sign-out-alt"></i>　ログアウト
+                        <i class="fas fa-sign-out-alt"></i>　{{$store.state.authenticate.name}} からログアウト
                     </li>
                 </ul>
             </div>
