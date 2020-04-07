@@ -349,7 +349,7 @@
                 });
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "check",
                     level: 0,
                     message: `パスワードを更新しました`,
                 });
@@ -362,7 +362,7 @@
                 });
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "check",
                     level: 0,
                     message: `権限を更新しました`,
                 });
@@ -373,7 +373,7 @@
                 const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/dismiss`);
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "user-minus",
                     level: 1,
                     message: `${name} ユーザーを削除しました。`,
                 });
@@ -465,7 +465,7 @@
                     this.deleteUserForm.confirm_firstName !== this.focusingUser.firstName ||
                     this.deleteUserForm.confirm_lastName !== this.focusingUser.lastName) {
                     this.$store.dispatch('alert/PUSH_ALERT', {
-                        icon: "",
+                        icon: "exclamation-triangle",
                         level: 3,
                         message: `確認項目が一致しません`,
                     });

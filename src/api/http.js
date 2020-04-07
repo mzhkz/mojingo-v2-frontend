@@ -63,14 +63,15 @@ const http = {
                     store.dispatch('authenticate/UPDATE', {});
                     router.push({ name: 'login'});
                 }
-                store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 3, message: message});
+                const icon = result === 500 ? "bug" : "exclamation-triangle";
+                store.dispatch('alert/PUSH_ALERT', {icon: icon, level: 3, message: message});
                 return Promise.reject();
             }
             return Promise.resolve(responseData);
 
         }, (error => {
             if (!this.isInvalidToken(error)) {
-                store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 3, message: error});
+                store.dispatch('alert/PUSH_ALERT', {icon: "exclamation-triangle", level: 3, message: error});
             } else {
                 store.dispatch('authenticate/UPDATE', { active: false });
                 router.push({ name: 'login'});

@@ -93,7 +93,7 @@
                     private: true,
                 });
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "check",
                     level: 1,
                     message: `${nameCached}を作成しました`,
                 });

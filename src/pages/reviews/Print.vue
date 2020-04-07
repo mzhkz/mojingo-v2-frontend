@@ -1,7 +1,6 @@
 <template>
     <div v-if="$store.state.application.reservedReview">
         <div class="logo">
-            <img :src="logoImage" class="question-print-logo">
         </div>
         <table class="question-print-table">
             <tbody>

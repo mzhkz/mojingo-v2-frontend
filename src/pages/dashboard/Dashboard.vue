@@ -80,7 +80,7 @@
                 await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "check",
                     level: 1,
                     message: `${data.name}を作成しました`,
                 });

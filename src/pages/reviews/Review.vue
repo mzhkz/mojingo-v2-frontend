@@ -77,7 +77,7 @@
 
                 if (this.isRecodingOtherUser) {
                     await this.$store.dispatch('alert/PUSH_ALERT', {
-                        icon: "",
+                        icon: "exclamation-triangle",
                         level: 2,
                         message: `この小テストのオーナーは${this.REVIEW_DATA.review.owner.username}さんです。`,
                     });
@@ -90,7 +90,7 @@
                 this.REVIEW_DATA.review.finished = true;
                 // await this.$router.push({ name: 'reviews', params: { which: 'me'}});
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "exclamation-triangle",
                     level: 1,
                     message: `${this.REVIEW_DATA.review.name}の復習が完了しました！お疲れさまです！`,
                 });

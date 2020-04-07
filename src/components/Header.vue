@@ -83,7 +83,7 @@
             logout() {
                 this.$store.dispatch('authenticate/RESET');
                 this.$router.push({name: "login"});
-                this.$store.dispatch('alert/PUSH_ALERT', {icon: "none", level: 2, message: "ログアウトしました。"});
+                this.$store.dispatch('alert/PUSH_ALERT', {icon: "sign-out-alt", level: 2, message: "ログアウトしました。"});
             },
 
             print() {

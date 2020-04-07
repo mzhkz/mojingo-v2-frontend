@@ -184,7 +184,7 @@
                         description: description,
                     });
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "sync-alt",
                     level: 1,
                     message: `更新しました`,
                 });
@@ -197,7 +197,7 @@
                 await this.$router.push({name: 'categories'});
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "trash-alt",
                     level: 1,
                     message: `${this.CATEGORY_DATA.name}を削除しました`,
                 });
@@ -213,7 +213,7 @@
                 await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "check",
                     level: 1,
                     message: `${data.name}を作成しました`,
                 });
@@ -223,7 +223,7 @@
                 const {data, message} = await this.$WORDLINKAPI.post(`/categories/view/${this.$route.params["id"]}/sync`);
                 await this.fetchWords();
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "sync-alt",
                     level: 1,
                     message: `単語を再読み込みしました。`,
                 });
@@ -268,7 +268,7 @@
 
                 if (this.deleteCategoryModal.name !== this.CATEGORY_DATA.name) {
                     this.$store.dispatch('alert/PUSH_ALERT', {
-                        icon: "",
+                        icon: "exclamation-triangle",
                         level: 3,
                         message: `辞書名が一致しません`,
                     });

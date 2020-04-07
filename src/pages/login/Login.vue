@@ -60,7 +60,7 @@
                 await this.$router.push(redirect ? redirect : "/");
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "sign-in-alt",
                     level: 1,
                     message: "ログインしました"
                 });

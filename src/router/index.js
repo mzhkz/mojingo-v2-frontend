@@ -14,7 +14,7 @@ async function goLogin(to, from, next, need) {
    } else {
        await store.dispatch('alert/PUSH_ALERT', {
            message: 'ログインしてください。',
-           icon: 'close',
+           icon: 'exclamation-triangle',
            level: '3'
        });
        await store.dispatch('application/SET_LAYOUT', 'TopBar');

@@ -63,7 +63,7 @@
 
                 if (this.isRecodingOtherUser) {
                     await this.$store.dispatch('alert/PUSH_ALERT', {
-                        icon: "",
+                        icon: "exclamation-triangle",
                         level: 2,
                         message: `この小テストのオーナーは${data.owner.username}さんです。`,
                     });
@@ -150,7 +150,7 @@
             this.showAnswer = this.onlyRecord;
             if (this.onlyRecord) {
                 this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "exclamation-triangle",
                     level: 2,
                     message: `現在、回答記録モードです`,
                 });
