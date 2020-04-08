@@ -1,6 +1,12 @@
 <template>
     <div v-if="REVIEW_DATA">
 
+        <div @click="mistook = !mistook" class="actions-bar">
+            <p><i class="fas fa-chart-bar"/>　
+                正答率 {{REVIEW_DATA.correctSize}} /  {{REVIEW_DATA.incorrectSize}}
+                <span class="strong">({{REVIEW_DATA.percentage}}%)</span></p>
+        </div>
+
         <Modal :show="deleteReviewConfirmModal.modal" title="このレビューを削除しますか？">
             <sui-button type="cancel" @click="deleteReviewConfirmModal.modal = false">キャンセル</sui-button>
             <sui-button @click="submitDeleteReview" color="red">削除する</sui-button>
@@ -35,6 +41,7 @@
             <div class="answers">
                 <h2>小テスト結果</h2>
                 <WordCard v-for="answer in REVIEW_DATA.review.answers"
+                          v-if="!mistook || !judgeCorrect(answer)"
                           :key="answer.id"
                           :WORD_DATA="answer.word"
                           :borderColor="judgeColor(judgeCorrect(answer))"/>
@@ -65,6 +72,8 @@
                 deleteReviewConfirmModal: {
                     modal: false,
                 },
+
+                mistook: false,
             }
         },
         methods: {
@@ -90,7 +99,7 @@
                 this.REVIEW_DATA.review.finished = true;
                 // await this.$router.push({ name: 'reviews', params: { which: 'me'}});
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "exclamation-triangle",
+                    icon: "check",
                     level: 1,
                     message: `${this.REVIEW_DATA.review.name}の復習が完了しました！お疲れさまです！`,
                 });
@@ -101,16 +110,16 @@
                     await this.$WORDLINKAPI.post(`/reviews/me/${this.$route.params["id"]}/delete`);
 
                 let cached = this.REVIEW_DATA.review.name;
+                this.deleteReviewConfirmModal.modal = false;
 
+                await this.$router.replace({name: "reviews"});
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
+                    icon: "check",
                     level: 1,
                     message: `レビュー「${cached}」を削除しました`,
                 });
 
-                this.deleteReviewConfirmModal.modal = false;
 
-                await this.$router.replace({name: "reviews"});
             },
 
             submitFinished() {
@@ -146,6 +155,23 @@
 </script>
 
 <style scoped lang="scss">
+
+    .actions-bar {
+        z-index: 2;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        height: 60px;
+        background: rgba(213, 216, 230, 0.85);
+        box-shadow: 0 0px 7px 1px #efefef;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
     .page-header {
         color: $default-link-color;
         min-height: 150px;

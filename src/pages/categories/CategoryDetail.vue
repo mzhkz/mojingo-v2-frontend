@@ -313,7 +313,7 @@
         bottom: 0;
         right: 0;
         left: 0;
-        height: 50px;
+        height: 60px;
         background: rgba(213, 216, 230, 0.85);
         box-shadow: 0 0px 7px 1px #efefef;
         text-align: center;

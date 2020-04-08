@@ -2,7 +2,7 @@
     <section>
         <div>
             <Modal :show="registerUserForm.modal" title="ユーザーを追加">
-                <sui-form @submit.prevent="">
+                <sui-form @submit.prevent="" autocomplete="off">
                     <sui-form-field>
                         <label>Name</label>
                         <sui-form-fields fields="two">
@@ -78,7 +78,7 @@
 
 
             <Modal :show="resetPasswordForm.modal" title="パスワードをリセット">
-                <sui-form @submit.prevent="">
+                <sui-form @submit.prevent="" autocomplete="off">
                     <sui-form-fields fields="two">
                         <sui-form-field>
                             <input
@@ -103,7 +103,7 @@
 
 
             <Modal :show="editBasicInfoForm.modal" title="基本情報を変更">
-                <sui-form @submit.prevent="">
+                <sui-form @submit.prevent="" autocomplete="off">
                     <sui-form-field>
                         <label>Name</label>
                         <sui-form-fields fields="two">
@@ -144,7 +144,7 @@
             </Modal>
 
             <Modal :show="deleteUserForm.modal" title="ユーザーを削除">
-                <sui-form @submit.prevent="">
+                <sui-form @submit.prevent="" autocomplete="off">
                     <sui-form-field>
                         <label>ユーザー名確認</label>
                         <sui-form-fields fields="two">
@@ -336,8 +336,8 @@
                 });
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
-                    level: 0,
+                    icon: "user-plus",
+                    level: 1,
                     message: `${username}を登録しました`,
                 });
                 this.fetchData();
@@ -363,7 +363,7 @@
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "check",
-                    level: 0,
+                    level: 1,
                     message: `権限を更新しました`,
                 });
                 this.fetchData();
