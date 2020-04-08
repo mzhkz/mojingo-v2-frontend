@@ -3,7 +3,7 @@
 
         <div @click="mistook = !mistook" class="actions-bar">
             <p><i class="fas fa-chart-bar"/>　
-                正答率 {{REVIEW_DATA.correctSize}} /  {{REVIEW_DATA.incorrectSize}}
+                正答率 {{REVIEW_DATA.correctSize}} /  {{REVIEW_DATA.incorrectSize + REVIEW_DATA.correctSize}}
                 <span class="strong">({{REVIEW_DATA.percentage}}%)</span></p>
         </div>
 
@@ -41,10 +41,10 @@
             <div class="answers">
                 <h2>小テスト結果</h2>
                 <WordCard v-for="answer in REVIEW_DATA.review.answers"
-                          v-if="!mistook || !judgeCorrect(answer)"
+                          v-if="!mistook || !answer.isCorrect"
                           :key="answer.id"
                           :WORD_DATA="answer.word"
-                          :borderColor="judgeColor(judgeCorrect(answer))"/>
+                          :borderColor="judgeColor(answer.isCorrect)"/>
                 <div class="review-finished">
                     <sui-button :disabled="REVIEW_DATA.review.finished || REVIEW_DATA.review.entries.length !== REVIEW_DATA.review.answers.length"
                                 @click="submitFinished">
@@ -81,6 +81,9 @@
                 const {data, message} =
                     await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
                 this.REVIEW_DATA = data;
+                for (let i = 0; i < this.REVIEW_DATA.review.answers.length; i++) {
+                    this.REVIEW_DATA.review.answers[i].isCorrect = this.judgeCorrect(this.REVIEW_DATA.review.answers[i])
+                }
                 await this.$store.dispatch('application/PRESET_REVIEW', data.review);
                 await this.$store.dispatch('application/SET_TITLE', `小テスト「${this.REVIEW_DATA.review.name}」`);
 
