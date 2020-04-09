@@ -2,7 +2,7 @@ const detectPlugin = store => {
     store.subscribe((mutation, state) => {
         switch (mutation.type) {
             case 'application/SET_TITLE': { //ページ名が更新された
-                document.title = state.application.currentPageTitle + " /: WordLink";
+                document.title = state.application.currentPageTitle + " - Mojingo";
                 break;
             }
 

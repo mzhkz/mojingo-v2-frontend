@@ -318,8 +318,8 @@
                 });
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "",
-                    level: 0,
+                    icon: "check",
+                    level: 1,
                     message: `${username}を更新しました`,
                 });
                 this.fetchData();
