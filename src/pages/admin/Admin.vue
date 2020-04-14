@@ -235,7 +235,7 @@
 
     const parmissions = [
         {
-            text: '生徒',
+            text: '一般',
             value: 1,
         },
         {
@@ -349,8 +349,8 @@
                 });
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
-                    icon: "check",
-                    level: 0,
+                    icon: "key",
+                    level: 1,
                     message: `パスワードを更新しました`,
                 });
                 this.fetchData();

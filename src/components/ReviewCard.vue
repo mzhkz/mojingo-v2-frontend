@@ -7,15 +7,15 @@
             <p>{{ description }}</p>
         </div>
         <div class="review-lower-contents">
-            <div>
+            <div v-show="finished" class="override-message-bar">
+                <p><i class="fas fa-check"></i>　すべて復習済み</p>
+            </div>
+            <div class="review-card-low-child">
                 <h3>正答率
                     <span class="correct">{{ correct }}</span> / <span class="correct-and-incorrect">{{ all }}　</span>
-                    <span v-if="finished" class="review-finished">
-                        　<i class="fas fa-check"></i>
-                    </span>
                 </h3>
             </div>
-            <div>
+            <div class="review-card-low-child">
                 <h3>もっと見る</h3>
             </div>
         </div>
@@ -71,8 +71,29 @@
             align-items: center;
             justify-content: space-between;
             border-top: 1px solid #efefef;
+            position: relative;
 
-            div {
+            &.finished {
+                border-color: #ebeefb;
+            }
+
+            .override-message-bar {
+                position: absolute;
+                width: 100%;
+                height: 32px;
+                top: -32px;
+                text-align: center;
+                color: $app-content-color;
+                background: rgba(2,2,2, 0.147);
+
+                p {
+                    padding: 6px;
+                    margin: 0;
+                    font-size: 13px;
+                }
+            }
+
+            .review-card-low-child {
                 padding: 15px 25px;
                 color: $default-link-color;
 

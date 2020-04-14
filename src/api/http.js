@@ -75,6 +75,7 @@ const http = {
             } else {
                 store.dispatch('authenticate/UPDATE', { active: false });
                 router.push({ name: 'login'});
+                store.dispatch('alert/PUSH_ALERT', {icon: "exclamation-triangle", level: 3, message: error});
             }
             return Promise.reject(error);
         }));
