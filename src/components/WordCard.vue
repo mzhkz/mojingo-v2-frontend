@@ -16,10 +16,10 @@
                 {{WORD_DATA.number}}
             </div>
         </div>
-        <div v-if="displayDescription && WORD_DATA.description" class="word-provide-by">
-            <p>> {{WORD_DATA.description}}</p>
+        <div v-if="displayDescription && WORD_DATA.description" class="word-descriptions">
+            <p v-html="WORD_DATA.description"> </p>
         </div>
-        <div v-if="displayCategory" class="word-provide-by">
+        <div v-if="displayCategory" class="word-descriptions">
             <p>> {{WORD_DATA.category.name}}</p>
         </div>
     </div>
@@ -99,7 +99,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
     .word-card {
         position: relative;
@@ -153,74 +153,83 @@
             width: 2px;
             background: $app-primary-focus-color;
         }
-    }
 
-    .word-provide-by {
-        padding: 8px;
-        border: 2px dotted #e2e2e2;
-        background: $app-primary-color;
-        color: #c3c3c3;
 
-        p {
-            font-size: 13px;
-        }
-    }
-
-    .word-basic-information {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 82px;
-
-        .word-description-wrap {
-            width: 100%;
-            padding: 0 40px 5px 31px;
-            font-family: $default-font-family;
-
-            h2 {
-                font-weight: unset;
-                font-size: 18px;
-                margin-bottom: 5px;
-                color: $default-link-color;
-                font-family: unset;
-
-                a {
-                    cursor: pointer;
-                }
-
-                .speech {
-                    font-size: 15px;
-                    padding: 3px;
-                    margin-left: 10px;
-                    color: #bdbfcc;
-                    cursor: pointer;
-
-                    &:hover {
-                        color: $default-letter-color;
-                    }
-                }
-            }
+        .word-descriptions {
+            padding: 8px;
+            background: $app-primary-color;
+            color: $default-link-color;
 
             p {
                 font-size: 13px;
-                color: #5f6368;
+
+                .verb-block {
+                    cursor: pointer;
+                    background: $accent-thin-color;
+                    border-radius: 3px;
+                    padding: 1px 3px;
+                    margin: 0 5px;
+                }
             }
         }
 
-        .word-keyring-wrap {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            width: 35px;
-            background: #fbfbfb;
+        .word-basic-information {
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: $default-link-color;
-            font-size: 11px;
-            font-weight: bold;
+            min-height: 82px;
+
+            .word-description-wrap {
+                width: 100%;
+                padding: 0 40px 5px 31px;
+                font-family: $default-font-family;
+
+                h2 {
+                    font-weight: unset;
+                    font-size: 18px;
+                    margin-bottom: 5px;
+                    color: $default-link-color;
+                    font-family: unset;
+
+                    a {
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    .speech {
+                        font-size: 15px;
+                        padding: 3px;
+                        margin-left: 10px;
+                        color: #bdbfcc;
+                        cursor: pointer;
+
+                        &:hover {
+                            color: $default-letter-color;
+                        }
+                    }
+                }
+
+                p {
+                    font-size: 13px;
+                    color: #5f6368;
+                }
+            }
+
+            .word-keyring-wrap {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                right: 0;
+                width: 35px;
+                background: #fbfbfb;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                color: $default-link-color;
+                font-size: 11px;
+                font-weight: bold;
+            }
         }
     }
 </style>
