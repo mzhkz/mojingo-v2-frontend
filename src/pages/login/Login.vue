@@ -1,20 +1,23 @@
 <template>
-    <div>
-        <sui-form @submit.prevent="loginRequest(form.username, form.password)">
-            <sui-form-field>
+    <div class="login-form">
+        <h2>Mojingo V2 システムへログイン</h2>
+        <form @submit.prevent="loginRequest(form.username, form.password)">
+            <div>
                 <label>ユーザネーム</label>
                 <input placeholder="Username" v-model="form.username"/>
 <!--                <sui-label basic color="red" pointing>ユーザー名が無効です。</sui-label>-->
-            </sui-form-field>
-            <sui-form-field>
+            </div>
+            <div>
                 <label>パスワード</label>
                 <input type="password" placeholder="Password" v-model="form.password"/>
-            </sui-form-field>
+            </div>
 <!--            <sui-form-field>-->
 <!--                <sui-checkbox label="ログイン情報を保存する" />-->
 <!--            </sui-form-field>-->
-            <sui-button type="submit" primary>ログイン</sui-button>
-        </sui-form>
+            <div class="space h10"></div>
+            <button type="reset">リセット</button>
+            <button type="submit">認証</button>
+        </form>
     </div>
 </template>
 
@@ -69,6 +72,9 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss">
+    .login-form {
+        background: $app-content-color;
+        padding: 20px;
+    }
 </style>
