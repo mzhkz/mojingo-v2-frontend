@@ -32,6 +32,7 @@ const http = {
             store.dispatch('authenticate/UPDATE', cache.auth);
         }
 
+        store.state.application.serviceAccount = constant.GOOGLE_SERVICE_ACCOUNT;
 
         Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
         Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;

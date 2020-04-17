@@ -9,6 +9,7 @@ const store = {
         isMasking: false,
         isDisableScroll: false,
         reservedReview: null,
+        serviceAccount: null,
     },
 
     mutations: {

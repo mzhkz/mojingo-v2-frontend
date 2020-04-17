@@ -21,8 +21,9 @@
                                 placeholder="説明"
                         />
                     </sui-form-field>
-                    <sui-form-field>
+                    <sui-form-field class="google-spreadsheet-id">
                         <label>Google Spreadsheet ID</label>
+                        <p>{{ $store.state.application.serviceAccount }}</p>
                         <input
                                 type="text"
                                 v-model="registerCategoryForm.sheetId"
@@ -123,4 +124,9 @@
 </script>
 
 <style scoped lang="scss">
+    .google-spreadsheet-id {
+        background:  $app-primary-color;
+        padding: 10px;
+        border-radius: 4px;
+    }
 </style>

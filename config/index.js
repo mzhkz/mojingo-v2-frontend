@@ -3,6 +3,7 @@ const path = require('path');
 module.exports = {
     system: {
         version: '2.0',
+        serviceAccount: 'sheet-request@mojingo-v2-prod.iam.gserviceaccount.com',
         api: {
             dev: {
                 base: "http://localhost:8000",

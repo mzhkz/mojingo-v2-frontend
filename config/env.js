@@ -8,6 +8,7 @@ module.exports = {
         APP_ENV_PROD: IS_PRODUCTION,
         APP_ENV_DEBUG: !IS_PRODUCTION,
         APP_VERSION: config.system.version,
+        APP_SERVICE_ACCOUNT: config.system.serviceAccount,
         API_BASE_URL: IS_PRODUCTION ? config.system.api.prod.base : config.system.api.dev.base,
     },
 };
