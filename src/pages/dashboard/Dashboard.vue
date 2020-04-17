@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="dashboard">
         <Search v-model="keyword" placeholder="単語を検索"/>
         <div v-if="keyword">
             <p v-if="WORD_DATA.length <= 0" class="not-search-result">{{WORD_DATA.length}}件の単語が見つかりました</p>
@@ -103,11 +103,13 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .not-search-result {
-        margin: 30px 10px;
-        font-size: 13px;
-        text-align: center;
-        color: $default-link-color;
+<style lang="scss">
+    .dashboard {
+        .not-search-result {
+            margin: 30px 10px;
+            font-size: 13px;
+            text-align: center;
+            color: $default-link-color;
+        }
     }
 </style>

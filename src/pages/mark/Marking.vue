@@ -1,5 +1,5 @@
 <template>
-    <div v-if="QUESTION">
+    <div class="marking" v-if="QUESTION">
         <div class="marking-sheet">
            <h2>
                <span class="number">問{{QUESTION.number}}.</span>
@@ -15,8 +15,8 @@
 
             <div v-show="showAnswer" class="answer-wrapper">
                 <div class="answer-box">
-                    <p>{{QUESTION.mean}}</p>
-                    <small v-if="QUESTION.description">{{QUESTION.description}}</small>
+                    <p class="mean">{{QUESTION.mean}}</p>
+                    <small class="description" v-if="QUESTION.description" v-html="QUESTION.description"></small>
                 </div>
                 <div class="answer-button-field">
                     <button @click="submitAnswer({target: MARKER_WORD_ID, result: 1})"
@@ -166,76 +166,88 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .marking-sheet {
-        position: relative;
-        background: $app-content-color;
-        padding: 30px;
-        margin: 60px 0;
+<style lang="scss">
 
-        h2 {
-            font-size: 24px;
-            font-family: 'Times New Roman', sans-serif;
+    .marking {
+        .marking-sheet {
+            position: relative;
+            background: $app-content-color;
+            padding: 30px;
+            margin: 60px 0;
 
-            .number {
-                font-size: 18px;
-                padding-right: 12px;
-                font-weight: 500;
-            }
+            h2 {
+                font-size: 24px;
+                font-family: 'Times New Roman', sans-serif;
 
-            .speech {
-                font-size: 16px;
-                padding: 3px;
-                margin-left: 10px;
-                color: #bdbfcc;
-                cursor: pointer;
-
-                &:hover {
-                    color: $default-letter-color;
+                .number {
+                    font-size: 18px;
+                    padding-right: 12px;
+                    font-weight: 500;
                 }
 
-            }
-        }
+                .speech {
+                    font-size: 16px;
+                    padding: 3px;
+                    margin-left: 10px;
+                    color: #bdbfcc;
+                    cursor: pointer;
 
-        .submit-button {
-            border: none;
-            background: $app-primary-focus-color;
-            padding: 14px 12px;
-            color: $default-link-color;
-            font-family: $default-font-family;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            width: 100%;
+                    &:hover {
+                        color: $default-letter-color;
+                    }
 
-            &.correct {
-                background: #d5e6d8;
+                }
             }
 
-            &.incorrect {
-               background: #e6d5d5;
-            }
-
-        }
-
-        .answer-wrapper {
-            .answer-box {
-                padding: 15px;
-                font-size: 15px;
+            .submit-button {
+                border: none;
+                background: $app-primary-focus-color;
+                padding: 14px 12px;
+                color: $default-link-color;
                 font-family: $default-font-family;
+                font-size: 14px;
+                cursor: pointer;
+                text-decoration: none;
+                width: 100%;
+
+                &.correct {
+                    background: #d5e6d8;
+                }
+
+                &.incorrect {
+                    background: #e6d5d5;
+                }
+
             }
 
-            .answer-button-field {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 18px 0;
+            .answer-wrapper {
+                .answer-box {
+                    padding: 15px;
+                    font-size: 15px;
+                    font-family: $default-font-family;
 
-                button:nth-child(1) {
-                    margin-right: 2px;
+                    .description {
+                        .verb-block {
+                            background: $accent-thin-color;
+                            border-radius: 3px;
+                            padding: 1px 3px;
+                            margin: 0 3px;
+                        }
+                    }
                 }
-                button:nth-child(2) {
-                    margin-left: 2px;
+
+                .answer-button-field {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 18px 0;
+
+                    button:nth-child(1) {
+                        margin-right: 2px;
+                    }
+                    button:nth-child(2) {
+                        margin-left: 2px;
+                    }
                 }
             }
         }

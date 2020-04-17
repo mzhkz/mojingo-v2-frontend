@@ -1,5 +1,5 @@
 <template>
-    <section class="app-topbar-contents">
+    <section class="app-header">
         <div class="app-header-wrapper">
             <div class="app-header-contain">
                 <div class="logo">
@@ -93,152 +93,149 @@
     }
 </script>
 
-<style scoped lang="scss">
-    .logo {
-        font-size: 20px;
-        text-align: center;
-        padding: 30px 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .logo-img {
-            width: 55px;
-        }
-
-        .logo-name {
-            padding-left: 9px;
-            font-family: "Product Sans", sans-serif;
-
-            small {
-                color: $default-link-color;
-                font-size: 11px;
-            }
-        }
-    }
-
-
-    .app-topbar-contents {
-        position: relative;
-        height: 100%;
-    }
-
-    .app-header-wrapper {
-        position: fixed;
-        z-index: 2;
-        top: 0;
-        right: 0;
-        left: 0;
-        background: transparent;
-        padding: 0 35px 0 0;
-
-        @include tab() {
-            padding: 0 25px 0 0;
-        }
-
-        .app-header-contain {
-            position: relative;
-            height: 60px;
-            width: 100%;
+<style lang="scss">
+    .app-header {
+        .logo {
+            font-size: 20px;
+            text-align: center;
+            padding: 30px 5px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
 
-            .logo {
-               text-align: left;
-                padding-left: 30px;
+            .logo-img {
+                width: 55px;
             }
 
-            .hamburger-menu {
-                display: none;
-                background: rgba(247, 247, 248, 0.8);
-                padding: 10px;
-            }
+            .logo-name {
+                padding-left: 9px;
+                font-family: "Product Sans", sans-serif;
 
-
-            @include tab() {
-                .hamburger-menu {
-                    display: block;
+                small {
+                    color: $default-link-color;
+                    font-size: 11px;
                 }
             }
         }
-    }
 
-    .app-sidebar-wrapper {
-        .app-sidebar-contain {
+
+        .app-header-wrapper {
             position: fixed;
-            z-index: 3;
-            width: 240px;
-            height: 100vh;
-            background: $app-primary-content-color;
-            transform: translateX(0);
-            transition: 100ms transform;
+            z-index: 2;
+            top: 0;
+            right: 0;
+            left: 0;
+            background: transparent;
+            padding: 0 35px 0 0;
 
             @include tab() {
-                transform: translateX(-240px);
-
-                &.active {
-                    transform: translateX(0);
-                }
+                padding: 0 25px 0 0;
             }
 
-            .logo {
-                color: $app-primary-color;
-            }
-
-
-            .logo-space {
+            .app-header-contain {
+                position: relative;
                 height: 60px;
-            }
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
 
-            .user-information-wrapper {
-                margin-left: 14px;
-                position: absolute;
-                bottom: 0;
-                padding: 30px;
-                color: $app-primary-color;
+                .logo {
+                    text-align: left;
+                    padding-left: 30px;
+                }
 
-                .user-information {
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
+                .hamburger-menu {
+                    display: none;
+                    background: rgba(247, 247, 248, 0.8);
+                    padding: 10px;
                 }
-                .user-icon {
-                    font-size: 15px;
-                    text-align: center;
-                }
-                h4 {
-                    color: unset;
-                    margin: 0;
-                    padding: 15px;
-                    font-weight: 100;
+
+
+                @include tab() {
+                    .hamburger-menu {
+                        display: block;
+                    }
                 }
             }
+        }
 
-            ul {
-                list-style: none;
-                padding: 10px;
-                margin: 0;
+        .app-sidebar-wrapper {
+            .app-sidebar-contain {
+                position: fixed;
+                z-index: 3;
+                width: 240px;
+                height: 100vh;
                 background: $app-primary-content-color;
+                transform: translateX(0);
+                transition: 100ms transform;
 
-                li {
-                    margin: 3px;
-                    padding: 17px 25px;
-                    font-size: 12px;
-                    font-weight: bold;
-                    border-radius: 4px;
-                    color: $app-primary-color;
+                @include tab() {
+                    transform: translateX(-240px);
 
                     &.active {
-                        background: darken($app-primary-content-color, 10%);
-
-                        &:before {
-                            /*content: ">　";*/
-                        }
+                        transform: translateX(0);
                     }
+                }
 
-                    &:hover {
-                        background: darken($app-primary-content-color, 6.5%);
+                .logo {
+                    color: $app-primary-color;
+                }
+
+
+                .logo-space {
+                    height: 60px;
+                }
+
+                .user-information-wrapper {
+                    margin-left: 14px;
+                    position: absolute;
+                    bottom: 0;
+                    padding: 30px;
+                    color: $app-primary-color;
+
+                    .user-information {
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+                    }
+                    .user-icon {
+                        font-size: 15px;
+                        text-align: center;
+                    }
+                    h4 {
+                        color: unset;
+                        margin: 0;
+                        padding: 15px;
+                        font-weight: 100;
+                    }
+                }
+
+                ul {
+                    list-style: none;
+                    padding: 10px;
+                    margin: 0;
+                    background: $app-primary-content-color;
+
+                    li {
+                        margin: 3px;
+                        padding: 17px 25px;
+                        font-size: 12px;
+                        font-weight: bold;
+                        border-radius: 4px;
+                        color: $app-primary-color;
+
+                        &.active {
+                            background: darken($app-primary-content-color, 10%);
+
+                            &:before {
+                                /*content: ">　";*/
+                            }
+                        }
+
+                        &:hover {
+                            background: darken($app-primary-content-color, 6.5%);
+                        }
                     }
                 }
             }

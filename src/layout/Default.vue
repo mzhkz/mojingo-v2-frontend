@@ -23,7 +23,7 @@
     }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
     .app-content-grid {
         padding-top: 75px;
         padding-bottom: 55px;
