@@ -33,6 +33,7 @@
         background: $app-content-color;
         overflow: hidden;
         box-shadow: 0 0px 7px 1px #efefef;
+        border-radius: 7px;
 
         &:nth-child( n + 1 ) {
             margin-bottom: 15px;
@@ -40,7 +41,7 @@
 
         .category-upper-contents {
             width: 100%;
-            padding: 20px;
+            padding: 24px 24px 10px 24px;
             font-family: $default-font-family
 
             h2 {
@@ -52,7 +53,8 @@
 
             p {
                 font-size: 13px;
-                color: #5f6368;
+                color: $default-font-secondary-color;
+                padding: 5px;
             }
         }
 
@@ -60,13 +62,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-top: 1px solid #efefef;
 
             div {
-                padding: 15px 25px;
+                padding: 10px 25px;
                 color: $default-link-color;
 
                 h3 {
+                    background:  $app-primary-color;
+                    padding: 10px;
                     font-size: 12px;
 
                     .number {
