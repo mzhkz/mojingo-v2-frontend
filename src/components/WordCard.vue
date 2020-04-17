@@ -1,6 +1,5 @@
 <template>
     <div class="word-card" :class="doPaintByLevel(WORD_DATA.rank)">
-        <span class="concept-line" :style="{background: borderColor}"/>
         <span class="appeal-level" :style="{'border-color': borderColor}"></span>
         <div class="word-basic-information">
             <div class="word-description-wrap">
@@ -106,6 +105,7 @@
         background: $app-content-color;
         overflow: hidden;
         box-shadow: 0 0px 7px 1px #efefef;
+        border-radius: 6px;
 
         &:nth-child( n + 1 ) {
             margin-bottom: 8px;
@@ -117,7 +117,8 @@
             }
 
             .appeal-level {
-                border-color: $theme-color;
+                border-color: lighten( $theme-color, 20%);
+                background: $theme-color;
             }
         }
         &.stage-0 {
@@ -138,7 +139,7 @@
             width: 19px;
             height: 19px;
             background: $app-primary-color;
-            border: 2px solid $app-primary-focus-color;
+            border: 3px solid $app-primary-focus-color;
             border-radius: 10px;
             top: 33px;
             left: -10px;
@@ -158,14 +159,17 @@
         .word-descriptions {
             padding: 8px;
             background: $app-primary-color;
-            color: $default-link-color;
+            color: lighten( $default-link-color, 15%);
+            border-bottom: 10px solid $app-content-color;
+            border-left: 10px solid $app-content-color;
 
             p {
                 font-size: 13px;
 
                 .verb-block {
                     cursor: pointer;
-                    background: $accent-thin-color;
+                    background: lighten( $accent-thin-color, 3%);
+                    color: lighten( $default-link-color, 5%);
                     border-radius: 3px;
                     padding: 1px 3px;
                     margin: 0 5px;
@@ -193,7 +197,6 @@
 
                     a {
                         cursor: pointer;
-                        text-decoration: none;
                     }
 
                     .speech {
