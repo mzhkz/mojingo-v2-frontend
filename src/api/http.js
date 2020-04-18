@@ -32,6 +32,12 @@ const http = {
             store.dispatch('authenticate/UPDATE', cache.auth);
         }
 
+        console.log(` `);
+        console.log(`connected to ${constant.BASE_URL}.`);
+        console.log(`linked to ${constant.GOOGLE_SERVICE_ACCOUNT}.`);
+        console.log(`launch at ${constant.CURRENT_APP_VERSION}.`);
+        console.log(` `);
+
         store.state.application.serviceAccount = constant.GOOGLE_SERVICE_ACCOUNT;
 
         Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
