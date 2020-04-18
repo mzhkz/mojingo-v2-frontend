@@ -29,4 +29,4 @@ new Vue({
     render: h => h(App)
 });
 
-console.log(`Welcome to Wordlink ${constants.CURRENT_APP_VERSION}`);
+console.log(`Welcome to Mojingo ${constants.CURRENT_APP_VERSION}`);
