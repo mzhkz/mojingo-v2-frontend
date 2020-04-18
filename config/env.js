@@ -8,5 +8,8 @@ module.exports = {
         APP_ENV_PROD: IS_PRODUCTION,
         APP_ENV_DEBUG: !IS_PRODUCTION,
         APP_VERSION: config.system.version,
+
+        API_BASE: process.env.MOJINGOV2_API_BASE_URL,
+        APP_SERVICE_ACCOUNT: process.env.MOJINGOV2_APP_SERVICE_ACCOUNT,
     },
 };
