@@ -12,6 +12,8 @@ jobs:
       USER_NAME: mojingo_app  # デプロイ先のユーザー名
       APP_DIR: /opt/mojingov2/frontend/build/ #デプロイ先のディレクトリ
       SERVICE_NAME: mojingov2-frontend
+      MOJINGOV2_API_BASE_URL: https://api-v2.mojingo.me
+      MOJINGOV2_APP_SERVICE_ACCOUNT: sheet-request@mojingo-v2-prod.iam.gserviceaccount.com
 
     steps:
       - checkout
