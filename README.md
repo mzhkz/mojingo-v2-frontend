@@ -16,3 +16,13 @@
 |yarn build:dev|開発用のファイルを出力する|
 |yarn build:prod|本番用のファイルを出力する|
 
+
+### Environments Settings
+|ENV|Type|Description|DEFAULT|
+|:---|:---|:---|:---|
+|MOJINGOV2_API_BASE_URL|string|接続するAPIサーバー|https://api-v2.mojingo.me|
+|MOJINGOV2_APP_SERVICE_ACCOUNT|string|GOOGLE_SPREADSHEET共有先アカウント（CORS）|sheet-request@****.iam.gserviceaccount.com|
+|MOJINGOV2_APP_EXPRESS_HOST|string|フロントエンドサーバーホスト|0.0.0.0|
+|MOJINGOV2_APP_EXPRESS_PORT|int|フロントエンドサーバーポート|8888|
+|NODE_ENV|string|ステージング設定(WebPackのみ)|development|
+

@@ -3,8 +3,6 @@ const fs = require('fs');
 const Express = require('express');
 const config = require('../config');
 
-
-
 const app = new Express();
 
 /** JSやCSSなどを配信 */
@@ -19,6 +17,9 @@ app.get('/*', async (req, res, next) => {
 });
 
 
-app.listen(config.express.port, config.express.host,() => {
-    console.log(`Wordlink Express running http://${config.express.host}:${config.express.port}`);
+const openPort = process.env.MOJINGOV2_APP_EXPRESS_PORT;
+const launchHost = process.env.MOJINGOV2_APP_EXPRESS_HOST;
+
+app.listen(openPort, launchHost,() => {
+    console.log(`MojingoV2 Express running http://${launchHost}:${openPort}`);
 });

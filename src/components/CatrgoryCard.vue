@@ -42,14 +42,7 @@
         .category-upper-contents {
             width: 100%;
             padding: 24px 24px 10px 24px;
-            font-family: $default-font-family
-
-            h2 {
-                font-weight: bold;
-                font-size: 18px;
-                margin-bottom: 7px;
-                font-family: unset;
-            }
+            font-family: $default-font-family;
 
             p {
                 font-size: 13px;

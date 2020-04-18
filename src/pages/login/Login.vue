@@ -1,22 +1,23 @@
 <template>
     <div class="login-form">
         <h2>Mojingo V2 システムへログイン</h2>
-        <form @submit.prevent="loginRequest(form.username, form.password)">
+        <form @submit.prevent="loginRequest(form.username, form.password)"
+              @reset="resetForm">
             <div>
-                <label>ユーザネーム</label>
+                <label>ユーザネーム：</label>
                 <input placeholder="Username" v-model="form.username"/>
-<!--                <sui-label basic color="red" pointing>ユーザー名が無効です。</sui-label>-->
+                <!--                <sui-label basic color="red" pointing>ユーザー名が無効です。</sui-label>-->
             </div>
             <div>
-                <label>パスワード</label>
+                <label>パスワード：</label>
                 <input type="password" placeholder="Password" v-model="form.password"/>
             </div>
-<!--            <sui-form-field>-->
-<!--                <sui-checkbox label="ログイン情報を保存する" />-->
-<!--            </sui-form-field>-->
+            <!--            <sui-form-field>-->
+            <!--                <sui-checkbox label="ログイン情報を保存する" />-->
+            <!--            </sui-form-field>-->
             <div class="space h10"></div>
             <button type="reset">リセット</button>
-            <button type="submit">認証</button>
+            <button type="submit">ログイン</button>
         </form>
     </div>
 </template>
@@ -26,7 +27,7 @@
 
     export default {
         name: "Login",
-        components:{
+        components: {
             DummyItem
         },
         data() {
@@ -65,8 +66,15 @@
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "sign-in-alt",
                     level: 1,
-                    message: "ログインしました"
+                    message: `${data.firstName} ${data.lastName}さん。おかえりなさい！`
                 });
+            },
+
+            resetForm() {
+                this.form = {
+                    username: null,
+                    password: null,
+                }
             }
         }
     }
