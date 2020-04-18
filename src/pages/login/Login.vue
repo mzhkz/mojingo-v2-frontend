@@ -42,7 +42,7 @@
         methods: {
             async loginRequest(username, password) {
                 const params = new URLSearchParams();
-                const response = await this.$WORDLINKAPI.post(`/authentication/credential`, {
+                const response = await this.$MOJINGO_V2_API.post(`/authentication/credential`, {
                     base64Email: username,
                     base64Password: password,
                 });

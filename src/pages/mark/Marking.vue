@@ -54,7 +54,7 @@
         methods: {
             async fetchData() {
               const {data, message} =
-                  await this.$WORDLINKAPI.post(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/let`);
+                  await this.$MOJINGO_V2_API.post(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/let`);
                 this.QUESTION = data;
                 this.MARKER_ID = data.id;
                 this.MARKER_WORD_ID = data.wordId;
@@ -75,7 +75,7 @@
             async postResult({target, result}) {
                 await this.$store.dispatch('alert/CLEAR_ALERT');
                 const {data, message} =
-                    await this.$WORDLINKAPI
+                    await this.$MOJINGO_V2_API
                         .post(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/let/mark/${this.MARKER_ID}`, {
                         target: target,
                         result: result,
@@ -126,7 +126,7 @@
                 audioContent.createBufferSource().start(0);
                 const instance = this; //Safari対応策
                 if (!this.audioBuffer) { //mp3のbufferをすでにロード済みかどうか
-                    const audioData = await this.$WORDLINKAPI.get(`/words/${word_id}/pronounce`, { responseType: "arraybuffer" }); //mp3を取得
+                    const audioData = await this.$MOJINGO_V2_API.get(`/words/${word_id}/pronounce`, { responseType: "arraybuffer" }); //mp3を取得
                     audioContent.decodeAudioData(audioData, function (audioBuffer) { //SafariがPromise対応のため
                         instance.audioBuffer = audioBuffer;
                         instance.createAudioSourceAndPlay(audioContent, audioBuffer);

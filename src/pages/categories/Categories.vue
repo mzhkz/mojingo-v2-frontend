@@ -79,13 +79,13 @@
         },
         methods: {
             async fetchData() {
-              const {data, message} = await this.$WORDLINKAPI.get(`/categories`);
+              const {data, message} = await this.$MOJINGO_V2_API.get(`/categories`);
               this.categories = data;
             },
 
             async createCategory({name, description, sheetId}) {
                 const nameCached = this.registerCategoryForm.name;
-                const {data, message} = await this.$WORDLINKAPI.post(`/categories/create`, {
+                const {data, message} = await this.$MOJINGO_V2_API.post(`/categories/create`, {
                     name: name,
                     description: description,
                     sheetId: sheetId,

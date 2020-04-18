@@ -57,7 +57,7 @@
             },
 
             async fetchData() {
-                const {data, message} = await this.$WORDLINKAPI.get(`/user/profile/${this.$route.params["id"]}`);
+                const {data, message} = await this.$MOJINGO_V2_API.get(`/user/profile/${this.$route.params["id"]}`);
                 this.result = data;
             }
         },

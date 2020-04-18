@@ -41,7 +41,7 @@
         },
         methods: {
             async fetchData() {
-                const {data, message} = await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}`, {
+                const {data, message} = await this.$MOJINGO_V2_API.get(`/reviews/${this.$route.params["which"]}`, {
                     params: {
                         page: this.page,
                     }

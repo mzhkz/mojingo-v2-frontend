@@ -303,13 +303,13 @@
         },
         methods: {
             async fetchData() {
-                const response = await this.$WORDLINKAPI.get(`/user/list`);
+                const response = await this.$MOJINGO_V2_API.get(`/user/list`);
                 const {data, message} = response;
                 this.users = data;
             },
 
             async updateUser(id, {username, firstName, lastName}) {
-                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/update`, {
+                const {message} = await this.$MOJINGO_V2_API.post(`/user/profile/${id}/update`, {
                     username: username,
                     firstName: firstName,
                     lastName: lastName,
@@ -325,7 +325,7 @@
 
             /** Register a user */
             async enrollUser({username, accessLevel, firstName, lastName, password}) {
-                const {message} = await this.$WORDLINKAPI.post(`/user/enroll`, {
+                const {message} = await this.$MOJINGO_V2_API.post(`/user/enroll`, {
                     username: username,
                     accessLevel: accessLevel,
                     firstName: firstName,
@@ -342,7 +342,7 @@
             },
 
             async resetPasswordUser(id, {password}) {
-                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/reset-pass`, {
+                const {message} = await this.$MOJINGO_V2_API.post(`/user/profile/${id}/reset-pass`, {
                    password: password
                 });
 
@@ -355,7 +355,7 @@
             },
 
             async setPermissionUser(id, {accessLevel}) {
-                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/qualify`, {
+                const {message} = await this.$MOJINGO_V2_API.post(`/user/profile/${id}/qualify`, {
                     applyLevel: accessLevel
                 });
 
@@ -368,7 +368,7 @@
             },
 
             async deleteUser(id, {name}) {
-                const {message} = await this.$WORDLINKAPI.post(`/user/profile/${id}/dismiss`);
+                const {message} = await this.$MOJINGO_V2_API.post(`/user/profile/${id}/dismiss`);
 
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "user-minus",

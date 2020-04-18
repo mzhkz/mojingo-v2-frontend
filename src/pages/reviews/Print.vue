@@ -39,7 +39,7 @@
         },
         computed: {
             qrCodeLink() {
-                return `${this.$WORDLINKAPI.defaults.baseURL}/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/qrcode?appDomain=${process.env.API_BASE_URL}`
+                return `${this.$MOJINGO_V2_API.defaults.baseURL}/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}/qrcode?appDomain=${process.env.API_BASE_URL}`
             }
         }
     }

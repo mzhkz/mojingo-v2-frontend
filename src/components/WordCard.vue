@@ -51,7 +51,7 @@
                 audioContent.createBufferSource().start(0);
                 const instance = this; //Safari対応策
                 if (!this.audioBuffer) { //mp3のbufferをすでにロード済みかどうか
-                    const audioData = await this.$WORDLINKAPI.get(`/words/${word_id}/pronounce`, {responseType: "arraybuffer"}); //mp3を取得
+                    const audioData = await this.$MOJINGO_V2_API.get(`/words/${word_id}/pronounce`, {responseType: "arraybuffer"}); //mp3を取得
                     audioContent.decodeAudioData(audioData, function (audioBuffer) { //SafariがPromise対応のため
                         instance.audioBuffer = audioBuffer;
                         instance.createAudioSourceAndPlay(audioContent, audioBuffer);

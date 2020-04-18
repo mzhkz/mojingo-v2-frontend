@@ -8,7 +8,7 @@ import * as constant from '@/constants/'
 
 const http = {
     install(Vue, options) {
-        Vue.prototype.$WORDLINKAPI = Vue.WORDLINKAPI = Axios.create();
+        Vue.prototype.$MOJINGO_V2_API = Vue.MOJINGO_V2_API = Axios.create();
 
         this.setDefault();
         this.addInterceptors();
@@ -40,10 +40,10 @@ const http = {
 
         store.state.application.serviceAccount = constant.GOOGLE_SERVICE_ACCOUNT;
 
-        Vue.WORDLINKAPI.defaults.baseURL = constant.BASE_URL;
-        Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
-        Vue.WORDLINKAPI.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-        Vue.WORDLINKAPI.defaults.withCredentials = true;
+        Vue.MOJINGO_V2_API.defaults.baseURL = constant.BASE_URL;
+        Vue.MOJINGO_V2_API.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
+        Vue.MOJINGO_V2_API.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        Vue.MOJINGO_V2_API.defaults.withCredentials = true;
 
         if (constant.DEBUG) {
             console.log(`X-Access-Token: ${store.state.authenticate.token}`)
@@ -52,14 +52,14 @@ const http = {
 
 
     addInterceptors() {
-        Vue.WORDLINKAPI.interceptors.request.use((config) => {
+        Vue.MOJINGO_V2_API.interceptors.request.use((config) => {
             if (constant.DEBUG) console.log(config);
             store.dispatch('application/SET_FETCHING', true);
 
             return Promise.resolve(config);
         });
 
-        Vue.WORDLINKAPI.interceptors.response.use((response) => {
+        Vue.MOJINGO_V2_API.interceptors.response.use((response) => {
             if (constant.DEBUG) console.log(response);
             store.dispatch('application/SET_FETCHING', false);
             // store.dispatch('alert/CLEAR_ALERT');
@@ -88,7 +88,7 @@ const http = {
         }));
 
         store.watch((state) => state.authenticate.token, () => {
-            Vue.WORDLINKAPI.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
+            Vue.MOJINGO_V2_API.defaults.headers.common["X-Access-Token"] = store.state.authenticate.token;
         });
     },
 
@@ -100,7 +100,7 @@ const http = {
 
     async initHttpCredential() {
         try {
-            const response = await Vue.WORDLINKAPI.post(`/authentication/session`, {id: store.authenticate.token});
+            const response = await Vue.MOJINGO_V2_API.post(`/authentication/session`, {id: store.authenticate.token});
             const data = response.data;
             const isValid = data.result === 200;
 

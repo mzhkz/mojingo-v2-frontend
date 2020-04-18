@@ -159,14 +159,14 @@
         },
         methods: {
             async fetchCategory() {
-                const {data, message} = await this.$WORDLINKAPI.get(`/categories/view/${this.$route.params["id"]}`);
+                const {data, message} = await this.$MOJINGO_V2_API.get(`/categories/view/${this.$route.params["id"]}`);
                 this.CATEGORY_DATA = data.category;
                 this.CREATED_AGO = data.createdAgo;
                 await this.$store.dispatch('application/SET_TITLE', `辞書「${this.CATEGORY_DATA.name}」`)
             },
 
             async fetchWords() {
-                const {data, message} = await this.$WORDLINKAPI
+                const {data, message} = await this.$MOJINGO_V2_API
                     .get(`/categories/view/${this.$route.params["id"]}/words`, {
                         params: {
                             page: this.page,
@@ -178,7 +178,7 @@
             },
 
             async updateCategory({name, description}) {
-                const {data, message} = await this.$WORDLINKAPI
+                const {data, message} = await this.$MOJINGO_V2_API
                     .post(`/categories/view/${this.$route.params["id"]}/update`, {
                         name: name,
                         description: description,
@@ -192,7 +192,7 @@
             },
 
             async deleteCategory() {
-                const {data, message} = await this.$WORDLINKAPI
+                const {data, message} = await this.$MOJINGO_V2_API
                     .post(`/categories/view/${this.$route.params["id"]}/delete`, {});
                 await this.$router.push({name: 'categories'});
 
@@ -204,7 +204,7 @@
             },
 
             async createReview(categoryId, {start, end, shuffle}) {
-                const {data, message} = await this.$WORDLINKAPI.post(`/reviews/create/`, {
+                const {data, message} = await this.$MOJINGO_V2_API.post(`/reviews/create/`, {
                     category: categoryId,
                     start: start,
                     end: end,
@@ -220,7 +220,7 @@
             },
 
             async syncWord() {
-                const {data, message} = await this.$WORDLINKAPI.post(`/categories/view/${this.$route.params["id"]}/sync`);
+                const {data, message} = await this.$MOJINGO_V2_API.post(`/categories/view/${this.$route.params["id"]}/sync`);
                 await this.fetchWords();
                 await this.$store.dispatch('alert/PUSH_ALERT', {
                     icon: "sync-alt",

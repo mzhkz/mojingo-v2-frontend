@@ -54,7 +54,7 @@
         },
         methods: {
             async fetchWords() {
-                const {data, message} = await this.$WORDLINKAPI
+                const {data, message} = await this.$MOJINGO_V2_API
                     .get(`/words/search`, {
                         params: {
                             page: this.page,
@@ -68,13 +68,13 @@
             },
 
             async fetchRecommended() {
-                const {data, message} = await this.$WORDLINKAPI
+                const {data, message} = await this.$MOJINGO_V2_API
                     .get(`/words/recommended`);
                 this.RECOMMENDED = data;
             },
 
             async createReview(categoryId) {
-                const {data, message} = await this.$WORDLINKAPI.post(`/words/recommended`, {
+                const {data, message} = await this.$MOJINGO_V2_API.post(`/words/recommended`, {
                     categoryId: categoryId,
                 });
                 await this.$router.push({name: 'review', params: {id: data.id, which: this.$store.state.authenticate.id}});

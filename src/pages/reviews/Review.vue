@@ -79,7 +79,7 @@
         methods: {
             async fetchData() {
                 const {data, message} =
-                    await this.$WORDLINKAPI.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
+                    await this.$MOJINGO_V2_API.get(`/reviews/${this.$route.params["which"]}/${this.$route.params["id"]}`);
                 this.REVIEW_DATA = data;
                 for (let i = 0; i < this.REVIEW_DATA.review.answers.length; i++) {
                     this.REVIEW_DATA.review.answers[i].isCorrect = this.judgeCorrect(this.REVIEW_DATA.review.answers[i])
@@ -98,7 +98,7 @@
 
             async postFinished() {
                 const {data, message} =
-                    await this.$WORDLINKAPI.post(`/reviews/me/${this.$route.params["id"]}/finished`);
+                    await this.$MOJINGO_V2_API.post(`/reviews/me/${this.$route.params["id"]}/finished`);
                 this.REVIEW_DATA.review.finished = true;
                 // await this.$router.push({ name: 'reviews', params: { which: 'me'}});
                 await this.$store.dispatch('alert/PUSH_ALERT', {
@@ -110,7 +110,7 @@
 
             async deleteReview() {
                 const {data, message} =
-                    await this.$WORDLINKAPI.post(`/reviews/me/${this.$route.params["id"]}/delete`);
+                    await this.$MOJINGO_V2_API.post(`/reviews/me/${this.$route.params["id"]}/delete`);
 
                 let cached = this.REVIEW_DATA.review.name;
                 this.deleteReviewConfirmModal.modal = false;
